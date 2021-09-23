@@ -3,9 +3,8 @@ package com.ebook.model.customer;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.ebook.model.customer.Address;
 import com.ebook.model.order.Order;
-
+import com.ebook.model.review.Review;
 
 public class Customer {
 	private String customerId;
@@ -13,10 +12,21 @@ public class Customer {
 	private String firstName;
 	private Address billingAddress;
 	private Address shippingAddress;
+	
 	private List<Order> orders = new ArrayList<Order>();
+
+	private List<Review> reviews = new ArrayList<Review>();
 
 	public List<Order> getOrders() {
 		return orders;
+	}
+
+	public void setReviews(List<Review> reviews) {
+		this.reviews = reviews;
+	}
+	
+	public List<Review> getReviews() {
+		return reviews;
 	}
 
 	public void setOrders(List<Order> orders) {
@@ -65,5 +75,9 @@ public class Customer {
 	
 	public void addOrder(Order order) {
 		orders.add(order);
+	}
+	
+	public void addReview(String customerId, Review review) {
+		reviews.add(review);
 	}
 }

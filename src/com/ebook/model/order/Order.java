@@ -6,7 +6,7 @@ import com.ebook.model.item.Product;
 
 public class Order {
 	private String orderId;
-	private List<OrderDetail> orderDetails = new ArrayList<OrderDetail>();
+	private List<OrderLine> OrderLines = new ArrayList<OrderLine>();
 	private boolean paymentReceived;
 	private String orderState = "Open";
 	
@@ -20,12 +20,12 @@ public class Order {
 		this.orderId = orderId;
 	}
 
-	public List<OrderDetail> getOrderDetails() {
-		return orderDetails;
+	public List<OrderLine> getOrderLines() {
+		return OrderLines;
 	}
 
-	public void setOrderDetails(List<OrderDetail> orderDetails) {
-		this.orderDetails = orderDetails;
+	public void setOrderLines(List<OrderLine> OrderLines) {
+		this.OrderLines = OrderLines;
 	}
 
 	
@@ -47,7 +47,7 @@ public class Order {
 	
 	public void addProduct(Product product, int quantity) {
 		if (orderState.equals("Open")) {
-			orderDetails.add(new OrderDetail(product, quantity));
+			OrderLines.add(new OrderLine(product, quantity));
 		} else {
 			throw new IllegalStateException("Can only add product in Open state.");
 		}
@@ -62,7 +62,7 @@ public class Order {
 	}
 	
 	public void confirmOrder() {
-		if (getOrderDetails().isEmpty()) {
+		if (getOrderLines().isEmpty()) {
 			orderState = "Canceled";
 		} else if (orderState.equals("Open")) {
 			orderState = "Ordered";
@@ -104,7 +104,7 @@ public class Order {
 	
 	public double getOrderTotal() {
 		double total = 0.00;
-		for (OrderDetail line : orderDetails) {
+		for (OrderLine line : OrderLines) {
 			total += line.getProduct().getPrice() * line.getQuantity();
 		}
 		return total;

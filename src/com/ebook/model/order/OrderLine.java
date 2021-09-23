@@ -1,19 +1,14 @@
-package com.ebook.model.partner;
-
-import java.util.ArrayList;
-import java.util.List;
+package com.ebook.model.order;
 
 import com.ebook.model.item.Product;
 
-public class PartnerDetail {
-	
-	//partner inventory 
+public class OrderLine {
 	private Product product;
 	private int quantity;
 
-	public PartnerDetail() {}
+	public OrderLine() {}
 	
-	public PartnerDetail(Product product, int quantity) {
+	public OrderLine(Product product, int quantity) {
 		this.product = product;
 		this.quantity = quantity;
 	}
@@ -33,5 +28,5 @@ public class PartnerDetail {
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
-	
+
 }
