@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
 import com.ebook.model.customer.Address;
 import com.ebook.model.customer.Customer;
 
@@ -77,7 +78,8 @@ public class CustomerDAO {
             custPst.setString(3, cust.getFirstName()); 
             custPst.executeUpdate();
 
-        	//Insert the customer address object
+            //Assume that billing and shipping will be the same
+        	//Insert the customer address object - billing
             String addStm = "INSERT INTO Address(customerID, addressID, street, unit, city, state, zip) VALUES(?, ?, ?, ?, ?, ?, ?)";
             addPst = con.prepareStatement(addStm);
             addPst.setString(1, cust.getCustomerId());
@@ -87,6 +89,8 @@ public class CustomerDAO {
             addPst.setString(5, cust.getBillingAddress().getCity());  
             addPst.setString(6, cust.getBillingAddress().getState());      
             addPst.setString(7, cust.getBillingAddress().getZip());  
+            addPst.executeUpdate();
+             
             addPst.executeUpdate();
         } catch (SQLException ex) {
 
@@ -107,4 +111,50 @@ public class CustomerDAO {
             }
         }
     }
+	
+	public void deleteCustomer(String customerId) {
+		try {
+	    	//Delete Customer
+	    	Statement st = DBHelper.getConnection().createStatement();
+	    	String deleteCustomerQuery = "DELETE FROM Customer WHERE customerID = '" + customerId + "';";
+
+	    	st.executeUpdate(deleteCustomerQuery);
+	    	System.out.println("CustomerDAO: *************** Query " + deleteCustomerQuery);
+	    	
+	    	//Delete Customer Address
+	    	String deleteAddressQuery = "DELETE FROM Address WHERE customerID = '" + customerId + "';";
+
+	    	st.executeUpdate(deleteAddressQuery);
+	    	System.out.println("CustomerDAO: *************** Query " + deleteAddressQuery);
+	    	
+	    	st.close();
+		}
+		catch (SQLException ex) {
+			System.err.println("CustomerDAO: Threw a SQLException deleting the customer object.");
+    	    System.err.println(ex.getMessage());
+		}
+	}
+	
+	public void updateCustomer(Customer customer, Address address) {
+		try {
+	    	//Update Customer
+	    	Statement st = DBHelper.getConnection().createStatement();
+	    	String updateCustomerQuery = "UPDATE Customer SET lastName = " + customer.getLastName() + ",firstName = " + customer.getFirstName() + " WHERE customerID = '" + customer.getCustomerId() + "'";
+
+	    	st.executeUpdate(updateCustomerQuery);
+	    	System.out.println("CustomerDAO: *************** Query " + updateCustomerQuery);
+	    	
+	    	//Update Customer Billing and Shipping Address
+	    	String updateCustomerAddressQuery = "UPDATE Address SET street = " + address.getStreet() + ",unit = " + address.getUnit() + ", city= " + address.getCity() + ", state= " + address.getState() + ", zip= " + address.getZip() + " WHERE customerID = '" + customer.getCustomerId() + "'";
+
+	    	st.executeUpdate(updateCustomerAddressQuery);
+	    	System.out.println("CustomerDAO: *************** Query " + updateCustomerAddressQuery);
+	    	
+	    	st.close();
+		}
+		catch (SQLException ex) {
+      	    System.err.println("CustomerDAO: Threw a SQLException updating the customer object.");
+    	    System.err.println(ex.getMessage());
+		}
+	}
 }

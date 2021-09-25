@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.ebook.model.order.Order;
 import com.ebook.model.review.Review;
+import com.ebook.model.item.Product;
 
 public class Customer {
 	private String customerId;
@@ -77,7 +78,7 @@ public class Customer {
 		orders.add(order);
 	}
 	
-	public void addReview(String customerId, Review review) {
+	public void addReview(String customerId, Review review, String productId) {
 		reviews.add(review);
 	}
 }
