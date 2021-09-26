@@ -1,11 +1,10 @@
 package com.ebook.model.review;
 
 import java.util.List;
+import java.util.ArrayList;
 
 import com.ebook.model.item.Product;
-import com.ebook.model.order.OrderLine;
 
-import java.util.ArrayList;
 
 public class Review {
 	

@@ -115,6 +115,72 @@ public class VendorDAO {
 	        se.printStackTrace();
 	    }
 	  }
+	
+	public List<Vendor> getAllVendorProducts() {
+	 	 
+	    try { 		
+	    	
+	        List<Vendor> vendorProducts = new ArrayList<Vendor>();
+	    	//Get vendor
+	    	Statement st = DBHelper.getConnection().createStatement();
+	    	String selectVendorQuery = "SELECT vendorID, vendorName FROM Vendor";
+
+	    	ResultSet vendorRS = st.executeQuery(selectVendorQuery);      
+	    	System.out.println("vendorDAO: *************** Query " + selectVendorQuery);
+	    	
+	      //Get vendor
+	      List<Vendor> vendors = new ArrayList<Vendor>();
+    	  Vendor vendor = new Vendor();
+	      while ( vendorRS.next() ) {
+	    	  vendor.setVendorId(vendorRS.getString("vendorID"));
+	    	  vendor.setVendorName(vendorRS.getString("vendorName"));
+	    	  vendors.add(vendor);
+	    	  
+	      }
+	      //close to manage resources
+	      vendorRS.close();
+	      	    		  
+	      for (int i = 0; i < vendors.size(); i++) {
+		      //Get vendor details
+		      String selectVendorDetailQuery = "SELECT vendorID, productId, productTitle, productPrice, quantity, FROM VendorLine WHERE vendorID = '" + vendors.get(i).getVendorId() + "'";
+		      ResultSet pdRS = st.executeQuery(selectVendorDetailQuery);
+		      
+		      List<VendorLine> vendorLines = new ArrayList<VendorLine>();
+		      
+	    	  System.out.println("vendorDetailDAO: *************** Query " + selectVendorDetailQuery);
+	    	  
+		      while ( pdRS.next() ) {
+			      VendorLine vendorLine = new VendorLine();
+			      Product product = new Product();
+			      
+		    	  vendorLine.setQuantity(pdRS.getInt("quantity"));
+		    	  
+		    	  product.setId(pdRS.getString("productId"));
+		    	  product.setTitle(pdRS.getString("productTitle"));
+		    	  product.setPrice(pdRS.getDouble("productPrice"));
+		    	  
+		    	  vendorLine.setProduct(product);
+		    	  
+		    	  vendorLines.add(vendorLine);
+		      }
+		      vendor.setVendorLines(vendorLines);
+		      
+		      pdRS.close();
+	      }
+
+	      //close to manage resources
+	      st.close();
+	      
+	      return vendorProducts;
+	    }	    
+	    catch (SQLException se) {
+	      System.err.println("vendorDAO: Threw a SQLException retrieving the vendor object.");
+	      System.err.println(se.getMessage());
+	      se.printStackTrace();
+	    }
+	    
+	    return null;
+	  }
 
 
 	
