@@ -36,7 +36,7 @@ public class VendorDAO {
 	      vendorRS.close();
 	      	    		  
 	      //Get vendor details
-	      String selectVendorDetailQuery = "SELECT vendorID, quantity, FROM VendorLine WHERE vendorID = '" + vendorId + "'";
+	      String selectVendorDetailQuery = "SELECT vendorID, productId, productTitle, productPrice, quantity, FROM VendorLine WHERE vendorID = '" + vendorId + "'";
 	      ResultSet pdRS = st.executeQuery(selectVendorDetailQuery);
 	      
 	      List<VendorLine> vendorLines = new ArrayList<VendorLine>();
@@ -75,7 +75,7 @@ public class VendorDAO {
 	  }
 
 		
-	public void addvendor(Vendor vendor) {
+	public void addVendor(Vendor vendor) {
 	 	 
 	    try { 		
 	    	//Get vendor
