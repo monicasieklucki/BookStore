@@ -1,7 +1,5 @@
 package com.ebook.dal;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -11,7 +9,6 @@ import java.util.List;
 import com.ebook.model.order.Order;
 import com.ebook.model.order.OrderLine;
 import com.ebook.model.item.Product;
-import com.ebook.model.customer.Customer;
 
 public class OrderDAO {
 	

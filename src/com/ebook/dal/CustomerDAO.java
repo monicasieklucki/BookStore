@@ -112,7 +112,7 @@ public class CustomerDAO {
         }
     }
 	
-	public void deleteCustomer(String customerId) {
+	public void removeCustomer(String customerId) {
 		try {
 	    	//Delete Customer
 	    	Statement st = DBHelper.getConnection().createStatement();
