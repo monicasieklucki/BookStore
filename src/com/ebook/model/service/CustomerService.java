@@ -8,7 +8,7 @@ public class CustomerService {
 	private CustomerDAO custDAO = new CustomerDAO();
 	
 	//search customer by ID from the DB
-	public Customer findCustomerById(String customerId) {
+	public Customer findCustomerById(Integer customerId) {
 		
 		Customer customer = null;
 			

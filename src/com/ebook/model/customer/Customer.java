@@ -8,7 +8,7 @@ import com.ebook.model.review.Review;
 import com.ebook.model.item.Product;
 
 public class Customer {
-	private String customerId;
+	private Integer customerId;
 	private String lastName;
 	private String firstName;
 	private Address billingAddress;
@@ -50,11 +50,11 @@ public class Customer {
 		this.shippingAddress = shippingAddress;
 	}
 	
-	public String getCustomerId() {
+	public Integer getCustomerId() {
 		return customerId;
 	}
 
-	public void setCustomerId(String id) {
+	public void setCustomerId(Integer id) {
 		this.customerId = id;
 	}
 

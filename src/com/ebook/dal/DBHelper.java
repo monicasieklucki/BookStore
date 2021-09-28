@@ -30,9 +30,10 @@ public class DBHelper {
  
 		try {
  
-			connection = DriverManager.getConnection("jdbc:postgresql://127.0.0.1:5432/BookStore", "student", "Comp442");
+			connection = DriverManager.getConnection("jdbc:postgresql://ec2-54-236-137-173.compute-1.amazonaws.com:5432/dc37f4f559s4o8", "vleimbeveodmce", "e31a27af1ef200c44c5d9e43c07eac442ba3b202650eeb90a719653b311d3cce");
 				Statement st = connection.createStatement();
 				ResultSet rs = st.executeQuery("SELECT VERSION()");
+				connection.setAutoCommit(true);
 
 	            if (rs.next()) {
 	                System.out.println("DBHelper: The Database Version is " + rs.getString(1));

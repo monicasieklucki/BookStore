@@ -12,12 +12,12 @@ import com.ebook.model.customer.Customer;
 public class CustomerDAO {
 	public CustomerDAO() {}
 	
-	public Customer getCustomer(String customerId) {
+	public Customer getCustomer(Integer customerId) {
 		 	 
 	    try { 		
 	    	//Get Customer
 	    	Statement st = DBHelper.getConnection().createStatement();
-	    	String selectCustomerQuery = "SELECT customerID, lname, fname FROM Customer WHERE customerID = '" + customerId + "'";
+	    	String selectCustomerQuery = "SELECT customerId, lastName, firstName FROM Customer WHERE customerID = " + customerId + ";";
 
 	    	ResultSet custRS = st.executeQuery(selectCustomerQuery);      
 	    	System.out.println("CustomerDAO: *************** Query " + selectCustomerQuery);
@@ -25,15 +25,15 @@ public class CustomerDAO {
 	      //Get Customer
     	  Customer customer = new Customer();
 	      while ( custRS.next() ) {
-	    	  customer.setCustomerId(custRS.getString("customerID"));
-	    	  customer.setLastName(custRS.getString("lname"));
-	    	  customer.setFirstName(custRS.getString("fname"));
+	    	  customer.setCustomerId(custRS.getInt("customerId"));
+	    	  customer.setLastName(custRS.getString("lastName"));
+	    	  customer.setFirstName(custRS.getString("firstName"));
 	      }
 	      //close to manage resources
 	      custRS.close();
 	      	    		  
 	      //Get Address
-	      String selectAddressQuery = "SELECT addressID, street, unit, city, state, zip FROM Address WHERE customerID = '" + customerId + "'";
+	      String selectAddressQuery = "SELECT addressID, street, unit, city, state, zip FROM Address WHERE addressID = " + customerId + "'";
 	      ResultSet addRS = st.executeQuery(selectAddressQuery);
     	  Address address = new Address();
     	  
@@ -73,16 +73,15 @@ public class CustomerDAO {
         	//Insert the customer object
             String custStm = "INSERT INTO Customer(customerID, lname, fname) VALUES(?, ?, ?)";
             custPst = con.prepareStatement(custStm);
-            custPst.setString(1, cust.getCustomerId());
+            custPst.setInt(1, cust.getCustomerId());
             custPst.setString(2, cust.getLastName());       
             custPst.setString(3, cust.getFirstName()); 
             custPst.executeUpdate();
-
             //Assume that billing and shipping will be the same
         	//Insert the customer address object - billing
             String addStm = "INSERT INTO Address(customerID, addressID, street, unit, city, state, zip) VALUES(?, ?, ?, ?, ?, ?, ?)";
             addPst = con.prepareStatement(addStm);
-            addPst.setString(1, cust.getCustomerId());
+            addPst.setInt(1, cust.getCustomerId());
             addPst.setString(2, cust.getBillingAddress().getAddressId());  
             addPst.setString(3, cust.getBillingAddress().getStreet());       
             addPst.setString(4, cust.getBillingAddress().getUnit());  
@@ -92,6 +91,7 @@ public class CustomerDAO {
             addPst.executeUpdate();
              
             addPst.executeUpdate();
+            
         } catch (SQLException ex) {
 
         } finally {
@@ -112,17 +112,17 @@ public class CustomerDAO {
         }
     }
 	
-	public void removeCustomer(String customerId) {
+	public void removeCustomer(Integer customerId) {
 		try {
 	    	//Delete Customer
 	    	Statement st = DBHelper.getConnection().createStatement();
-	    	String deleteCustomerQuery = "DELETE FROM Customer WHERE customerID = '" + customerId + "';";
+	    	String deleteCustomerQuery = "DELETE FROM Customer WHERE customerID = " + customerId + ";";
 
 	    	st.executeUpdate(deleteCustomerQuery);
 	    	System.out.println("CustomerDAO: *************** Query " + deleteCustomerQuery);
 	    	
 	    	//Delete Customer Address
-	    	String deleteAddressQuery = "DELETE FROM Address WHERE customerID = '" + customerId + "';";
+	    	String deleteAddressQuery = "DELETE FROM Address WHERE customerID = " + customerId + ";";
 
 	    	st.executeUpdate(deleteAddressQuery);
 	    	System.out.println("CustomerDAO: *************** Query " + deleteAddressQuery);
