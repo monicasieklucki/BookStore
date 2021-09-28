@@ -17,13 +17,13 @@ public class BookStoreClient2 {
     customer.setCustomerId(2);
     Address billingAddress = new Address();
     customer.setLastName("Wheatland");
-    billingAddress.setAddressId("AD9090");
-    billingAddress.setStreet("500 West Madison St.");
-    billingAddress.setUnit("Suite 1000");
-    billingAddress.setCity("Chicago");
-    billingAddress.setState("IL");
-    billingAddress.setZip("66610");
-    customer.setBillingAddress(billingAddress);
+    //billingAddress.setAddressId("AD9090");
+    //billingAddress.setStreet("500 West Madison St.");
+    //billingAddress.setUnit("Suite 1000");
+    //billingAddress.setCity("Chicago");
+   // billingAddress.setState("IL");
+    //billingAddress.setZip("66610");
+    //customer.setBillingAddress(billingAddress);
       
     //save customer information
     //Saving the newly created customer and its address
@@ -42,13 +42,13 @@ public class BookStoreClient2 {
     } catch (Exception e) {
       System.out.println(e);
     }
-    Address billingAdd = searchedCustomer.getBillingAddress();
-    System.out.println("\tBilling Address:\t" + billingAdd.getAddressId() + 
-        "\n\t\t\t\t" + billingAdd.getStreet() +
-        "\n\t\t\t\t" + billingAdd.getUnit() + 
-        "\n\t\t\t\t" + billingAdd.getCity() + ", " + 
-        billingAdd.getState() + " " + billingAdd.getZip() +
-        "\n");
+    //Address billingAdd = searchedCustomer.getBillingAddress();
+    //System.out.println("\tBilling Address:\t" + billingAdd.getAddressId() + 
+    //    "\n\t\t\t\t" + billingAdd.getStreet() +
+    //    "\n\t\t\t\t" + billingAdd.getUnit() + 
+    //    "\n\t\t\t\t" + billingAdd.getCity() + ", " + 
+    //    billingAdd.getState() + " " + billingAdd.getZip() +
+    //    "\n");
         
 	}
 }
