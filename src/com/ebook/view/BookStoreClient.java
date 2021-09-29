@@ -6,7 +6,7 @@ import com.ebook.model.customer.Address;
 import com.ebook.model.customer.Customer;
 import com.ebook.model.item.Book;
 import com.ebook.model.order.Order;
-import com.ebook.model.order.OrderDetail;
+import com.ebook.model.order.OrderLine;
 
 public class BookStoreClient {
 			
@@ -15,7 +15,7 @@ public class BookStoreClient {
 	        Customer customer = new Customer();;
 			customer.setFirstName("Michael");
 	        customer.setLastName("Gerard");
-	        customer.setCustomerId("AY2345");
+	        customer.setCustomerId(1);
 	        Address billingAddress = new Address();
 	        billingAddress.setStreet("500 West Madison St.");
 	        billingAddress.setUnit("Suite 1000");
@@ -65,7 +65,7 @@ public class BookStoreClient {
 	        
 	        // Print out an order summary
 	        Address billingAdd = customer.getBillingAddress();
-	        List<OrderDetail> orderLines = order1.getOrderDetails();
+	        List<OrderLine> orderLines = order1.getOrderLines();
 	        double orderTotal = order1.getOrderTotal();
 
 	        // Format order output
@@ -80,7 +80,7 @@ public class BookStoreClient {
 	        		"\n");
 
 	        System.out.println("\tOrder Items: ");
-	        for (OrderDetail line : orderLines) {
+	        for (OrderLine line : orderLines) {
 	        	System.out.println("\t\t\t\t" + line.getProduct().getTitle() + "\t" + 
 	        			line.getProduct().getPrice() + " x " + line.getQuantity());
 	        }
