@@ -35,10 +35,10 @@ public class CustomerService {
 	
 	
 	//Delete customer from DB
-	public void removeCustomerById(Customer customer) {
+	public void removeCustomerById(Integer customerid) {
 		
 		try {
-			custDAO.removeCustomer(customer.getCustomerId());
+			custDAO.removeCustomer(customerid);
 	    } catch (Exception se) {
 	      System.err.println("CustomerService: Threw a Exception removing customer.");
 	      System.err.println(se.getMessage());

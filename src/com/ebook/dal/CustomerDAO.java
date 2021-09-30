@@ -10,6 +10,7 @@ import com.ebook.model.customer.Address;
 import com.ebook.model.customer.Customer;
 
 public class CustomerDAO {
+	
 	public CustomerDAO() {}
 	
 	public Customer getCustomer(Integer customerId) {
@@ -17,7 +18,7 @@ public class CustomerDAO {
 	    try { 		
 	    	//Get Customer
 	    	Statement st = DBHelper.getConnection().createStatement();
-	    	String selectCustomerQuery = "SELECT customerId, lastName, firstName FROM Customer WHERE customerID = " + customerId + ";";
+	    	String selectCustomerQuery = "SELECT customerid, lastname, firstname FROM Customer WHERE customerid = " + customerId + ";";
 
 	    	ResultSet custRS = st.executeQuery(selectCustomerQuery);      
 	    	System.out.println("CustomerDAO: *************** Query " + selectCustomerQuery);
@@ -25,36 +26,39 @@ public class CustomerDAO {
 	      //Get Customer
     	  Customer customer = new Customer();
 	      while ( custRS.next() ) {
-	    	  customer.setCustomerId(custRS.getInt("customerID"));
+	    	  customer.setCustomerId(custRS.getInt("customerid"));
 	    	  customer.setLastName(custRS.getString("lastName"));
 	    	  customer.setFirstName(custRS.getString("firstName"));
+
 	      }
 	      //close to manage resources
 	      custRS.close();
 
-// TODO fix address relationship to not have a customerId
-//	      //Get Address
-//	      String selectAddressQuery = "SELECT addressID, street, unit, city, state, zip FROM Address WHERE customerID = '" + customerId + "'";
-//	      ResultSet addRS = st.executeQuery(selectAddressQuery);
-//    	  Address address = new Address();
-//    	  
-//    	  System.out.println("CustomerDAO: *************** Query " + selectAddressQuery);
-//    	  
-//	      while ( addRS.next() ) {
-//	    	  address.setAddressId(addRS.getString("addressid"));
-//	    	  address.setStreet(addRS.getString("street"));
-//	    	  address.setUnit(addRS.getString("unit"));
-//	    	  address.setCity(addRS.getString("city"));
-//	    	  address.setState(addRS.getString("state"));
-//	    	  address.setZip(addRS.getString("zip"));
-//	      }
-//	      
-//	      customer.setBillingAddress(address);
-//	      //close to manage resources
-//	      addRS.close();
+	      //Get Address	      
+	      String selectAddressQuery = "SELECT addressid, street, unit, city, state, zip FROM Address WHERE customerid = '" + customer.getCustomerId() + "'";
+	      ResultSet addRS = st.executeQuery(selectAddressQuery);
+    	  Address address = new Address();
+    	  
+    	  System.out.println("CustomerDAO: *************** Query " + selectAddressQuery);
+    	  
+	      while ( addRS.next() ) {
+	    	  address.setAddressId(addRS.getInt("addressid"));
+	    	  address.setStreet(addRS.getString("street"));
+	    	  address.setUnit(addRS.getString("unit"));
+	    	  address.setCity(addRS.getString("city"));
+	    	  address.setState(addRS.getString("state"));
+	    	  address.setZip(addRS.getString("zip"));
+	      }
+	      
+    	  customer.setShippingAddress(address);
+    	  customer.setBillingAddress(address);
+	      
+	     //close to manage resources
+	     addRS.close();
          st.close();
 	      
-	      return customer;
+	     return customer;
+	     
 	    }	    
 	    catch (SQLException se) {
 	      System.err.println("CustomerDAO: Threw a SQLException retrieving the customer object.");
@@ -72,28 +76,26 @@ public class CustomerDAO {
 
         try {
         	//Insert the customer object
-            String custStm = "INSERT INTO Customer(customerID, lname, fname) VALUES(?, ?, ?)";
+            String custStm = "INSERT INTO Customer(customerID, lastname, firstname) VALUES(?, ?, ?)";
             custPst = con.prepareStatement(custStm);
             custPst.setInt(1, cust.getCustomerId());
             custPst.setString(2, cust.getLastName());       
             custPst.setString(3, cust.getFirstName()); 
             custPst.executeUpdate();
-            
-// TODO fix address to not have customerId
+                        
            //Assume that billing and shipping will be the same
-        	//Insert the customer address object - billing
-//            String addStm = "INSERT INTO Address(customerID, addressID, street, unit, city, state, zip) VALUES(?, ?, ?, ?, ?, ?, ?)";
-//            addPst = con.prepareStatement(addStm);
-//            addPst.setInt(1, cust.getCustomerId());
-//            addPst.setString(2, cust.getBillingAddress().getAddressId());  
-//            addPst.setString(3, cust.getBillingAddress().getStreet());       
-//            addPst.setString(4, cust.getBillingAddress().getUnit());  
-//            addPst.setString(5, cust.getBillingAddress().getCity());  
-//            addPst.setString(6, cust.getBillingAddress().getState());      
-//            addPst.setString(7, cust.getBillingAddress().getZip());  
-//            addPst.executeUpdate();
-//             
-//            addPst.executeUpdate();
+           //Insert the customer address object - billing
+           String addStm = "INSERT INTO Address(addressid, street, unit, city, state, zip, customerid) VALUES(?, ?, ?, ?, ?, ?, ?)";
+           addPst = con.prepareStatement(addStm);
+           addPst.setInt(1, cust.getBillingAddress().getAddressId());  
+           addPst.setString(2, cust.getBillingAddress().getStreet());       
+           addPst.setString(3, cust.getBillingAddress().getUnit());  
+           addPst.setString(4, cust.getBillingAddress().getCity());  
+           addPst.setString(5, cust.getBillingAddress().getState());      
+           addPst.setString(6, cust.getBillingAddress().getZip()); 
+           addPst.setInt(7, cust.getCustomerId());
+
+           addPst.executeUpdate();             
             
         } catch (SQLException ex) {
 
@@ -117,20 +119,25 @@ public class CustomerDAO {
 	
 	public void removeCustomer(Integer customerId) {
 		try {
-	    	//Delete Customer
+			
 	    	Statement st = DBHelper.getConnection().createStatement();
-	    	String deleteCustomerQuery = "DELETE FROM Customer WHERE customerID = " + customerId + ";";
 
-	    	st.executeUpdate(deleteCustomerQuery);
-	    	System.out.println("CustomerDAO: *************** Query " + deleteCustomerQuery);
-	    	
 	    	//Delete Customer Address
 	    	String deleteAddressQuery = "DELETE FROM Address WHERE customerID = " + customerId + ";";
 
 	    	st.executeUpdate(deleteAddressQuery);
 	    	System.out.println("CustomerDAO: *************** Query " + deleteAddressQuery);
 	    	
+	    	
+	    	//Delete Customer
+	    	String deleteCustomerQuery = "DELETE FROM Customer WHERE customerID = " + customerId + ";";
+
+	    	st.executeUpdate(deleteCustomerQuery);
+	    	System.out.println("CustomerDAO: *************** Query " + deleteCustomerQuery);
+	    	
+
 	    	st.close();
+
 		}
 		catch (SQLException ex) {
 			System.err.println("CustomerDAO: Threw a SQLException deleting the customer object.");
@@ -142,13 +149,13 @@ public class CustomerDAO {
 		try {
 	    	//Update Customer
 	    	Statement st = DBHelper.getConnection().createStatement();
-	    	String updateCustomerQuery = "UPDATE Customer SET lastName = " + customer.getLastName() + ",firstName = " + customer.getFirstName() + " WHERE customerID = '" + customer.getCustomerId() + "'";
+	    	String updateCustomerQuery = "UPDATE customer SET lastname = '" + customer.getLastName() + "',firstname = '" + customer.getFirstName() + "' WHERE customerid = '" + customer.getCustomerId() + "'";
 
 	    	st.executeUpdate(updateCustomerQuery);
 	    	System.out.println("CustomerDAO: *************** Query " + updateCustomerQuery);
 	    	
 	    	//Update Customer Billing and Shipping Address
-	    	String updateCustomerAddressQuery = "UPDATE Address SET street = " + address.getStreet() + ",unit = " + address.getUnit() + ", city= " + address.getCity() + ", state= " + address.getState() + ", zip= " + address.getZip() + " WHERE customerID = '" + customer.getCustomerId() + "'";
+	    	String updateCustomerAddressQuery = "UPDATE address SET street = '" + address.getStreet() + "',unit = '" + address.getUnit() + "', city= '" + address.getCity() + "', state= '" + address.getState() + "', zip= '" + address.getZip() + "' WHERE customerid = '" + customer.getCustomerId() + "'";
 
 	    	st.executeUpdate(updateCustomerAddressQuery);
 	    	System.out.println("CustomerDAO: *************** Query " + updateCustomerAddressQuery);

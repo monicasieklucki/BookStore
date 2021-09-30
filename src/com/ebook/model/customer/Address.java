@@ -2,7 +2,7 @@ package com.ebook.model.customer;
 
 public class Address {
 
-		private String addressId;
+		private Integer addressId;
 		private String street;
 		private String unit;
 		private String city;
@@ -11,11 +11,11 @@ public class Address {
 		
 		public Address() {}
 		
-		public String getAddressId() {
+		public Integer getAddressId() {
 			return addressId;
 		}
 		
-		public void setAddressId(String addressId) {
+		public void setAddressId(Integer addressId) {
 			this.addressId = addressId;
 		}
 		

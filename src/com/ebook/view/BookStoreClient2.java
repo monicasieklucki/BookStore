@@ -8,22 +8,26 @@ public class BookStoreClient2 {
 	public static void main (String args[]) throws Exception {
 		
 		//Client will use the customer service to have access to anything related to customer functionality.
-	  System.out.println("*************** Creating Customer service object *************************");
-		CustomerService custService = new CustomerService();    
+	System.out.println("*************** Creating Customer service object *************************");
+	CustomerService custService = new CustomerService();    
 
-		System.out.println("BookStoreClient2: *************** instantiating a customer and its address *************************");
-    Customer customer = new Customer();;
-		customer.setFirstName("Jon");
-    customer.setCustomerId(1);
-    Address billingAddress = new Address();
-    customer.setLastName("Wheatland");
-    //billingAddress.setAddressId("AD9090");
-    //billingAddress.setStreet("500 West Madison St.");
-    //billingAddress.setUnit("Suite 1000");
-    //billingAddress.setCity("Chicago");
-   // billingAddress.setState("IL");
-    //billingAddress.setZip("66610");
-    //customer.setBillingAddress(billingAddress);
+	System.out.println("BookStoreClient2: *************** instantiating a customer and its address *************************");
+    Customer customer = new Customer();
+    customer.setCustomerId(2);
+	customer.setFirstName("John");
+    customer.setLastName("Doe");
+    
+    Address address = new Address();
+    address.setAddressId(2);
+    address.setStreet("500 West Madison St.");
+    address.setUnit("Suite 101");
+    address.setCity("Chicago");
+    address.setState("IL");
+    address.setZip("66610");
+    
+    customer.setBillingAddress(address);
+    customer.setShippingAddress(address);
+
       
     //save customer information
     //Saving the newly created customer and its address
@@ -34,21 +38,22 @@ public class BookStoreClient2 {
     System.out.println("BookStoreClient2: *************** trying to search customer in the database *************************");
  
     //Find a customer if already exists; if not, create a new one.
-    Customer searchedCustomer = custService.findCustomerById(1); 
+    Customer searchedCustomer = custService.findCustomerById(2); 
       
     System.out.println("BookStoreClient2: *************** Here is searched customer information *************************");
     try {
-    System.out.println("\tName: \t\t\t" + searchedCustomer.getFirstName() + " " + searchedCustomer.getLastName() + "\n");
+    System.out.println("\tID: \t\t\t " + searchedCustomer.getCustomerId() + "\tName: \t\t\t" + searchedCustomer.getFirstName() + " " + searchedCustomer.getLastName() + "\n");
     } catch (Exception e) {
       System.out.println(e);
     }
-    //Address billingAdd = searchedCustomer.getBillingAddress();
-    //System.out.println("\tBilling Address:\t" + billingAdd.getAddressId() + 
-    //    "\n\t\t\t\t" + billingAdd.getStreet() +
-    //    "\n\t\t\t\t" + billingAdd.getUnit() + 
-    //    "\n\t\t\t\t" + billingAdd.getCity() + ", " + 
-    //    billingAdd.getState() + " " + billingAdd.getZip() +
-    //    "\n");
+    Address billingAdd = searchedCustomer.getBillingAddress();
+    System.out.println("\tBilling Address:\t" + billingAdd.getAddressId() + 
+        "\n\t\t\t\t" + billingAdd.getStreet() +
+        "\n\t\t\t\t" + billingAdd.getUnit() + 
+        "\n\t\t\t\t" + billingAdd.getCity() + ", " + 
+        billingAdd.getState() + " " + billingAdd.getZip() +
+        "\n");
+    
         
 	}
 }
