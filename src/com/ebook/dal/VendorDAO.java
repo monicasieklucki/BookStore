@@ -1,6 +1,5 @@
 package com.ebook.dal;
 
-
 import java.util.ArrayList;
 import java.util.List;
 import java.sql.ResultSet;
@@ -16,12 +15,12 @@ public class VendorDAO {
 	
 	public VendorDAO() {}
 	
-	public Vendor getVendor(String vendorId) {
+	public Vendor getVendor(Integer vendorid) {
 	 	 
 	    try { 		
 	    	//Get vendor
 	    	Statement st = DBHelper.getConnection().createStatement();
-	    	String selectVendorQuery = "SELECT vendorID, vendorName FROM Vendor WHERE vendorID = '" + vendorId + "'";
+	    	String selectVendorQuery = "SELECT vendorid, vendorname FROM vendor WHERE vendorid = '" + vendorid + "'";
 
 	    	ResultSet vendorRS = st.executeQuery(selectVendorQuery);      
 	    	System.out.println("vendorDAO: *************** Query " + selectVendorQuery);
@@ -29,14 +28,14 @@ public class VendorDAO {
 	      //Get vendor
     	  Vendor vendor = new Vendor();
 	      while ( vendorRS.next() ) {
-	    	  vendor.setVendorId(vendorRS.getString("vendorID"));
-	    	  vendor.setVendorName(vendorRS.getString("vendorName"));
+	    	  vendor.setVendorId(vendorRS.getInt("vendorid"));
+	    	  vendor.setVendorName(vendorRS.getString("vendorname"));
 	      }
 	      //close to manage resources
 	      vendorRS.close();
 	      	    		  
 	      //Get vendor details
-	      String selectVendorDetailQuery = "SELECT vendorID, productId, productTitle, productPrice, quantity, FROM VendorLine WHERE vendorID = '" + vendorId + "'";
+	      String selectVendorDetailQuery = "SELECT vendorid, productid, quantity, FROM vendorline WHERE vendorid = '" + vendorid + "'";
 	      ResultSet pdRS = st.executeQuery(selectVendorDetailQuery);
 	      
 	      List<VendorLine> vendorLines = new ArrayList<VendorLine>();
@@ -49,7 +48,7 @@ public class VendorDAO {
 		      
 	    	  vendorLine.setQuantity(pdRS.getInt("quantity"));
 	    	  
-	    	  product.setId(pdRS.getString("id"));
+	    	  product.setId(pdRS.getInt("id"));
 	    	  product.setTitle(pdRS.getString("title"));
 	    	  product.setPrice(pdRS.getDouble("price"));
 	    	  
@@ -80,9 +79,9 @@ public class VendorDAO {
 	    try { 		
 	    	//Get vendor
 	    	Statement st = DBHelper.getConnection().createStatement();
-	    	String insertVendorQuery = "INSERT INTO Vendor (vendorName) VALUES (" + vendor.getVendorName() + ")";
+	    	String insertVendorQuery = "INSERT INTO Vendor (vendorid, vendorname) VALUES ('" + vendor.getVendorId() + "', '" + vendor.getVendorName() + "')";
 	    	
-	    	int rowcount = st.executeUpdate(insertVendorQuery);      
+	    	st.executeUpdate(insertVendorQuery);      
 	    	System.out.println("vendorDAO: *************** Query " + insertVendorQuery);
 	    	
 		    st.close();  
@@ -95,22 +94,49 @@ public class VendorDAO {
 	    }
 	  }
 	
-	public void addVendorProduct(Vendor vendor, Product product) {
+	public void removeVendor(Integer vendorid) {
+		try {
+			
+	    	Statement st = DBHelper.getConnection().createStatement();
+
+	    	//Delete Vendor Line
+	    	String deleteVendorLineQuery = "DELETE FROM vendorline WHERE vendorid = " + vendorid + ";";
+
+	    	st.executeUpdate(deleteVendorLineQuery);
+	    	System.out.println("VendorDAO: *************** Query " + deleteVendorLineQuery);
+	    	
+	    	
+	    	//Delete Vendor
+	    	String deleteVendorQuery = "DELETE FROM vendor WHERE vendorid = " + vendorid + ";";
+
+	    	st.executeUpdate(deleteVendorQuery);
+	    	System.out.println("VendorDAO: *************** Query " + deleteVendorQuery);
+	    	
+
+	    	st.close();
+
+		}
+		catch (SQLException ex) {
+			System.err.println("VendorDAO: Threw a SQLException deleting the vendor object.");
+    	    System.err.println(ex.getMessage());
+		}
+	}
+	
+	public void addVendorProduct(Vendor vendor) {
 	 	 
 	    try { 		
 	    	Statement st = DBHelper.getConnection().createStatement();
-	   
-    		// key vendorDetailId is key
-	    	String insertVendorDetailsQuery = "INSERT INTO VendorLine (vendorId, productId, productTitle, productPrice, quantity) VALUES (" + vendor.getVendorId()+ ", " + product.getId() + ", " + product.getTitle() + ", " + product.getPrice() + ", " + vendor.getVendorLine().getQuantity() + ");";
 	    	
-	    	int rowcount = st.executeUpdate(insertVendorDetailsQuery);    	
+	    	String insertVendorDetailsQuery = "INSERT INTO vendorline (vendorid, productId, quantity) VALUES ('" + vendor.getVendorId()+ "', '" + vendor.getVendorLine().getProduct().getId() + "', '" + vendor.getVendorLine().getQuantity() + "');";
+	    	
+	    	st.executeUpdate(insertVendorDetailsQuery);    	
 	    	
 	        //close to manage resources
 	        st.close();
 	      
 	    }	    
 	    catch (SQLException se) {
-	        System.err.println("vendorDetailDAO: Threw a SQLException insterting the vendor detail object.");
+	        System.err.println("VendorLineDAO: Threw a SQLException inserting the vendorline object.");
 	        System.err.println(se.getMessage());
 	        se.printStackTrace();
 	    }
@@ -123,7 +149,7 @@ public class VendorDAO {
 	        List<Vendor> vendorProducts = new ArrayList<Vendor>();
 	    	//Get vendor
 	    	Statement st = DBHelper.getConnection().createStatement();
-	    	String selectVendorQuery = "SELECT vendorID, vendorName FROM Vendor";
+	    	String selectVendorQuery = "SELECT vendorid, vendorname FROM Vendor";
 
 	    	ResultSet vendorRS = st.executeQuery(selectVendorQuery);      
 	    	System.out.println("vendorDAO: *************** Query " + selectVendorQuery);
@@ -132,8 +158,8 @@ public class VendorDAO {
 	      List<Vendor> vendors = new ArrayList<Vendor>();
     	  Vendor vendor = new Vendor();
 	      while ( vendorRS.next() ) {
-	    	  vendor.setVendorId(vendorRS.getString("vendorID"));
-	    	  vendor.setVendorName(vendorRS.getString("vendorName"));
+	    	  vendor.setVendorId(vendorRS.getInt("vendorid"));
+	    	  vendor.setVendorName(vendorRS.getString("vendorname"));
 	    	  vendors.add(vendor);
 	    	  
 	      }
@@ -155,7 +181,7 @@ public class VendorDAO {
 			      
 		    	  vendorLine.setQuantity(pdRS.getInt("quantity"));
 		    	  
-		    	  product.setId(pdRS.getString("productId"));
+		    	  product.setId(pdRS.getInt("productId"));
 		    	  product.setTitle(pdRS.getString("productTitle"));
 		    	  product.setPrice(pdRS.getDouble("productPrice"));
 		    	  

@@ -1,9 +1,6 @@
 package com.ebook.model.vendor;
 
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.ebook.model.item.Product;
 
 public class VendorLine {

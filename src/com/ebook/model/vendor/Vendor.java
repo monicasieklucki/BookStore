@@ -9,7 +9,7 @@ import com.ebook.model.vendor.VendorLine;
 
 public class Vendor {
 	
-	private String vendorId;
+	private Integer vendorId;
 	private String vendorName;
 	
 	private VendorLine vendorLine;
@@ -17,11 +17,11 @@ public class Vendor {
 	
 	public Vendor() {}
 	
-	public String getVendorId() {
+	public Integer getVendorId() {
 		return vendorId;
 	}
 
-	public void setVendorId(String vendorId) {
+	public void setVendorId(Integer vendorId) {
 		this.vendorId = vendorId;
 	}
 	

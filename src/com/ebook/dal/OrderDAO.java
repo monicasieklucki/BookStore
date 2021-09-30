@@ -47,7 +47,7 @@ public class OrderDAO {
 		      
 	    	  orderLine.setQuantity(ordRS.getInt("quantity"));
 	    	  
-	    	  product.setId(ordRS.getString("id"));
+	    	  product.setId(ordRS.getInt("id"));
 	    	  product.setTitle(ordRS.getString("title"));
 	    	  product.setPrice(ordRS.getDouble("price"));
 	    	  

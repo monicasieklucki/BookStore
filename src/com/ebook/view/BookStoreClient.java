@@ -34,7 +34,7 @@ public class BookStoreClient {
 	        //order detail contains products ordered
 	        //First product
 	        Book product1 = new Book();
-	        product1.setId("BF-7898");
+	        product1.setId(1);
 	        product1.setISBN("234-89675-27690");
 	        product1.setTitle("Patterns of Enterprise Application Architecture");
 	        product1.setAuthor("Folwer, Martin");
@@ -44,7 +44,7 @@ public class BookStoreClient {
 	        
 	        //Second product
 	        Book product2 = new Book();
-	        product2.setId("BF-2345");
+	        product2.setId(2);
 	        product2.setISBN("892-12345-93667");
 	        product2.setTitle("Web Application Architecture");
 	        product2.setAuthor("Shklar, Leon");
