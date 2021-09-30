@@ -14,7 +14,7 @@ public class BookStoreClient2 {
 		System.out.println("BookStoreClient2: *************** instantiating a customer and its address *************************");
     Customer customer = new Customer();;
 		customer.setFirstName("Jon");
-    customer.setCustomerId(2);
+    customer.setCustomerId(1);
     Address billingAddress = new Address();
     customer.setLastName("Wheatland");
     //billingAddress.setAddressId("AD9090");
