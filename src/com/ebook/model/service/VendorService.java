@@ -6,10 +6,11 @@ import com.ebook.model.vendor.Vendor;
 
 
 public class VendorService {
-	private VendorDAO vendDAO = new VendorDAO();
+	private static VendorDAO vendDAO = new VendorDAO();
 	
 	//Insert a new vendor in the DB
-	public void addVendor(Vendor vendor) {
+	public static Vendor addVendor(String vendorName) {
+		Vendor vendor = new Vendor(vendorName);
 		
 		try {
 			vendDAO.addVendor(vendor);
@@ -17,18 +18,28 @@ public class VendorService {
 	      System.err.println("VendorService: Threw a Exception adding Vendor.");
 	      System.err.println(se.getMessage());
 	    }
+		return vendor;
 	}
 	
-	
 	//Delete vendor and vendor lines from DB
-	public void removeVendorById(Integer vendorid) {
+	public static void removeVendorById(Integer vendorId) {
 		
 		try {
-			vendDAO.removeVendor(vendorid);
+			vendDAO.removeVendor(vendorId);
 	    } catch (Exception se) {
 	      System.err.println("VendorService: Threw a Exception removing vendor.");
 	      System.err.println(se.getMessage());
 	    }
+	}
+	
+	public static Vendor getVendorById(Integer vendorId) {
+		Vendor vendor = null;
+		try {
+			vendor = vendDAO.getVendor(vendorId);
+		} catch (Exception se) {
+			System.err.println("VendorService: Could not find vendor id " + vendorId);
+		}
+		return vendor;
 	}
 	
 	//Insert vendor product to DB

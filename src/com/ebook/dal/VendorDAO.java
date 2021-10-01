@@ -2,6 +2,8 @@ package com.ebook.dal;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -20,7 +22,7 @@ public class VendorDAO {
 	    try { 		
 	    	//Get vendor
 	    	Statement st = DBHelper.getConnection().createStatement();
-	    	String selectVendorQuery = "SELECT vendorid, vendorname FROM vendor WHERE vendorid = '" + vendorid + "'";
+	    	String selectVendorQuery = "SELECT vendorid, vendorname FROM vendor WHERE vendorid = " + vendorid + ";";
 
 	    	ResultSet vendorRS = st.executeQuery(selectVendorQuery);      
 	    	System.out.println("vendorDAO: *************** Query " + selectVendorQuery);
@@ -34,33 +36,33 @@ public class VendorDAO {
 	      //close to manage resources
 	      vendorRS.close();
 	      	    		  
-	      //Get vendor details
-	      String selectVendorDetailQuery = "SELECT vendorid, productid, quantity, FROM vendorline WHERE vendorid = '" + vendorid + "'";
-	      ResultSet pdRS = st.executeQuery(selectVendorDetailQuery);
-	      
-	      List<VendorLine> vendorLines = new ArrayList<VendorLine>();
-	      
-    	  System.out.println("vendorDetailDAO: *************** Query " + selectVendorDetailQuery);
-    	  
-	      while ( pdRS.next() ) {
-		      VendorLine vendorLine = new VendorLine();
-		      Product product = new Product();
-		      
-	    	  vendorLine.setQuantity(pdRS.getInt("quantity"));
-	    	  
-	    	  product.setId(pdRS.getInt("id"));
-	    	  product.setTitle(pdRS.getString("title"));
-	    	  product.setPrice(pdRS.getDouble("price"));
-	    	  
-	    	  vendorLine.setProduct(product);
-	    	  
-	    	  vendorLines.add(vendorLine);
-	      }
-	      
-	      vendor.setVendorLines(vendorLines);
-	      //close to manage resources
-	      pdRS.close();
-	      st.close();
+//	      //Get vendor details
+//	      String selectVendorDetailQuery = "SELECT vendorid, productid, quantity, FROM vendorline WHERE vendorid = '" + vendorid + "'";
+//	      ResultSet pdRS = st.executeQuery(selectVendorDetailQuery);
+//	      
+//	      List<VendorLine> vendorLines = new ArrayList<VendorLine>();
+//	      
+//    	  System.out.println("vendorDetailDAO: *************** Query " + selectVendorDetailQuery);
+//    	  
+//	      while ( pdRS.next() ) {
+//		      VendorLine vendorLine = new VendorLine();
+//		      Product product = new Product();
+//		      
+//	    	  vendorLine.setQuantity(pdRS.getInt("quantity"));
+//	    	  
+//	    	  product.setId(pdRS.getInt("id"));
+//	    	  product.setTitle(pdRS.getString("title"));
+//	    	  product.setPrice(pdRS.getDouble("price"));
+//	    	  
+//	    	  vendorLine.setProduct(product);
+//	    	  
+//	    	  vendorLines.add(vendorLine);
+//	      }
+//	      
+//	      vendor.setVendorLines(vendorLines);
+//	      //close to manage resources
+//	      pdRS.close();
+//	      st.close();
 	      
 	      return vendor;
 	    }	    
@@ -73,22 +75,30 @@ public class VendorDAO {
 	    return null;
 	  }
 
-		
-	public void addVendor(Vendor vendor) {
-	 	 
-	    try { 		
-	    	//Get vendor
-	    	Statement st = DBHelper.getConnection().createStatement();
-	    	String insertVendorQuery = "INSERT INTO Vendor (vendorid, vendorname) VALUES ('" + vendor.getVendorId() + "', '" + vendor.getVendorName() + "')";
+	public void addVendor(Vendor vendor) throws SQLException {
+		String insertStm = "INSERT INTO Vendor (vendorname) VALUES (?)";
+	    try ( 		
 	    	
-	    	st.executeUpdate(insertVendorQuery);      
-	    	System.out.println("vendorDAO: *************** Query " + insertVendorQuery);
+	    	Connection con = DBHelper.getConnection();
+	    	PreparedStatement statement = con.prepareStatement(insertStm , Statement.RETURN_GENERATED_KEYS);
+	    ){
+	    	statement.setString(1, vendor.getVendorName());
+	    	int affectedRows = statement.executeUpdate();
+	    	if(affectedRows == 0) {
+	    		throw new SQLException("Creating vendor failed, no rows affected.");
+	    	}
 	    	
-		    st.close();  
+	    	try (ResultSet generatedId = statement.getGeneratedKeys()) {
+	    		if (generatedId.next()) {
+	    			vendor.setVendorId(generatedId.getInt(1));
+	    		} else {
+	    			throw new SQLException("Creating vendor failed, no ID obtained.");
+	    		}
+	    	}
+		      
 		   	      
 	    }	    
 	    catch (SQLException se) {
-	        System.err.println("vendorDAO: Threw a SQLException inserting the vendor object.");
 	        System.err.println(se.getMessage());
 	        se.printStackTrace();
 	    }
