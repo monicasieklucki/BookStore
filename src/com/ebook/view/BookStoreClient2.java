@@ -95,26 +95,26 @@ public class BookStoreClient2 {
     vendor.setVendorId(3);
     vendor.setVendorName("Amazon");
     
-    //save vendor information
-    //Saving the newly created vendor 
-    vendService.addVendor(vendor);
-    System.out.println("BookStoreClient2: *************** Vendor is inserted in BookStore Database *************************");
-
-   
-    VendorLine vendorline1 = new VendorLine();
-    vendorline1.setQuantity(0);
-    vendorline1.setProduct(prod1);
-    vendor.setVendorLine(vendorline1);
-    vendService.addVendorProduct(vendor);
-    System.out.println("BookStoreClient2: *************** VendorLine is added in BookStore Database *************************");
-
-    
-    VendorLine vendorline2 = new VendorLine();
-    vendorline2.setQuantity(3);
-    vendorline2.setProduct(prod2);
-    vendor.setVendorLine(vendorline2);
-    vendService.addVendorProduct(vendor);
-    System.out.println("BookStoreClient2: *************** VendorLine is added in BookStore Database *************************");
+//    //save vendor information
+//    //Saving the newly created vendor 
+//    vendService.addVendor(vendor);
+//    System.out.println("BookStoreClient2: *************** Vendor is inserted in BookStore Database *************************");
+//
+//   
+//    VendorLine vendorline1 = new VendorLine();
+//    vendorline1.setQuantity(0);
+//    vendorline1.setProduct(prod1);
+//    vendor.setVendorLine(vendorline1);
+//    vendService.addVendorProduct(vendor);
+//    System.out.println("BookStoreClient2: *************** VendorLine is added in BookStore Database *************************");
+//
+//    
+//    VendorLine vendorline2 = new VendorLine();
+//    vendorline2.setQuantity(3);
+//    vendorline2.setProduct(prod2);
+//    vendor.setVendorLine(vendorline2);
+//    vendService.addVendorProduct(vendor);
+//    System.out.println("BookStoreClient2: *************** VendorLine is added in BookStore Database *************************");
 
 
     //remove vendor and vendor lines
