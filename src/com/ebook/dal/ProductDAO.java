@@ -1,5 +1,7 @@
 package com.ebook.dal;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -13,12 +15,12 @@ import com.ebook.model.item.Book;
 public class ProductDAO {
 	public ProductDAO() {}
 	
-	public Product getProduct(String productId) {
+	public Product getProduct(Integer productId) {
 	 	 
 	    try { 		
 	    	//Get Product
 	    	Statement st = DBHelper.getConnection().createStatement();
-	    	String selectProductQuery = "SELECT productID, title, price FROM Product WHERE productID = '" + productId + "'";
+	    	String selectProductQuery = "SELECT ID, title, price FROM Product WHERE ID = " + productId + ";";
 
 	    	ResultSet prodRS = st.executeQuery(selectProductQuery);      
 	    	System.out.println("ProductDAO: *************** Query " + selectProductQuery);
@@ -26,7 +28,7 @@ public class ProductDAO {
 	      //Get Product
     	  Product product = new Product();
 	      while (prodRS.next() ) {
-	    	  product.setId(prodRS.getInt("productID"));
+	    	  product.setId(prodRS.getInt("ID"));
 	    	  product.setTitle(prodRS.getString("title"));
 	    	  product.setPrice(prodRS.getDouble("price"));
 	      }
@@ -82,20 +84,28 @@ public class ProductDAO {
 	  }
 	
 	public void addProduct(Product product) {
-	 	 
-	    try { 		
-	    	//Get vendor
-	    	Statement st = DBHelper.getConnection().createStatement();
-	    	String insertProductQuery = "INSERT INTO Product (title, price) VALUES (" + product.getTitle() + ", " + product.getPrice() + ")";
+	 	String insertStm =  "INSERT INTO Product (title, price) VALUES (?, ?)";
+	    try (
+	    	Connection con = DBHelper.getConnection();
+		    PreparedStatement statement = con.prepareStatement(insertStm , Statement.RETURN_GENERATED_KEYS);
+	    ){	
+	    	statement.setString(1, product.getTitle());
+	    	statement.setDouble(2, product.getPrice());
+
+	    	int affectedRows = statement.executeUpdate();
+	    	if(affectedRows == 0) {
+	    		throw new SQLException("Creating product failed, no rows affected.");
+	    	}
 	    	
-	    	st.executeUpdate(insertProductQuery);      
-	    	System.out.println("productDAO: *************** Query " + insertProductQuery);
-	    	
-		    st.close();  
-		   	      
+	    	try (ResultSet generatedId = statement.getGeneratedKeys()) {
+	    		if (generatedId.next()) {
+	    			product.setId(generatedId.getInt(1));
+	    		} else {
+	    			throw new SQLException("Creating product failed, no ID obtained.");
+	    		}
+	    	}	   	      
 	    }	    
 	    catch (SQLException se) {
-	        System.err.println("productDAO: Threw a SQLException inserting the product object.");
 	        System.err.println(se.getMessage());
 	        se.printStackTrace();
 	    }

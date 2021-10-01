@@ -11,8 +11,6 @@ public class Vendor {
 	
 	private Integer vendorId;
 	private String vendorName;
-	
-	private VendorLine vendorLine;
 	private List<VendorLine> vendorLines = new ArrayList<VendorLine>();
 	
 	public Vendor() {}
@@ -39,14 +37,6 @@ public class Vendor {
 		
 	public List<VendorLine> getVendorLines() {
 		return vendorLines;
-	}
-	
-	public VendorLine getVendorLine() {
-		return vendorLine;
-	}
-
-	public void setVendorLine(VendorLine vendorLine) {
-		this.vendorLine = vendorLine;
 	}
 
 	public void setVendorLines(List<VendorLine> vendorLines) {
