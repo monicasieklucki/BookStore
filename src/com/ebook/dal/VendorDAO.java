@@ -24,7 +24,6 @@ public class VendorDAO {
 	 * @return Vendor
 	 */
 	public Vendor getVendor(Integer vendorid) {
-		// TODO retrieve vendor details
 		try {
 			// Get vendor
 			Statement st = DBHelper.getConnection().createStatement();
@@ -42,7 +41,7 @@ public class VendorDAO {
 			// close to manage resources
 			vendorRS.close();
 			
-			this.getAllVendorProducts(vendor);
+			getAllVendorProducts(vendor);
 
 			return vendor;
 		} catch (SQLException se) {

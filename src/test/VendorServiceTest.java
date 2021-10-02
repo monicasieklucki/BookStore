@@ -25,7 +25,6 @@ public class VendorServiceTest {
 		retrievedVend = VendorService.getVendorById(vendorId);
 		System.out.printf("\n\nNumber of Products for Vendor: %d\n\n" , retrievedVend.getVendorLines().size());
 		for(VendorLine vl : retrievedVend.getVendorLines()) {
-			System.out.println("For loop ran");
 			Product product = vl.getProduct();
 			System.out.printf("\nProduct added \n\tID: %d  \n\tName: %s \n\tPrice: $%.2f \n\tQuant: %d\n\n", product.getId(), product.getTitle(), product.getPrice(), vl.getQuantity() );
 		}

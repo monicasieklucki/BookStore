@@ -5,27 +5,28 @@ import java.util.List;
 import com.ebook.model.item.Product;
 
 public class Order {
-	private String orderId;
-	private List<OrderLine> OrderLines = new ArrayList<OrderLine>();
-	private boolean paymentReceived;
+	private Integer orderId;
+	private List<OrderLine> orderLines = new ArrayList<OrderLine>();
+	private boolean paymentReceived = false;
 	private String orderState = "Open";
 	
-	public Order() {}
+	public Order() {};
 	
-	public String getOrderId() {
+	
+	public Integer getOrderId() {
 		return orderId;
 	}
 
-	public void setOrderId(String orderId) {
+	public void setOrderId(Integer orderId) {
 		this.orderId = orderId;
 	}
 
 	public List<OrderLine> getOrderLines() {
-		return OrderLines;
+		return orderLines;
 	}
 
 	public void setOrderLines(List<OrderLine> OrderLines) {
-		this.OrderLines = OrderLines;
+		this.orderLines = OrderLines;
 	}
 
 	
@@ -45,11 +46,28 @@ public class Order {
 		this.paymentReceived = paymentReceived;
 	}
 	
-	public void addProduct(Product product, int quantity) {
+	public OrderLine addProduct(Product product, int quantity) {
+		OrderLine ol = null;
 		if (orderState.equals("Open")) {
-			OrderLines.add(new OrderLine(product, quantity));
+			ol = new OrderLine(product, quantity);
+			orderLines.add(ol);
 		} else {
 			throw new IllegalStateException("Can only add product in Open state.");
+		}
+		return ol;
+	}
+	
+	public void updateProduct(Product product, int quantity) {
+		for(OrderLine ol : orderLines ) {
+			if (ol.getProduct().getId() == product.getId()) {
+				if (quantity == 0) {
+					orderLines.remove(ol);
+				} else {
+					ol.setQuantity(quantity);
+				}
+			} else {
+				throw new IllegalStateException("Product not found in order, can't update product.");
+			}
 		}
 	}
 	
@@ -104,10 +122,23 @@ public class Order {
 	
 	public double getOrderTotal() {
 		double total = 0.00;
-		for (OrderLine line : OrderLines) {
+		for (OrderLine line : orderLines) {
 			total += line.getProduct().getPrice() * line.getQuantity();
 		}
 		return total;
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder("\n*****ORDER DETAILS*****");
+		sb.append(String.format("\nOrder ID: \t\t%d\n OrderState: \t\t%s\n Payment Status: \t%s\n", orderId, orderState, paymentReceived));
+		for(OrderLine ol : orderLines) {
+			Product product = ol.getProduct();
+			sb.append(String.format("\tProduct ID: \t%d\n\tProduct Title: \t%s\n\tProduct Price: \t$%.2f\n", product.getId(), product.getTitle(), product.getPrice()));
+			sb.append(String.format("\tProduct Quantity: %d\n", ol.getQuantity()));
+		}
+		sb.append(String.format("Order Total: $%.2f", getOrderTotal()));
+		return sb.toString();
 	}
 
 }

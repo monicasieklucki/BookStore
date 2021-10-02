@@ -1,0 +1,128 @@
+package com.ebook.model.service;
+
+import com.ebook.dal.OrderDAO;
+import com.ebook.dal.ProductDAO;
+import com.ebook.model.item.Product;
+import com.ebook.model.order.Order;
+import com.ebook.model.order.OrderLine;
+
+public class OrderService {
+	private static OrderDAO ordDAO = new OrderDAO();
+	private static ProductDAO prodDAO = new ProductDAO();
+	
+	/**
+	 * Creates a new order. No parameters are needed, uses default values for order and payment status.
+	 * @return the new order that was created. 
+	 */
+	public static Integer addOrder() {
+		Order ord = new Order();
+		try {
+		ordDAO.addOrder(ord);
+		} catch (Exception se ) {
+			System.err.println(se.getMessage());
+			se.printStackTrace();
+		}
+		return ord.getOrderId();
+	}
+	
+	/**
+	 * Adds a product to the order with a specific quantity. 
+	 * @param orderId Id of the order to be updated
+	 * @param productId Id of the product to add
+	 * @param quantity quantity of the product added. 
+	 * @return returns an order object with the updated orderLines
+	 */
+	public static Order addProduct(Integer orderId, Integer productId, Integer quantity) {
+		Order ord = null;
+		try {	
+			Product product = prodDAO.getProduct(productId); 
+			ord = ordDAO.getOrder(orderId);
+			OrderLine ol = ord.addProduct(product, quantity);
+			ordDAO.addOrderLine(ord, ol);
+			
+		} catch (Exception se) {
+			System.err.println(se.getMessage());
+			se.printStackTrace();
+		}
+		return ord;
+	}
+	
+	/**
+	 * gets the order for the given id.
+	 * @param orderId order id to retrieve. 
+	 * @return order for the given ID.
+	 */
+	public static Order getOrderById(Integer orderId) {
+		Order order = null;
+		try {
+			order = ordDAO.getOrder(orderId);
+		} catch (Exception se) {
+			System.err.println(se.getMessage());
+		}
+		return order;
+	}
+	
+	public static void updatePaymentStatus(Integer orderId, boolean status) {
+		try {
+			Order ord = ordDAO.getOrder(orderId);
+			ord.setPaymentReceived(status);
+			ordDAO.updateOrder(ord);
+		} catch(Exception se) {
+			System.err.println(se.getMessage());
+			se.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Updates the order with the given status
+	 * @param orderId orderId to update
+	 * @param orderState possible values Ordered, Shipped, Delivered, Canceled
+	 */
+	public static void updateOrderStatus(Integer orderId, String orderState) {
+		try {
+			Order ord = ordDAO.getOrder(orderId);
+			switch (orderState.toUpperCase()) {
+			case "ORDERED" :
+				ord.confirmOrder();
+				break;
+			case "SHIPPED" :
+				ord.orderSendOut();
+				break;
+			
+			case "DELIVERED" :
+				ord.orderDelivered();
+				break;
+				
+			case "CANCELED" :
+				ord.cancelOrder();
+				break;
+			default :
+				throw new Exception("Order state invalid");	
+			}
+			ordDAO.updateOrder(ord);
+		} catch(Exception e) {
+			System.err.println(e.getMessage());
+			e.printStackTrace();
+		}
+		
+	}
+	
+	/**
+	 * Updates the quantity of a product on the order. If quantity is 0, product is removed.
+	 * @param orderId
+	 * @param productId
+	 * @param quantity
+	 */
+	public static void updateOrderLine(Integer orderId, Integer productId, Integer quantity) {
+		try {
+			Order ord = ordDAO.getOrder(orderId);
+			Product product = prodDAO.getProduct(productId);
+			ord.updateProduct(product, quantity);
+			ordDAO.updateOrder(ord);
+		} catch(Exception e) {
+			System.err.print(e.getMessage());
+			e.printStackTrace();
+		}
+	}
+		
+}

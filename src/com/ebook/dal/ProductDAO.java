@@ -20,7 +20,7 @@ public class ProductDAO {
 	    try { 		
 	    	//Get Product
 	    	Statement st = DBHelper.getConnection().createStatement();
-	    	String selectProductQuery = "SELECT ID, title, price FROM Product WHERE ID = " + productId + ";";
+	    	String selectProductQuery = "SELECT productid, title, price FROM Product WHERE productID = " + productId + ";";
 
 	    	ResultSet prodRS = st.executeQuery(selectProductQuery);      
 	    	System.out.println("ProductDAO: *************** Query " + selectProductQuery);
@@ -28,7 +28,7 @@ public class ProductDAO {
 	      //Get Product
     	  Product product = new Product();
 	      while (prodRS.next() ) {
-	    	  product.setId(prodRS.getInt("ID"));
+	    	  product.setId(prodRS.getInt("productid"));
 	    	  product.setTitle(prodRS.getString("title"));
 	    	  product.setPrice(prodRS.getDouble("price"));
 	      }
