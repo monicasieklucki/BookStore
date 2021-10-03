@@ -9,6 +9,8 @@ import com.ebook.model.item.Product;
 
 public class Customer {
 	private Integer customerId;
+	private Integer billingid;
+	private Integer shippingid;
 	private String lastName;
 	private String firstName;
 	private Address billingAddress;
@@ -48,6 +50,22 @@ public class Customer {
 
 	public void setShippingAddress(Address shippingAddress) {
 		this.shippingAddress = shippingAddress;
+	}
+	
+	public Integer getBillingAddressId() {
+		return billingid;
+	}
+
+	public void setBillingAddressId(Integer id) {
+		this.billingid = id;
+	}
+	
+	public Integer getShippingAddressId() {
+		return shippingid;
+	}
+
+	public void setShippingAddressId(Integer id) {
+		this.shippingid = id;
 	}
 	
 	public Integer getCustomerId() {
