@@ -14,6 +14,7 @@ import com.ebook.model.item.Product;
 
 public class OrderDAO {
 	private ProductDAO prodDAO = new ProductDAO();
+	private CustomerDAO custDAO = new CustomerDAO();
 	
 	public Order getOrder(Integer orderId) {
 	 	 // TODO get order line items
@@ -26,6 +27,7 @@ public class OrderDAO {
     	  Order order = new Order();
 	      while ( orderRS.next() ) {
 	    	  order.setOrderId(orderRS.getInt("orderID"));
+	    	  order.setCustomer(custDAO.getCustomer(orderRS.getInt("customerid")));
 	    	  order.setOrderState(orderRS.getString("orderstate"));
 	    	  order.setPaymentReceived(orderRS.getBoolean("paymentrec"));
 
@@ -48,22 +50,23 @@ public class OrderDAO {
 		
 	public void addOrder(Order order) {
 		//TODO where should adding order details be part of this method or separate?
-		String insertStm = "INSERT INTO ORDERS (paymentRec, orderState) VALUES(?, ?);";
+		String insertStm = "INSERT INTO ORDERS (customerid, paymentRec, orderState) VALUES(?, ?, ?);";
 		try (Connection con = DBHelper.getConnection();
 				PreparedStatement statement = con.prepareStatement(insertStm, Statement.RETURN_GENERATED_KEYS);) {
-			statement.setBoolean(1, order.isPaymentReceived());
-			statement.setString(2, order.getOrderState());
+			statement.setInt(1, order.getCustomer().getCustomerId());
+			statement.setBoolean(2, order.isPaymentReceived());
+			statement.setString(3, order.getOrderState());
 
 			int affectedRows = statement.executeUpdate();
 			if (affectedRows == 0) {
-				throw new SQLException("Creating vendor failed, no rows affected.");
+				throw new SQLException("Creating Order failed, no rows affected.");
 			}
 
 			try (ResultSet generatedId = statement.getGeneratedKeys()) {
 				if (generatedId.next()) {
 					order.setOrderId(generatedId.getInt(1));
 				} else {
-					throw new SQLException("Creating vendor failed, no ID obtained.");
+					throw new SQLException("Creating Order failed, no ID obtained.");
 				}
 			}
 		} catch (SQLException se) {
@@ -121,13 +124,14 @@ public class OrderDAO {
 	 * @param order the order to update
 	 */
 	public void updateOrder(Order order) {
-		String updateStm = "UPDATE orders SET orderstate = ? , set paymentrec = ? where orderid = ?;";
+		String updateStm = "UPDATE orders SET orderstate = ? ,  paymentrec = ? where orderid = ?;";
 		try (Connection con = DBHelper.getConnection();
 				PreparedStatement statement = con.prepareStatement(updateStm);
 			){
 			statement.setString(1, order.getOrderState());
 			statement.setBoolean(2, order.isPaymentReceived());
 			statement.setInt(3, order.getOrderId());
+			System.out.println(statement);
 			
 			int affectedRows = statement.executeUpdate();
 			if (affectedRows == 0) {

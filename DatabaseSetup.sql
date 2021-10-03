@@ -89,6 +89,7 @@ insert into vendorLine values (2,3,11);
 drop table if exists orders cascade;
 create table orders (
 	orderId serial primary key,
+	customerid serial references customer,
 	paymentRec boolean default false,
 	orderState varchar default 'Open'
 );
@@ -104,8 +105,8 @@ create table orderLine (
 
 commit;
 
-select v.vendorName, p.title, p.price, vl.quantity
+select v.vendorName, p.productid, p.title, p.price, vl.quantity
 from vendorLine vl
 join vendor v on vl.vendorId = v.vendorId
-join product p on vl.productId = p.id;
+join product p on vl.productId = p.productid;
 

@@ -2,15 +2,21 @@ package com.ebook.model.order;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.ebook.model.customer.Customer;
 import com.ebook.model.item.Product;
 
 public class Order {
 	private Integer orderId;
+	private Customer customer;
 	private List<OrderLine> orderLines = new ArrayList<OrderLine>();
 	private boolean paymentReceived = false;
 	private String orderState = "Open";
 	
 	public Order() {};
+	public Order(Customer customer) {
+		this.customer = customer;
+	};
 	
 	
 	public Integer getOrderId() {
@@ -19,6 +25,14 @@ public class Order {
 
 	public void setOrderId(Integer orderId) {
 		this.orderId = orderId;
+	}
+	
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	};
+	
+	public Customer getCustomer() {
+		return customer;
 	}
 
 	public List<OrderLine> getOrderLines() {
@@ -132,6 +146,7 @@ public class Order {
 	public String toString() {
 		StringBuilder sb = new StringBuilder("\n*****ORDER DETAILS*****");
 		sb.append(String.format("\nOrder ID: \t\t%d\n OrderState: \t\t%s\n Payment Status: \t%s\n", orderId, orderState, paymentReceived));
+		sb.append(String.format("Customer ID:\t\t%d \nCustomer Name: \t%s %s", customer.getCustomerId(), customer.getFirstName(), customer.getLastName()));
 		for(OrderLine ol : orderLines) {
 			Product product = ol.getProduct();
 			sb.append(String.format("\tProduct ID: \t%d\n\tProduct Title: \t%s\n\tProduct Price: \t$%.2f\n", product.getId(), product.getTitle(), product.getPrice()));

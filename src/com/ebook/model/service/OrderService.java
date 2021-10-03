@@ -1,7 +1,9 @@
 package com.ebook.model.service;
 
+import com.ebook.dal.CustomerDAO;
 import com.ebook.dal.OrderDAO;
 import com.ebook.dal.ProductDAO;
+import com.ebook.model.customer.Customer;
 import com.ebook.model.item.Product;
 import com.ebook.model.order.Order;
 import com.ebook.model.order.OrderLine;
@@ -9,13 +11,16 @@ import com.ebook.model.order.OrderLine;
 public class OrderService {
 	private static OrderDAO ordDAO = new OrderDAO();
 	private static ProductDAO prodDAO = new ProductDAO();
+	private static CustomerDAO custDAO = new CustomerDAO();
 	
 	/**
-	 * Creates a new order. No parameters are needed, uses default values for order and payment status.
+	 * Creates a new order for the given customer
+	 * @param customerId the id of the customer creating the order
 	 * @return the new order that was created. 
 	 */
-	public static Integer addOrder() {
-		Order ord = new Order();
+	public static Integer addOrder(Integer customerId) {
+		Customer cust = custDAO.getCustomer(customerId);
+		Order ord = new Order(cust);
 		try {
 		ordDAO.addOrder(ord);
 		} catch (Exception se ) {
