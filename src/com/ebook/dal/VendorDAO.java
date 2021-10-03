@@ -15,8 +15,7 @@ import com.ebook.model.item.Product;
 public class VendorDAO {
 	private ProductDAO prodDAO = new ProductDAO();
 
-	public VendorDAO() {
-	};
+	public VendorDAO() {};
 
 	/**
 	 * Returns a vendor with an updated list of products
@@ -55,7 +54,6 @@ public class VendorDAO {
 
 	/**
 	 * Adds a vendor to the DB
-	 * 
 	 * @param vendor Vendor to be added
 	 * @throws SQLException
 	 */
@@ -84,7 +82,6 @@ public class VendorDAO {
 
 	/**
 	 * Removed a vendor for the given ID
-	 * 
 	 * @param vendorid ID of vendor to remove
 	 */
 	public void removeVendor(Integer vendorid) {
@@ -107,7 +104,6 @@ public class VendorDAO {
 	/**
 	 * Creates an association between a vendor and a product The default quantity of
 	 * 1 for is hard coded at this time.
-	 * 
 	 * @param vendor  The vendor the product should belong to
 	 * @param product The product to associate.
 	 */

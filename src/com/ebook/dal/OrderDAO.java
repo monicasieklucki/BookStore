@@ -16,6 +16,11 @@ public class OrderDAO {
 	private ProductDAO prodDAO = new ProductDAO();
 	private CustomerDAO custDAO = new CustomerDAO();
 	
+	/**
+	 * Gets the order for the given ID including updating the OrderLines with all products on the order
+	 * @param orderId order id to retrieve.
+	 * @return order An order with all details. 
+	 */
 	public Order getOrder(Integer orderId) {
 	 	 // TODO get order line items
 	    try { 		
@@ -47,9 +52,12 @@ public class OrderDAO {
 	    return null;
 	  }
 
-		
+	/**
+	 * Adds an order to the DB. Does not add any products if OrderLines exist.
+	 * The order should be created before products start being added to the order.
+	 * @param order order object to add.
+	 */
 	public void addOrder(Order order) {
-		//TODO where should adding order details be part of this method or separate?
 		String insertStm = "INSERT INTO ORDERS (customerid, paymentRec, orderState) VALUES(?, ?, ?);";
 		try (Connection con = DBHelper.getConnection();
 				PreparedStatement statement = con.prepareStatement(insertStm, Statement.RETURN_GENERATED_KEYS);) {
@@ -75,7 +83,14 @@ public class OrderDAO {
 		}
 	}
 	
+	/**
+	 * Add a product/orderline to the order
+	 * @param order order to update
+	 * @param ol orderline to add
+	 */
 	public void addOrderLine(Order order, OrderLine ol) {
+		//TODO possibly need to handle a situation where the product is already on the order. 
+		// Could also look into making a composite primary key on orderline and let DB handle this logic?
 		String insertStm = "INSERT INTO orderline VALUES(?, ?, ?);";
 		try (Connection con = DBHelper.getConnection();
 				PreparedStatement statement = con.prepareStatement(insertStm);
@@ -95,6 +110,11 @@ public class OrderDAO {
 		}
 	}
 	
+	/**
+	 * gets all of the products on the order and their quantities
+	 * @param order the order to look up
+	 * @return a list of OrderLines. Each orderline represents one product on the order.
+	 */
 	public List<OrderLine> getAllOrderLines(Order order){
 		String queryStm = "SELECT productId, quantity FROM orderline where orderid = ?;";
 		try(Connection con = DBHelper.getConnection();
