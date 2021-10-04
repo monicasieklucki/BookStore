@@ -15,6 +15,11 @@ import com.ebook.model.item.Book;
 public class ProductDAO {
 	public ProductDAO() {}
 	
+	/**
+	 * Get a product for the given ID
+	 * @param productId Id of the product to retrieve
+	 * @return Product for the given ID
+	 */
 	public Product getProduct(Integer productId) {
 	 	 
 	    try { 		
@@ -48,6 +53,10 @@ public class ProductDAO {
 	    return null;
 	  }
 	
+	/**
+	 * Get a list of all available products in the store
+	 * @return List of all products available in the store.
+	 */
 	public List<Product> getProducts() {
 	 	 
 	    try { 		
@@ -78,11 +87,14 @@ public class ProductDAO {
 	      System.err.println("ProductDAO: Threw a SQLException retrieving the product object.");
 	      System.err.println(se.getMessage());
 	      se.printStackTrace();
-	    }
-	    
+	    }	    
 	    return null;
 	  }
 	
+	/**
+	 * Adds a product to the store. Does not relate the product to any vendor.
+	 * @param product product to be added.
+	 */
 	public void addProduct(Product product) {
 	 	String insertStm =  "INSERT INTO Product (title, price) VALUES (?, ?)";
 	    try (

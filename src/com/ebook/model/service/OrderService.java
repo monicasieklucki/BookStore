@@ -67,6 +67,11 @@ public class OrderService {
 		return order;
 	}
 	
+	/**
+	 * Update the payment status to either true or false
+	 * @param orderId order ID to update
+	 * @param status true if payment was received.
+	 */
 	public static void updatePaymentStatus(Integer orderId, boolean status) {
 		try {
 			Order ord = ordDAO.getOrder(orderId);
