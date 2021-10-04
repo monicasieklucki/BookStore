@@ -13,8 +13,8 @@ public class Customer {
 	private Integer shippingid;
 	private String lastName;
 	private String firstName;
-	private Address billingAddress;
-	private Address shippingAddress;
+	private Address billingaddress;
+	private Address shippingaddress;
 	
 	private List<Order> orders = new ArrayList<Order>();
 
@@ -37,19 +37,19 @@ public class Customer {
 	}
 	
 	public Address getBillingAddress() {
-		return billingAddress;
+		return billingaddress;
 	}
 
-	public void setBillingAddress(Address billingAddress) {
-		this.billingAddress = billingAddress;
+	public void setBillingAddress(Address billingaddress) {
+		this.billingaddress = billingaddress;
 	}
 
 	public Address getShippingAddress() {
-		return shippingAddress;
+		return shippingaddress;
 	}
 
-	public void setShippingAddress(Address shippingAddress) {
-		this.shippingAddress = shippingAddress;
+	public void setShippingAddress(Address shippingaddress) {
+		this.shippingaddress = shippingaddress;
 	}
 	
 	public Integer getBillingAddressId() {

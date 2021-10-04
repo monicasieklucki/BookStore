@@ -35,19 +35,19 @@ public class CustomerService {
 	
 	
 	//Delete customer from DB
-	public void removeCustomerById(Integer customerid) {
+	public void removeCustomerById(Customer customer) {
 		
 		try {
-			custDAO.removeCustomer(customerid);
+			custDAO.removeCustomer(customer);
 	    } catch (Exception se) {
 	      System.err.println("CustomerService: Threw a Exception removing customer.");
 	      System.err.println(se.getMessage());
 	    }
 	}
 	//Update customer in DB
-	public void updateCustomer(Customer customer, Address address) {	
+	public void updateCustomer(Customer customer, Address billingaddress, Address shippingaddress) {	
 		try {
-			custDAO.updateCustomer(customer, address);
+			custDAO.updateCustomer(customer, billingaddress, shippingaddress);
 	    } catch (Exception se) {
 	      System.err.println("CustomerService: Threw a Exception updating customer.");
 	      System.err.println(se.getMessage());
