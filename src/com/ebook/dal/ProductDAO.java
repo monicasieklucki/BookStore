@@ -24,7 +24,8 @@ public class ProductDAO {
 	 	 
 	    try { 		
 	    	//Get Product
-	    	Statement st = DBHelper.getConnection().createStatement();
+	    	Connection con = DBHelper.getConnection();
+	    	Statement st = con.createStatement();
 	    	String selectProductQuery = "SELECT productid, title, price FROM Product WHERE productID = " + productId + ";";
 
 	    	ResultSet prodRS = st.executeQuery(selectProductQuery);      
@@ -41,6 +42,7 @@ public class ProductDAO {
 	      prodRS.close();
 	      	   
 	      st.close();
+	      con.close();
 	      
 	      return product;
 	    }	    

@@ -22,10 +22,9 @@ public class OrderDAO {
 	 * @return order An order with all details. 
 	 */
 	public Order getOrder(Integer orderId) {
-	 	 // TODO get order line items
-	    try { 		
-	    	Statement st = DBHelper.getConnection().createStatement();
-	    	String selectOrderQuery = "SELECT orderId, orderState, paymentrec FROM Orders WHERE orderID = " + orderId + ";";
+		String selectOrderQuery = "SELECT customerid, orderId, orderState, paymentrec FROM Orders WHERE orderID = " + orderId + ";";
+	    try (Connection con = DBHelper.getConnection();
+	    		Statement st = con.createStatement();) {		
 	    	ResultSet orderRS = st.executeQuery(selectOrderQuery);      
 	    	System.out.println("orderDAO: *************** Query " + selectOrderQuery);
 	    	      
@@ -103,7 +102,7 @@ public class OrderDAO {
 			if (affectedRows == 0) {
 				throw new SQLException("Creating orderline failed, no rows affected.");
 			}
-			order.addProduct(null, affectedRows);
+			order.addProduct(ol.getProduct(), ol.getQuantity());
 		}catch (SQLException se) {
 			System.err.println(se.getMessage());
 			se.printStackTrace();		
@@ -131,6 +130,7 @@ public class OrderDAO {
 				orderLines.add(ol);
 			}
 			order.setOrderLines(orderLines);
+			rs.close();
 			return orderLines;
 		}catch(SQLException se){
 			System.err.println(se.getMessage());
