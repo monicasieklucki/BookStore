@@ -146,7 +146,7 @@ public class Order {
 	public String toString() {
 		StringBuilder sb = new StringBuilder("\n*****ORDER DETAILS*****");
 		sb.append(String.format("\nOrder ID: \t\t%d\n OrderState: \t\t%s\n Payment Status: \t%s\n", orderId, orderState, paymentReceived));
-		sb.append(String.format("Customer ID:\t\t%d \nCustomer Name: \t%s %s", customer.getCustomerId(), customer.getFirstName(), customer.getLastName()));
+		sb.append(String.format("Customer ID:\t\t%d \nCustomer Name: \t%s %s\n", customer.getCustomerId(), customer.getFirstName(), customer.getLastName()));
 		for(OrderLine ol : orderLines) {
 			Product product = ol.getProduct();
 			sb.append(String.format("\tProduct ID: \t%d\n\tProduct Title: \t%s\n\tProduct Price: \t$%.2f\n", product.getId(), product.getTitle(), product.getPrice()));
