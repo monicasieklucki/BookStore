@@ -1,14 +1,12 @@
-package com.ebook.model.service;
+package com.ebook.model.order;
 
 import com.ebook.dal.CustomerDAO;
 import com.ebook.dal.OrderDAO;
 import com.ebook.dal.ProductDAO;
 import com.ebook.model.customer.Customer;
 import com.ebook.model.item.Product;
-import com.ebook.model.order.Order;
-import com.ebook.model.order.OrderLine;
 
-public class OrderService {
+public class OrderManager {
 	private static OrderDAO ordDAO = new OrderDAO();
 	private static ProductDAO prodDAO = new ProductDAO();
 	private static CustomerDAO custDAO = new CustomerDAO();

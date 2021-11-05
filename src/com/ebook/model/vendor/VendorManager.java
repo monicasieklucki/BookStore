@@ -1,12 +1,11 @@
-package com.ebook.model.service;
+package com.ebook.model.vendor;
 
 import com.ebook.dal.ProductDAO;
 import com.ebook.dal.VendorDAO;
 import com.ebook.model.item.Product;
-import com.ebook.model.vendor.Vendor;
 
 
-public class VendorService {
+public class VendorManager {
 	private static VendorDAO vendDAO = new VendorDAO();
 	private static ProductDAO productDAO = new ProductDAO();
 	

@@ -1,10 +1,8 @@
-package com.ebook.model.service;
+package com.ebook.model.customer;
 
 import com.ebook.dal.CustomerDAO;
-import com.ebook.model.customer.Customer;
-import com.ebook.model.customer.Address;
 
-public class CustomerService {
+public class CustomerManager {
 	private CustomerDAO custDAO = new CustomerDAO();
 	
 	//search customer by ID from the DB

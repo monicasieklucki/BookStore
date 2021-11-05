@@ -5,19 +5,18 @@ import java.util.List;
 
 import com.ebook.model.customer.Address;
 import com.ebook.model.customer.Customer;
+import com.ebook.model.customer.CustomerManager;
 import com.ebook.model.item.Product;
-import com.ebook.model.service.CustomerService;
-
 import com.ebook.model.vendor.Vendor;
 import com.ebook.model.vendor.VendorLine;
-import com.ebook.model.service.VendorService;
+import com.ebook.model.vendor.VendorManager;
 
 public class BookStoreClient2 {
 	public static void main (String args[]) throws Exception {
 		
 		//Client will use the customer service to have access to anything related to customer functionality.
 	System.out.println("*************** Creating Customer service object *************************");
-	CustomerService custService = new CustomerService();    
+	CustomerManager custService = new CustomerManager();    
 
 	System.out.println("BookStoreClient2: *************** instantiating a customer and its address *************************");
     Customer customer = new Customer();
@@ -70,7 +69,7 @@ public class BookStoreClient2 {
     
 	//Client will use the customer service to have access to anything related to customer functionality.
     System.out.println("*************** Creating Vendor service object *************************");
-    VendorService vendService = new VendorService();  
+    VendorManager vendService = new VendorManager();  
     
 	System.out.println("BookStoreClient2: *************** instantiating a Vendor, VendorLine, and Product *************************");
 	// creating products
