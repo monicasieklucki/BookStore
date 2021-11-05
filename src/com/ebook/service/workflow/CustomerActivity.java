@@ -5,14 +5,14 @@ import java.util.Iterator;
 import java.util.Set;
 
 import com.ebook.model.customer.Customer;
+import com.ebook.model.customer.CustomerManager;
 import com.ebook.model.customer.Address;
-import com.ebook.model.service.CustomerService;
 import com.ebook.dal.CustomerDAO;
 import com.ebook.service.representation.CustomerRepresentation;
 
 public class CustomerActivity {
 	
-	private static CustomerService custService = new CustomerService();
+	private static CustomerManager custService = new CustomerManager();
 	
 	public CustomerRepresentation getCustomer(Integer id) {
 		
