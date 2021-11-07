@@ -10,6 +10,8 @@ public class EbookServer {
 		JAXRSServerFactoryBean factoryBean = new JAXRSServerFactoryBean();
         factoryBean.setResourceClasses(com.ebook.service.vendor.resource.VendorResource.class);
         factoryBean.setResourceProvider(new SingletonResourceProvider(new com.ebook.service.vendor.resource.VendorResource()));
+        factoryBean.setResourceClasses(com.ebook.service.order.resource.OrderResource.class);
+        factoryBean.setResourceProvider(new SingletonResourceProvider(new com.ebook.service.order.resource.OrderResource()));
         factoryBean.setAddress("http://localhost:8081/");
         Server server = factoryBean.create();
 
