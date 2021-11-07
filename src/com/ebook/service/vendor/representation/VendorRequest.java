@@ -6,24 +6,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 
-@XmlRootElement
+@XmlRootElement(name = "VendorRequest")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "")
 public class VendorRequest {
-
-	private Integer vendorId;
 	private String vendorName;
 	
-	public VendorRequest() {}
-
-	public Integer getVendorID() {
-		return vendorId;
-	}
-
-	public void setVendorID(Integer vendorId) {
-		this.vendorId = vendorId;
-	}
-
 	public String getVendorName() {
 		return vendorName;
 	}

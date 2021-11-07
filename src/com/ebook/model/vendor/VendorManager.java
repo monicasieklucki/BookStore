@@ -94,4 +94,12 @@ public class VendorManager {
 		return product;
 	}
 
+	public static void removeVendorLine(Integer vendorId, Integer productId) {
+		try {
+			vendDAO.removeVendorLine(vendorId, productId);
+	    } catch (Exception se) {
+	      System.err.println("VendorService: Threw a Exception removing vendorLine.");
+	      System.err.println(se.getMessage());
+	    }
+	}
 }

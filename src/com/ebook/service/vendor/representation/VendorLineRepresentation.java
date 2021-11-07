@@ -9,14 +9,16 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "")
 public class VendorLineRepresentation {
-	private Integer VendorId;
+	private Integer vendorId;
+	private Integer productId;
 	private String productName;
 	private Double price;
+	
 	public Integer getVendorId() {
-		return VendorId;
+		return vendorId;
 	}
 	public void setVendorId(Integer vendorId) {
-		VendorId = vendorId;
+		vendorId = vendorId;
 	}
 	public String getProductName() {
 		return productName;
@@ -29,6 +31,12 @@ public class VendorLineRepresentation {
 	}
 	public void setPrice(Double price) {
 		this.price = price;
+	}
+	public Integer getProductId() {
+		return productId;
+	}
+	public void setProductId(Integer productId) {
+		this.productId = productId;
 	}
 	
 	

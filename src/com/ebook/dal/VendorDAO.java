@@ -179,4 +179,22 @@ public class VendorDAO {
 		}
 		return null;
 	}
+
+	/**
+	 * Deletes a vendorLine for the given vendorId and productId
+	 * @param vendorId id of vendor who owns the vendorLine
+	 * @param productId product to be deleted for that vendor
+	 */
+	public void removeVendorLine(Integer vendorId, Integer productId) {
+		String deleteVendorLineQuery = "DELETE FROM vendorline WHERE vendorid = " + vendorId + ";";
+		try (Statement st = DBHelper.getConnection().createStatement();) {
+			// Delete Vendor Line
+			st.executeUpdate(deleteVendorLineQuery);
+			System.out.println("VendorDAO: *************** Query " + deleteVendorLineQuery);
+		} catch (SQLException ex) {
+			System.err.println("VendorDAO: Threw a SQLException deleting the vendorLine object.");
+			System.err.println(ex.getMessage());
+		}
+		
+	}
 }

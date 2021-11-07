@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlType;
 
 import com.ebook.model.item.Product;
 
+//TODO May not be used at all, remove it not needed
 @XmlRootElement(name = "Product")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "")

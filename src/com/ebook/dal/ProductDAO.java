@@ -26,7 +26,7 @@ public class ProductDAO {
 	    	//Get Product
 	    	Connection con = DBHelper.getConnection();
 	    	Statement st = con.createStatement();
-	    	String selectProductQuery = "SELECT productid, title, price FROM Product WHERE productID = " + productId + ";";
+	    	String selectProductQuery = "SELECT id, title, price FROM Product WHERE id = " + productId + ";";
 
 	    	ResultSet prodRS = st.executeQuery(selectProductQuery);      
 	    	System.out.println("ProductDAO: *************** Query " + selectProductQuery);
@@ -34,7 +34,7 @@ public class ProductDAO {
 	      //Get Product
     	  Product product = new Product();
 	      while (prodRS.next() ) {
-	    	  product.setId(prodRS.getInt("productid"));
+	    	  product.setId(prodRS.getInt("id"));
 	    	  product.setTitle(prodRS.getString("title"));
 	    	  product.setPrice(prodRS.getDouble("price"));
 	      }
@@ -65,7 +65,7 @@ public class ProductDAO {
 	    	List<Product> products = new ArrayList<Product>();
 	    	//Get Product
 	    	Statement st = DBHelper.getConnection().createStatement();
-	    	String selectProductQuery = "SELECT productID, title, price FROM Product";
+	    	String selectProductQuery = "SELECT id, title, price FROM Product";
 
 	    	ResultSet prodRS = st.executeQuery(selectProductQuery);      
 	    	System.out.println("ProductDAO: *************** Query " + selectProductQuery);
@@ -73,7 +73,7 @@ public class ProductDAO {
 	      //Get Product
     	  Product product = new Product();
 	      while (prodRS.next() ) {
-	    	  product.setId(prodRS.getInt("productID"));
+	    	  product.setId(prodRS.getInt("id"));
 	    	  product.setTitle(prodRS.getString("title"));
 	    	  product.setPrice(prodRS.getDouble("price"));
 	    	  products.add(product);
