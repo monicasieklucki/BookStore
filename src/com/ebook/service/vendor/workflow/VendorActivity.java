@@ -22,6 +22,7 @@ public class VendorActivity {
 		Set<VendorRepresentation> vendReps = new HashSet<VendorRepresentation>();
 		
 		vendors = VendorManager.getVendors();
+		System.out.println("VendorActivity: Number of vendors returned " + vendors.size() );
 		for(Vendor vend : vendors) {
 			vendReps.add(new VendorRepresentation(vend));
 		}

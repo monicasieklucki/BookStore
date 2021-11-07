@@ -41,10 +41,14 @@ public class VendorManager {
 	    }
 	}
 	
+	/**
+	 * Returns a set of all vendors
+	 * @return All vendors returned in a set. Vendors don't contain vendorLines
+	 */
 	public static Set<Vendor> getVendors() {
 		Set<Vendor> vendors = new HashSet<Vendor>();
 		try {
-			vendDAO.getVendors();
+			vendors = vendDAO.getVendors();
 		} catch (Exception se) {
 			System.err.println("VendorService: Could not get vendors");
 		}

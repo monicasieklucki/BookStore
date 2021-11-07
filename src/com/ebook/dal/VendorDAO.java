@@ -55,18 +55,22 @@ public class VendorDAO {
 	}
 	
 	/**
-	 * Returns all vendors	
-	 * @return A Set of all vendors
+	 * Returns all vendors
+	 * Vendor objects do not include vendorLines
+	 * @return A Set of all vendors without products offered
 	 */
 	public Set<Vendor> getVendors() {
 		Set<Vendor> vendors = new HashSet<Vendor>();
-		String selectStatement = "SELECT vendorId FROM vendor";
+		String selectStatement = "SELECT vendorId, vendorname FROM vendor";
 		try ( Connection con = DBHelper.getConnection();
 				PreparedStatement st = con.prepareStatement(selectStatement);) {
 			ResultSet vendorsRs = st.executeQuery();
 			
 			while(vendorsRs.next()) {
-				vendors.add(getVendor(vendorsRs.getInt(1)));			
+				Vendor vendor = new Vendor();
+				vendor.setVendorId(vendorsRs.getInt("vendorid"));
+				vendor.setVendorName(vendorsRs.getString("vendorname"));
+				vendors.add(vendor);			
 			}
 		} catch (SQLException se) {
 			System.err.println("VendorDAO: Threw a SQL Exception retrieving all vendors.");
