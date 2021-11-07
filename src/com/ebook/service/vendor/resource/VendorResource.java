@@ -32,7 +32,7 @@ public class VendorResource {
 	
 	/**
 	 * Returns simplified vendor representations that only include id and name
-	 * @return
+	 * @return list of all vendors
 	 */
 	@GET
 	@Produces({"application/xml" , "application/json"})
@@ -83,18 +83,29 @@ public class VendorResource {
 		return res;	
 	}
 	
-	//Returns OK even if vendor doens't exist. Should be fine? Code for resource not found?
+	/**
+	 * Deletes a vendor with the given ID. This will also delete all of the related vendorLines
+	 * @param vendorId id of vendor to be deleted
+	 * @return HTTP response code
+	 */
 	@DELETE
 	@Produces({"application/xml" , "application/json"})
 	@Path("/vendor/{vendorId}")
 	public Response removeVendor(@PathParam("vendorId") Integer vendorId) {
 		String res = vendActivity.removeVendor(vendorId);
+		//TODO find out if standard to return 200 even if vendor doesn't exist. Would 404 be better?
 		if(res.equals("OK")) {
 			return Response.status(Status.OK).build();
 		}	
 		return null;
 	}
 	
+	/**
+	 * Deletes the product (vendorLine) for a given vendor.
+	 * @param vendId Id of vendor owning the product
+	 * @param productId productId on the corresponding vendor line
+	 * @return HTTP response code
+	 */
 	@DELETE
 	@Produces({"application/xml" , "application/json"})
 	@Path("/vendor/product")
