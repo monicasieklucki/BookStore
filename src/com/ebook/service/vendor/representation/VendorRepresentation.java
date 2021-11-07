@@ -10,8 +10,7 @@ import com.ebook.model.vendor.Vendor;
 @XmlRootElement(name = "Vendor")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "")
-public class VendorRepresentation {
-	
+public class VendorRepresentation {	
 	private Integer vendorID;
 	private String vendorName;
 	
