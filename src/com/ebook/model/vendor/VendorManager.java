@@ -1,5 +1,8 @@
 package com.ebook.model.vendor;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import com.ebook.dal.ProductDAO;
 import com.ebook.dal.VendorDAO;
 import com.ebook.model.item.Product;
@@ -38,6 +41,16 @@ public class VendorManager {
 	    }
 	}
 	
+	public static Set<Vendor> getVendors() {
+		Set<Vendor> vendors = new HashSet<Vendor>();
+		try {
+			vendDAO.getVendors();
+		} catch (Exception se) {
+			System.err.println("VendorService: Could not get vendors");
+		}
+		
+		return vendors;
+	}
 	/**
 	 * Returns a vendor for the given vendorID. 
 	 * @param vendorId The vendor ID you would like to retrieve

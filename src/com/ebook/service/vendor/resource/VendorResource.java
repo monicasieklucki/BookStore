@@ -1,5 +1,6 @@
 package com.ebook.service.vendor.resource;
 
+import java.util.HashSet;
 import java.util.Set;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.Consumes;
@@ -17,6 +18,7 @@ import javax.ws.rs.core.CacheControl;
 
 import com.ebook.model.vendor.Vendor;
 import com.ebook.model.vendor.VendorManager;
+import com.ebook.service.vendor.representation.VendorLineRepresentation;
 import com.ebook.service.vendor.representation.VendorLineRequest;
 import com.ebook.service.vendor.representation.VendorRepresentation;
 import com.ebook.service.vendor.workflow.VendorActivity;
@@ -24,6 +26,17 @@ import com.ebook.service.vendor.workflow.VendorActivity;
 
 @Path("/vendorservice/")
 public class VendorResource {
+	private static VendorActivity vendActivity = new VendorActivity();
+	
+	//TODO at least one issue of having too many connections. Also super slow. 
+	//	   may need to look at having a new vendorDAO that doesn't try to retrieve 
+	//     every product for every vendor.
+	@GET
+	@Produces({"application/xml" , "application/json"})
+	@Path("/vendor")
+	public Set<VendorRepresentation> getVendors() {
+		return vendActivity.getVendors();
+	}
 
 	@GET
 	@Produces({"application/xml" , "application/json"})
@@ -32,6 +45,13 @@ public class VendorResource {
 		System.out.println("GET METHOD Request for vendor........");
 		VendorActivity vendActivity = new VendorActivity();
 		return vendActivity.getVendor(id);
+	}
+	
+	@GET
+	@Produces({"application/xml" , "application/json"})
+	@Path("/vendor/{vendorId}/product")
+	public Set<VendorLineRepresentation> getVendorLines(@PathParam("vendorId") Integer id) {
+		return null;
 	}
 	
 	//TODO use activity class instead of Manager

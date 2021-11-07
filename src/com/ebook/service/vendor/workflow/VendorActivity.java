@@ -16,6 +16,18 @@ import com.ebook.service.vendor.representation.VendorLineRequest;
 import com.ebook.service.vendor.representation.VendorRepresentation;
 
 public class VendorActivity {
+	
+	public Set<VendorRepresentation> getVendors() {
+		Set<Vendor> vendors = new HashSet<Vendor>();
+		Set<VendorRepresentation> vendReps = new HashSet<VendorRepresentation>();
+		
+		vendors = VendorManager.getVendors();
+		for(Vendor vend : vendors) {
+			vendReps.add(new VendorRepresentation(vend));
+		}
+		
+		return vendReps;
+	}
 
 	public VendorRepresentation getVendor(Integer id) {
 		Vendor vendor = VendorManager.getVendorById(id);

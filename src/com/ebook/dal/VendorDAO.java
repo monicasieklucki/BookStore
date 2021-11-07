@@ -1,7 +1,9 @@
 package com.ebook.dal;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -50,6 +52,28 @@ public class VendorDAO {
 		}
 
 		return null;
+	}
+	
+	/**
+	 * Returns all vendors	
+	 * @return A Set of all vendors
+	 */
+	public Set<Vendor> getVendors() {
+		Set<Vendor> vendors = new HashSet<Vendor>();
+		String selectStatement = "SELECT vendorId FROM vendor";
+		try ( Connection con = DBHelper.getConnection();
+				PreparedStatement st = con.prepareStatement(selectStatement);) {
+			ResultSet vendorsRs = st.executeQuery();
+			
+			while(vendorsRs.next()) {
+				vendors.add(getVendor(vendorsRs.getInt(1)));			
+			}
+		} catch (SQLException se) {
+			System.err.println("VendorDAO: Threw a SQL Exception retrieving all vendors.");
+			System.err.println(se.getMessage());
+			se.printStackTrace();
+		}
+		return vendors;
 	}
 
 	/**
