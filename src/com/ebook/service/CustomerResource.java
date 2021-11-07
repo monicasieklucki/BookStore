@@ -1,7 +1,7 @@
 package com.ebook.service;
 
 import java.util.Set;
-
+import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -11,6 +11,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.Application;
 import javax.ws.rs.core.CacheControl;
 
 
@@ -26,7 +27,7 @@ public class CustomerResource {
 	
 	@GET
 	@Produces({"application/xml" , "application/json"})
-	@Path("/customer/{cusomterid}")
+	@Path("/customer/{customerid}")
 	public CustomerRepresentation getCustomer(@PathParam("customerid") Integer id) {
 		System.out.println("GET METHOD Request from Client with customerRequest Integer ............." + id);
 		CustomerActivity custActivity = new CustomerActivity();
