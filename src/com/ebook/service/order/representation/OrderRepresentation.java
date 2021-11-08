@@ -16,7 +16,7 @@ import com.ebook.model.order.OrderLine;
 @XmlType(name = "")
 public class OrderRepresentation {
 	private Integer orderId;
-	private Customer customer;
+	private Integer customerId; //will have user make calls for customer details through customerservice
 	private List<OrderLine> orderLines;
 	private boolean paymentReceived;
 	private String orderState;
@@ -28,7 +28,7 @@ public class OrderRepresentation {
 		this.orderLines = order.getOrderLines();
 		this.paymentReceived = order.isPaymentReceived();
 		this.orderState = order.getOrderState();
-		this.customer = order.getCustomer();
+		this.customerId = order.getCustomer().getCustomerId();
 	}
 
 	public Integer getOrderId() {
@@ -39,12 +39,12 @@ public class OrderRepresentation {
 		this.orderId = orderId;
 	}
 
-	public Customer getCustomer() {
-		return customer;
+	public Integer getCustomerId() {
+		return customerId;
 	}
 
-	public void setCustomer(Customer customer) {
-		this.customer = customer;
+	public void setCustomerId(Integer customer) {
+		this.customerId = customer;
 	}
 
 	public List<OrderLine> getOrderLines() {
