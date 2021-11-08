@@ -53,10 +53,12 @@ public class CustomerResource {
 	
 	@DELETE
 	@Produces({"application/xml" , "application/json"})
-	@Path("/customer")
-	public Response deleteCustomer(CustomerRequest customerRequest) {
+	@Consumes({"application/xml" , "application/json"})
+	@Path("/customer/{customerid}")
+	public Response deleteCustomer(CustomerRequest customerRequest,@PathParam("customerid") Integer customerid) {
 		System.out.println("Delete METHOD Request from Client with customerRequest String ............." + customerRequest.getFirstName() + " " + customerRequest.getLastName());
 		Customer customer = new Customer();
+		customer.setCustomerId(customerid);
 		customer.setFirstName(customerRequest.getFirstName());
 		customer.setLastName(customerRequest.getLastName());
 		customer.setShippingAddress(customerRequest.getShippingAddress());
@@ -73,11 +75,12 @@ public class CustomerResource {
 	@POST
 	@Produces({"application/xml" , "application/json"})
 	@Consumes({"application/xml" , "application/json"})
-	@Path("/customer")
-	public CustomerRepresentation updateEmployee(CustomerRequest customerRequest) { 
+	@Path("/customer/{customerid}")
+	public CustomerRepresentation updateEmployee(CustomerRequest customerRequest, @PathParam("customerid") Integer customerid) { 
 		System.out.println("POST METHOD Request from Client with ............." + customerRequest.getFirstName() + "  " + customerRequest.getLastName());
 		
 		Customer customer = new Customer();
+		customer.setCustomerId(customerid);
 		customer.setFirstName(customerRequest.getFirstName());
 		customer.setLastName(customerRequest.getLastName());
 		customer.setShippingAddress(customerRequest.getShippingAddress());
