@@ -16,6 +16,8 @@ public class ProductRepresentation {
 	private String title;
 	private double price;
 	
+	public ProductRepresentation() {}
+	
 	public ProductRepresentation(Product product) {
 		this.id = product.getId();
 		this.title = product.getTitle();

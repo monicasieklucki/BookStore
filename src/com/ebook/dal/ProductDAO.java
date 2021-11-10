@@ -71,9 +71,13 @@ public class ProductDAO {
 	    	System.out.println("ProductDAO: *************** Query " + selectProductQuery);
 	    	
 	      //Get Product
-    	  Product product = new Product();
 	      while (prodRS.next() ) {
+	    	  Product product = new Product();
+
 	    	  product.setId(prodRS.getInt("id"));
+	    	  //String title = prodRS.getString("title");
+	    	  //System.out.println(title);
+	    	  //product.setTitle(title);
 	    	  product.setTitle(prodRS.getString("title"));
 	    	  product.setPrice(prodRS.getDouble("price"));
 	    	  products.add(product);
