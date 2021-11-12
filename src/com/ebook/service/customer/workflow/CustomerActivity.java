@@ -1,4 +1,4 @@
-package com.ebook.service.workflow;
+package com.ebook.service.customer.workflow;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -6,9 +6,10 @@ import java.util.Set;
 
 import com.ebook.model.customer.Customer;
 import com.ebook.model.customer.CustomerManager;
+import com.ebook.model.link.Link;
+import com.ebook.service.customer.representation.CustomerRepresentation;
 import com.ebook.model.customer.Address;
 import com.ebook.dal.CustomerDAO;
-import com.ebook.service.representation.CustomerRepresentation;
 
 public class CustomerActivity {
 	
@@ -59,6 +60,19 @@ public class CustomerActivity {
 		custRep.setBillingAddress(billingAddress);
 		
 		return custRep;
+	}
+	
+
+	@SuppressWarnings("unused")
+	private void setLinks(CustomerRepresentation custRep) {
+		// Set up the activities that can be performed on ocustomer
+		Link GetCustomer = new Link("List", "http://book-store-luc.com:8080/customerservice/customer?customerid=" + custRep.getCustomerId());
+		Link CreateCustomer = new Link("Create", "http://book-store-luc.com:8080/customerservice/customer");
+
+		Link DeleteCustomer = new Link("Delete", "http://book-store-luc.com:8080/customerservice/customer?customerid=" + custRep.getCustomerId());
+		Link UpdateCustomer = new Link("Update", "http://book-store-luc.com:8080/customerservice/customer?customerid=" + custRep.getCustomerId());
+
+		custRep.setLinks(GetCustomer, CreateCustomer, DeleteCustomer, UpdateCustomer);
 	}
 
 

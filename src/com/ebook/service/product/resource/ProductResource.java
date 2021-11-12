@@ -37,7 +37,7 @@ public class ProductResource {
 	@GET
 	@Produces({"application/xml" , "application/json"})
 	@Path("/product/{productid}")
-	public ProductRepresentation getVendor(@PathParam("productid") Integer id) {
+	public ProductRepresentation getProduct(@PathParam("productid") Integer id) {
 		System.out.println("GET METHOD Request for product........");
 		return prodActivity.getProduct(id);
 	}
