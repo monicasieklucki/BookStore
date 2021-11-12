@@ -1,4 +1,7 @@
-package com.ebook.service.representation;
+package com.ebook.service.customer.representation;
+
+import java.util.Arrays;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -6,6 +9,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 import com.ebook.model.customer.Address;
+import com.ebook.model.link.Link;
 
 @XmlRootElement(name = "Customer")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -76,6 +80,16 @@ public class CustomerRepresentation {
 
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
+	}
+	
+	protected List<Link> links;
+	
+	public List<Link> getLinks() {
+		return links;
+	}
+	
+	public void setLinks(Link...links) {
+		this.links = Arrays.asList(links);
 	}
 	
 }

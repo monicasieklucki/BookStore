@@ -1,11 +1,15 @@
 package com.ebook.service.product.representation;
 
+import java.util.Arrays;
+import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 import com.ebook.model.item.Product;
+import com.ebook.model.link.Link;
 import com.ebook.model.vendor.Vendor;
 
 @XmlRootElement(name = "Product")
@@ -47,6 +51,16 @@ public class ProductRepresentation {
 	
 	public void setPrice(double price) {
 		this.price = price;
+	}
+	
+	protected List<Link> links;
+	
+	public List<Link> getLinks() {
+		return links;
+	}
+	
+	public void setLinks(Link...links) {
+		this.links = Arrays.asList(links);
 	}
 
 }

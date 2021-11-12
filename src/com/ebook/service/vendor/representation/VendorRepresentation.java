@@ -1,5 +1,6 @@
 package com.ebook.service.vendor.representation;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -8,6 +9,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
+import com.ebook.model.link.Link;
 import com.ebook.model.vendor.Vendor;
 import com.ebook.model.vendor.VendorLine;
 
@@ -53,5 +55,15 @@ public class VendorRepresentation {
 	public void setVendorLines(List<VendorLine> vendorLines) {
 		this.vendorLines = vendorLines;
 	}	
+	
+	protected List<Link> links;
+	
+	public List<Link> getLinks() {
+		return links;
+	}
+	
+	public void setLinks(Link...links) {
+		this.links = Arrays.asList(links);
+	}
 	
 }
