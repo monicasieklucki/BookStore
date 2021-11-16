@@ -1,4 +1,4 @@
-package com.ebook.service.representation;
+package com.ebook.service.customer.representation;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -12,12 +12,37 @@ import com.ebook.model.customer.Address;
 @XmlType(name = "")
 public class CustomerRequest {
 	
+	private Integer customerId;
+	private Integer billingid;
+	private Integer shippingid;
 	private String lastName;
 	private String firstName;
 	private Address billingaddress;
 	private Address shippingaddress;
 	
+	public Integer getBillingAddressId() {
+		return billingid;
+	}
+
+	public void setBillingAddressId(Integer id) {
+		this.billingid = id;
+	}
 	
+	public Integer getShippingAddressId() {
+		return shippingid;
+	}
+
+	public void setShippingAddressId(Integer id) {
+		this.shippingid = id;
+	}
+	
+	public Integer getCustomerId() {
+		return customerId;
+	}
+
+	public void setCustomerId(Integer id) {
+		this.customerId = id;
+	}
 	public Address getBillingAddress() {
 		return billingaddress;
 	}
