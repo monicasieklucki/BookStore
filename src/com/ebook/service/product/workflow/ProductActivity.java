@@ -21,6 +21,10 @@ public class ProductActivity {
 				
 		ProductRepresentation prodRep = new ProductRepresentation(prod);
 		
+		Link buy = new Link("availability", "http://localhost:8081/productservice/product/availability?productid=" + prod.getId(), "json");
+		
+		prodRep.setLinks(buy);
+		
 		return prodRep;
 	}
 	
@@ -30,18 +34,17 @@ public class ProductActivity {
 
 		Set<ProductRepresentation> prodReps = new HashSet<ProductRepresentation>();
 		for(Product prod : products) {
-			prodReps.add(new ProductRepresentation(prod));
+			
+			ProductRepresentation prodRep = new ProductRepresentation(prod);
+						
+			prodRep.setLinks();
+			
+			prodReps.add(prodRep);
 		}
+		
+		
 		
 		return prodReps;
 	}
-	
-	@SuppressWarnings("unused")
-	private void setLinks(ProductRepresentation prodRep) {
-		// Set up the activities that can be performed on ocustomer
-		Link GetProduct = new Link("List", "http://book-store-luc.com:8080/productservice/product?productid=" + prodRep.getId());
-		Link GetProducts = new Link("List", "http://book-store-luc.com:8080/productservice/product");
 
-		prodRep.setLinks(GetProduct, GetProducts);
-	}
 }

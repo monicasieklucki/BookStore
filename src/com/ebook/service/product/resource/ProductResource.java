@@ -41,4 +41,10 @@ public class ProductResource {
 		System.out.println("GET METHOD Request for product........");
 		return prodActivity.getProduct(id);
 	}
+	
+	@GET
+	@Path("/product/availability/{productid}")
+	public Response checkAvailability(@PathParam("productid") Integer id) {
+		return Response.ok().build();
+	}
 }

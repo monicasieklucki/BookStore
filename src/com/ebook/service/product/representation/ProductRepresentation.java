@@ -12,10 +12,12 @@ import com.ebook.model.item.Product;
 import com.ebook.model.link.Link;
 import com.ebook.model.vendor.Vendor;
 
+import com.ebook.service.link.representation.LinkRepresentation;
+
 @XmlRootElement(name = "Product")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "")
-public class ProductRepresentation {
+public class ProductRepresentation extends LinkRepresentation {
 	private Integer id;
 	private String title;
 	private double price;
@@ -53,14 +55,5 @@ public class ProductRepresentation {
 		this.price = price;
 	}
 	
-	protected List<Link> links;
-	
-	public List<Link> getLinks() {
-		return links;
-	}
-	
-	public void setLinks(Link...links) {
-		this.links = Arrays.asList(links);
-	}
 
 }
