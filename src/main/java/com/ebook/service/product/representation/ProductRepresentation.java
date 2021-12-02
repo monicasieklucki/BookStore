@@ -9,15 +9,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 import com.ebook.model.item.Product;
-import com.ebook.model.link.Link;
 import com.ebook.model.vendor.Vendor;
-
-import com.ebook.service.link.representation.LinkRepresentation;
+import com.ebook.service.util.Representation;
 
 @XmlRootElement(name = "Product")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "")
-public class ProductRepresentation extends LinkRepresentation {
+public class ProductRepresentation extends Representation {
 	private Integer id;
 	private String title;
 	private double price;

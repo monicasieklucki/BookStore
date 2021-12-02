@@ -7,7 +7,6 @@ import java.util.Set;
 
 import com.ebook.model.item.Product;
 import com.ebook.model.item.ProductManager;
-import com.ebook.model.link.Link;
 import com.ebook.service.customer.representation.CustomerRepresentation;
 import com.ebook.service.product.representation.ProductRepresentation;
 
@@ -21,9 +20,9 @@ public class ProductActivity {
 				
 		ProductRepresentation prodRep = new ProductRepresentation(prod);
 		
-		Link buy = new Link("availability", "http://localhost:8081/productservice/product/availability?productid=" + prod.getId(), "json");
+		//Link buy = new Link("availability", "http://localhost:8081/productservice/product/availability?productid=" + prod.getId(), "json");
 		
-		prodRep.setLinks(buy);
+		//prodRep.setLinks(buy);
 		
 		return prodRep;
 	}
@@ -37,7 +36,7 @@ public class ProductActivity {
 			
 			ProductRepresentation prodRep = new ProductRepresentation(prod);
 						
-			prodRep.setLinks();
+			//prodRep.setLinks();
 			
 			prodReps.add(prodRep);
 		}

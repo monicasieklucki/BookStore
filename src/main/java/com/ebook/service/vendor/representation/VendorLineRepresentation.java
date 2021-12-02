@@ -5,20 +5,24 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
+import com.ebook.service.util.BookStoreUri;
+import com.ebook.service.util.Representation;
+
 @XmlRootElement(name = "VendorLine")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "")
-public class VendorLineRepresentation {
+public class VendorLineRepresentation extends Representation {
 	private Integer vendorId;
 	private Integer productId;
 	private String productName;
 	private Double price;
 	
+	
 	public Integer getVendorId() {
 		return vendorId;
 	}
 	public void setVendorId(Integer vendorId) {
-		vendorId = vendorId;
+		this.vendorId = vendorId;
 	}
 	public String getProductName() {
 		return productName;

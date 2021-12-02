@@ -1,11 +1,14 @@
 package com.ebook.service.vendor.workflow;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
+import javax.ws.rs.core.UriInfo;
 
 import com.ebook.model.customer.Customer;
 import com.ebook.model.customer.CustomerManager;
@@ -13,6 +16,7 @@ import com.ebook.model.item.Product;
 import com.ebook.model.vendor.Vendor;
 import com.ebook.model.vendor.VendorManager;
 import com.ebook.service.customer.representation.CustomerRepresentation;
+import com.ebook.service.util.BookStoreUri;
 import com.ebook.service.vendor.representation.VendorLineRepresentation;
 import com.ebook.service.vendor.representation.VendorLineRequest;
 import com.ebook.service.vendor.representation.VendorRepresentation;
@@ -35,13 +39,14 @@ public class VendorActivity {
 
 	public VendorRepresentation getVendor(Integer id) {
 		Vendor vendor = VendorManager.getVendorById(id);
-		return new VendorRepresentation(vendor);
+		VendorRepresentation vendRep =  new VendorRepresentation(vendor);
+		return vendRep;
 	}
 
 	public VendorRepresentation addVendor(VendorRequest vendReq) {
 		Vendor vendor = VendorManager.addVendor(vendReq.getVendorName());
-		VendorRepresentation vendRep = new VendorRepresentation(vendor);
-		return vendRep;
+		//VendorRepresentation vendRep = new VendorRepresentation(vendor);
+		return null; //can change back later
 	}
 
 	public VendorLineRepresentation addVendorLine(VendorLineRequest vendLineReq) {

@@ -9,7 +9,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 import com.ebook.model.customer.Customer;
-import com.ebook.model.link.Link;
 import com.ebook.model.order.Order;
 import com.ebook.model.order.OrderLine;
 
@@ -71,16 +70,6 @@ public class OrderRepresentation {
 
 	public void setOrderState(String orderState) {
 		this.orderState = orderState;
-	}
-	
-	protected List<Link> links;
-	
-	public List<Link> getLinks() {
-		return links;
-	}
-	
-	public void setLinks(Link...links) {
-		this.links = Arrays.asList(links);
 	}
 	
 	

@@ -6,7 +6,6 @@ import java.util.Set;
 
 import com.ebook.model.customer.Customer;
 import com.ebook.model.customer.CustomerManager;
-import com.ebook.model.link.Link;
 import com.ebook.service.customer.representation.CustomerRepresentation;
 import com.ebook.model.customer.Address;
 import com.ebook.dal.CustomerDAO;
@@ -66,13 +65,13 @@ public class CustomerActivity {
 	@SuppressWarnings("unused")
 	private void setLinks(CustomerRepresentation custRep) {
 		// Set up the activities that can be performed on ocustomer
-		Link GetCustomer = new Link("List", "http://book-store-luc.com:8080/customerservice/customer?customerid=" + custRep.getCustomerId(),"application/json");
-		Link CreateCustomer = new Link("Create", "http://book-store-luc.com:8080/customerservice/customer","application/json");
+		//Link GetCustomer = new Link("List", "http://book-store-luc.com:8080/customerservice/customer?customerid=" + custRep.getCustomerId(),"application/json");
+		//Link CreateCustomer = new Link("Create", "http://book-store-luc.com:8080/customerservice/customer","application/json");
 
-		Link DeleteCustomer = new Link("Delete", "http://book-store-luc.com:8080/customerservice/customer?customerid=" + custRep.getCustomerId(),"application/json");
-		Link UpdateCustomer = new Link("Update", "http://book-store-luc.com:8080/customerservice/customer?customerid=" + custRep.getCustomerId(),"application/json");
+		//Link DeleteCustomer = new Link("Delete", "http://book-store-luc.com:8080/customerservice/customer?customerid=" + custRep.getCustomerId(),"application/json");
+		//Link UpdateCustomer = new Link("Update", "http://book-store-luc.com:8080/customerservice/customer?customerid=" + custRep.getCustomerId(),"application/json");
 
-		custRep.setLinks(GetCustomer, CreateCustomer, DeleteCustomer, UpdateCustomer);
+		//custRep.setLinks(GetCustomer, CreateCustomer, DeleteCustomer, UpdateCustomer);
 	}
 
 

@@ -14,8 +14,10 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.CacheControl;
+import javax.ws.rs.core.Context;
 
 import com.ebook.model.vendor.Vendor;
 import com.ebook.model.vendor.VendorManager;
@@ -38,7 +40,11 @@ public class VendorResource {
 	@Produces({"application/xml" , "application/json"})
 	@Path("/vendor")
 	public Set<VendorRepresentation> getVendors() {
-		return vendActivity.getVendors();
+		
+
+
+		//return vendActivity.getVendors();
+		return null;
 	}
 	
 	/**
