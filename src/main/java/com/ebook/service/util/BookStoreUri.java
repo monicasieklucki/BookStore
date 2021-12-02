@@ -15,8 +15,8 @@ public class BookStoreUri {
 	
 	//Set up the base url. This will be set up in heroku enviroments and if missing, local host is used.
 	{
-		if(System.getProperty("BASE_URI") != null) {
-			baseUri = System.getProperty("BASE_URI");
+		if(System.getenv("BASE_URI") != null) {
+			baseUri = System.getenv("BASE_URI");
 		}else {
 			baseUri = "http://localhost:8080/";
 		}
