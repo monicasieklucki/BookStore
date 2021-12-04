@@ -3,7 +3,7 @@ package com.ebook.service.util;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name = "link") //TODO this isn't coming through
+@XmlRootElement(name = "link") 
 public class BookStoreUri {
 	private String baseUri;
 	@XmlElement(name = "rel")

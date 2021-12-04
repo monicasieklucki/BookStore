@@ -37,14 +37,10 @@ public class VendorResource {
 	 * @return list of all vendors
 	 */
 	@GET
-	@Produces({"application/xml" , "application/json"})
+	@Produces({ "application/json","application/xml"})
 	@Path("/vendor")
-	public Set<VendorRepresentation> getVendors() {
-		
-
-
-		//return vendActivity.getVendors();
-		return null;
+	public Response getVendors() {
+		return Response.ok(vendActivity.getVendorsList()).build();
 	}
 	
 	/**
@@ -53,10 +49,9 @@ public class VendorResource {
 	 * @return Complete representation with products and quantities
 	 */
 	@GET
-	@Produces({"application/xml" , "application/json"})
+	@Produces({ "application/json","application/xml"})
 	@Path("/vendor/{vendorId}")
 	public VendorRepresentation getVendor(@PathParam("vendorId") Integer id) {
-		System.out.println("GET METHOD Request for vendor........");
 		return vendActivity.getVendor(id);
 	}
 	
@@ -67,8 +62,8 @@ public class VendorResource {
 	 * @return VendorRepresentation including generated ID
 	 */
 	@POST
-	@Produces({"application/xml" , "application/json"})
-	@Consumes({"application/xml" , "application/json"})
+	@Produces({ "application/json","application/xml"})
+	@Consumes({ "application/json","application/xml"})
 	@Path("/vendor")
 	public VendorRepresentation addVendor(VendorRequest req) {		
 		return vendActivity.addVendor(req);
@@ -81,7 +76,7 @@ public class VendorResource {
 	 * @return VendorLineRepresentation which includes the newly generated productId
 	 */
 	@POST
-	@Consumes({"application/xml" , "application/json"})
+	@Consumes({ "application/json","application/xml"})
 	@Path("/vendor/product")
 	public VendorLineRepresentation addProduct(VendorLineRequest vendLineReq) {
 		VendorActivity vendAct = new VendorActivity();
@@ -95,7 +90,7 @@ public class VendorResource {
 	 * @return HTTP response code
 	 */
 	@DELETE
-	@Produces({"application/xml" , "application/json"})
+	@Produces({ "application/json","application/xml"})
 	@Path("/vendor/{vendorId}")
 	public Response removeVendor(@PathParam("vendorId") Integer vendorId) {
 		String res = vendActivity.removeVendor(vendorId);
@@ -113,7 +108,7 @@ public class VendorResource {
 	 * @return HTTP response code
 	 */
 	@DELETE
-	@Produces({"application/xml" , "application/json"})
+	@Produces({ "application/json","application/xml"})
 	@Path("/vendor/product")
 	public Response removeProduct(@QueryParam("vendorId") Integer vendId, @QueryParam("productId") Integer productId) {
 		String res = vendActivity.removeVendorLine(vendId, productId);

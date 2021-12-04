@@ -1,5 +1,6 @@
 package com.ebook.service.vendor.representation;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -19,37 +20,39 @@ import com.ebook.service.util.Representation;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class VendorRepresentation extends Representation {	
 	@XmlElement(name="vendorId")
-	private Integer vendorID;
+	private Integer vendorId;
 	@XmlElement(name="vendor")
 	private String vendorName;
 	@XmlElementWrapper(name="vendorLines")
 	@XmlElement(name="vendorLine")
-	private List<VendorLine> vendorLines;
+	private List<VendorLineRepresentation> vendorLineReps = new ArrayList<VendorLineRepresentation>();
 	
 	public VendorRepresentation() {}
 		
 	public VendorRepresentation(Vendor vendor) {
-		this.vendorID = vendor.getVendorId();
+		this.vendorId = vendor.getVendorId();
 		this.vendorName = vendor.getVendorName();
 		if(vendor.getVendorLines().size() > 0) {
-			this.vendorLines = vendor.getVendorLines();
+			for(VendorLine vl : vendor.getVendorLines()) {
+				this.vendorLineReps.add(new VendorLineRepresentation(vl,vendorId));
+			}
 		}
 		// Links that should go on all representations of a vendor added here
-		BookStoreUri modifyVendorLink = new BookStoreUri("vendor/modify", String.format("service/vendorservice/vendor/%d", getVendorID()), "application/xml");
-		BookStoreUri deleteVendorLink = new BookStoreUri("vendor/delete", String.format("service/vendorservice/vendor/%d", getVendorID()));
+		BookStoreUri modifyVendorLink = new BookStoreUri("vendor/modify", String.format("service/vendorservice/vendor/%d", getVendorId()), "application/json");
+		BookStoreUri deleteVendorLink = new BookStoreUri("vendor/delete", String.format("service/vendorservice/vendor/%d", getVendorId()));
 		super.addLinks(modifyVendorLink, deleteVendorLink);
 	}
 
-	public Integer getVendorID() {
-		return vendorID;
+	public Integer getVendorId() {
+		return vendorId;
 	}
 
 	public String getVendorName() {
 		return vendorName;
 	}
 
-	public List<VendorLine> getVendorLines() {
-		return vendorLines;
+	public List<VendorLineRepresentation> getVendorLines() {
+		return vendorLineReps;
 	}
 	
 }
