@@ -1,5 +1,6 @@
 package com.ebook.dal;
 
+import java.sql.Array;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -50,6 +51,62 @@ public class OrderDAO {
 	    
 	    return null;
 	  }
+	
+	public List<Order> getOrders (Integer vendorId, Integer customerId, String statuses){
+		String select = "SELECT o.orderid, o.customerid, o.orderstate, o.paymentrec, ol.productid, ol.quantity, p.title, p.price "
+				+ "FROM orders o JOIN orderline ol ON o.orderid = ol.orderid "
+				+ "JOIN product p ON ol.productid = p.id " 
+				+ "JOIN vendorline vl ON vl.productid = ol.productid ";
+		if(vendorId > 0) {
+			select += "WHERE vl.vendorId = ? ";	
+		}else {
+			select += "WHERE vl.vendorId != ? ";
+		}
+		if(customerId > 0) {
+			select += "AND o.customerid = ? ";
+		}else {
+			select += "AND o.customerid != ? ";
+		}
+		if(!statuses.isEmpty()) {
+			select += String.format("AND o.orderstate ilike any('{ %s }'::text[])", statuses);
+		}
+		select += "ORDER BY o.orderid;";
+		System.out.println(select);
+		try (Connection con = DBHelper.getConnection();
+				PreparedStatement statement = con.prepareStatement(select);){
+			statement.setInt(1, vendorId);
+			statement.setInt(2, customerId);
+			ResultSet ordersRs = statement.executeQuery();
+			List<Order> orders = new ArrayList<>();
+			Integer currentOrder = 0;
+			while(ordersRs.next()) {
+				Integer orderId = ordersRs.getInt("orderid");
+				if(currentOrder != orderId) {
+					Order order = new Order(custDAO.getCustomer(ordersRs.getInt("customerid")));
+					order.setOrderId(orderId);
+					order.setOrderState(ordersRs.getString("orderstate"));
+					order.setPaymentReceived(ordersRs.getBoolean("paymentrec"));
+					Product product = new Product(ordersRs.getString("title"), ordersRs.getDouble("price"));
+					product.setId(ordersRs.getInt("productid"));
+					List<OrderLine> orderLines = new ArrayList<OrderLine>();
+					orderLines.add(new OrderLine(product, ordersRs.getInt("quantity")));
+					order.setOrderLines(orderLines);
+					currentOrder = orderId;
+					orders.add(order);
+				}else {
+					Product product = new Product(ordersRs.getString("title"), ordersRs.getDouble("price"));
+					product.setId(ordersRs.getInt("productid"));
+					orders.get(orders.size() - 1).getOrderLines().add(new OrderLine(product, ordersRs.getInt("quantity")));
+				}
+			}
+			ordersRs.close();
+			return orders;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
 
 	/**
 	 * Adds an order to the DB. Does not add any products if OrderLines exist.

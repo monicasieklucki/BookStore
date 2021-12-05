@@ -14,8 +14,9 @@ import com.ebook.model.order.OrderLine;
 @XmlType(name = "")
 public class OrderRequest {
 	private Integer customerId;
-	private List<OrderLine> orderLine;
+	private List<OrderLineRequest> orderLineReqs;
 	
+	public OrderRequest() {}
 	
 	public Integer getCustomerId() {
 		return customerId;
@@ -27,13 +28,16 @@ public class OrderRequest {
 	}
 
 
-	public List<OrderLine> getOrderLine() {
-		return orderLine;
+	public List<OrderLineRequest> getOrderLineReqs() {
+		return orderLineReqs;
 	}
 
 
-	public void setOrderLine(List<OrderLine> orderLine) {
-		this.orderLine = orderLine;
+	public void setOrderLineReqs(List<OrderLineRequest> orderLineReqs) {
+		this.orderLineReqs = orderLineReqs;
 	}
+
+
+
 
 }

@@ -1,5 +1,8 @@
 package com.ebook.model.order;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.ebook.dal.CustomerDAO;
 import com.ebook.dal.OrderDAO;
 import com.ebook.dal.ProductDAO;
@@ -63,6 +66,16 @@ public class OrderManager {
 			System.err.println(se.getMessage());
 		}
 		return order;
+	}
+	
+	public static List<Order> getOrders(Integer vendorId, Integer customerId, String statuses) {
+		List<Order> orders = new ArrayList<>();
+		try {
+			orders = ordDAO.getOrders(vendorId, customerId, statuses);
+		} catch (Exception se) {
+			System.err.println(se.getMessage());
+		}
+		return orders;
 	}
 	
 	/**

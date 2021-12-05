@@ -11,11 +11,12 @@ import javax.xml.bind.annotation.XmlType;
 import com.ebook.model.customer.Customer;
 import com.ebook.model.order.Order;
 import com.ebook.model.order.OrderLine;
+import com.ebook.service.util.Representation;
 
 @XmlRootElement(name = "Order")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "")
-public class OrderRepresentation {
+public class OrderRepresentation extends Representation {
 	private Integer orderId;
 	private Integer customerId; //will have user make calls for customer details through customerservice
 	private List<OrderLine> orderLines;
@@ -30,6 +31,22 @@ public class OrderRepresentation {
 		this.paymentReceived = order.isPaymentReceived();
 		this.orderState = order.getOrderState();
 		this.customerId = order.getCustomer().getCustomerId();
+		switch (this.orderState) {
+		case "open":
+			super.addLink("order/cancel", String.format("service/orderservice/order/%d", orderId), "application/json");
+			super.addLink("orderlines", String.format("service/orderservice/order/%d",orderId), "appliation/json");
+			if(this.orderLines.size() > 0) {
+				super.addLink("order/payment", String.format("service/orderservice/order/%d/payment",orderId, "application/json"));
+			}
+			break;
+		case "ordered":
+			super.addLink("order/cancel", String.format("service/orderservice/order/%d", orderId), "application/json");
+			super.addLink("orderlines", String.format("service/orderservice/order/%d",orderId), "appliation/json");
+			super.addLink("self", "service/orderservice/order/" + orderId, "application/json");
+			super.addLink("order/ship", String.format("/service/orderservice/order/%d/status/delivered", orderId), "application/json");			
+		case "shipped":
+			super.addLink("order/deliver", String.format("/service/orderservice/order/%d/status/delivered", orderId), "application/json");
+		}
 	}
 
 	public Integer getOrderId() {
@@ -71,7 +88,4 @@ public class OrderRepresentation {
 	public void setOrderState(String orderState) {
 		this.orderState = orderState;
 	}
-	
-	
-
 }
