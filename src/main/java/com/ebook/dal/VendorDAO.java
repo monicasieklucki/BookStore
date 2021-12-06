@@ -164,7 +164,8 @@ public class VendorDAO {
 	public List<VendorLine> getAllVendorProducts(Vendor vendor) {
 		String selectVendorLineQuery = "SELECT productId, quantity FROM vendorline where vendorid = "
 				+ vendor.getVendorId() + ";";
-		try (Statement st = DBHelper.getConnection().createStatement();
+		try (Connection con = DBHelper.getConnection();
+				Statement st = con.createStatement();
 				ResultSet vendorLineRS = st.executeQuery(selectVendorLineQuery);) {
 			System.out.println("vendorDAO: *************** Query " + selectVendorLineQuery);
 			List<VendorLine> vendorProducts = new ArrayList<VendorLine>();
