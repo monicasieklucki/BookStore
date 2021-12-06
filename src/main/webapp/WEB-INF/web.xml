@@ -23,4 +23,8 @@
     <servlet-name>CXFServlet</servlet-name>
     <url-pattern>/*</url-pattern>
   </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>default</servlet-name>
+  	<url-pattern>/vendorportal/*</url-pattern>
+  </servlet-mapping>
 </web-app>

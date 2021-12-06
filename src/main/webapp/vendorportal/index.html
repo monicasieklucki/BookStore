@@ -1,0 +1,40 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <source>
+</head>
+
+<body>
+    <h1>Book Store Vendor Portal</h1>
+    <button id="clearVendorContext">Clear Vendor and Reset</button>
+    <h2>Vendor Context</h2>
+    <div id="contextVendor">    
+        <div id="vendorDetails">Select a vendor to begin</div>
+        <div id="contextControls">
+            <p>
+                <label for="searchId">Enter Vendor ID</label>
+                <input type="number" name="searchId" id="searchId">
+                <button id="setVendorBySearchId">Set Vendor With Id</button>
+                <button id="searchVendorList">Search All Vendors</button>
+                <button id="addVendor">Add Vendor</button>  
+            </p>
+        </div>
+        
+    </div>
+    <hr>  
+    <h2>WorkSpace</h2>
+    <div id=workspace>
+        <ul id="workitems">
+        </ul>
+        <div id="input">
+            <!--Space for input forms to go for create methods-->
+        </div>
+    </div>
+	<script src="http://localhost:8080/vendorportal/vendor.js"></script>
+	<!-- <script src="http://book-store-luc/vendorportal/vendor.js"></script>
+    <script src="vendor.js"></script> -->
+</body>
+
+</html>
