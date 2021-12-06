@@ -48,6 +48,7 @@ public class OrderResource {
 	 */
 	@POST
 	@Produces({ "application/xml", "application/json" })
+	@Consumes({"application/json", "application/xml"})
 	@Path("/order")
 	public Response createOrder(OrderRequest ordReq) {
 		Integer orderId = ordAct.addOrder(ordReq.getCustomerId()).getOrderId();

@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
@@ -14,6 +15,7 @@ import com.ebook.model.order.OrderLine;
 @XmlType(name = "")
 public class OrderRequest {
 	private Integer customerId;
+	@XmlElementWrapper(name = "orderLineRequests")
 	private List<OrderLineRequest> orderLineReqs;
 	
 	public OrderRequest() {}
