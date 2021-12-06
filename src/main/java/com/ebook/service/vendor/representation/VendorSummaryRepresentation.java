@@ -20,7 +20,7 @@ public class VendorSummaryRepresentation extends Representation {
 		this.vendorId = vend.getVendorId();
 		this.vendorName = vend.getVendorName();
 		
-		BookStoreUri getVendorDetail = new BookStoreUri("self", String.format("vendorservice/vendor/%d", vendorId),"application/json");
+		BookStoreUri getVendorDetail = new BookStoreUri("self", String.format("service/vendorservice/vendor/%d", vendorId),"application/json");
 		super.addLinks(getVendorDetail);
 	}
 
