@@ -16,7 +16,7 @@ public class C3PO {
         comboPooledDataSource.setMinPoolSize(3);
         comboPooledDataSource.setAcquireIncrement(3);
         comboPooledDataSource.setMaxPoolSize(20);
- 
+        comboPooledDataSource.setMaxIdleTime(3);
     }
 
 }
