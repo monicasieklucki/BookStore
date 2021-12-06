@@ -186,7 +186,7 @@ public class VendorDAO {
 	 * @param productId product to be deleted for that vendor
 	 */
 	public void removeVendorLine(Integer vendorId, Integer productId) {
-		String deleteVendorLineQuery = "DELETE FROM vendorline WHERE vendorid = " + vendorId + ";";
+		String deleteVendorLineQuery = "DELETE FROM vendorline WHERE vendorid = " + vendorId + "and productId = " + productId + ";";
 		try (Statement st = DBHelper.getConnection().createStatement();) {
 			// Delete Vendor Line
 			st.executeUpdate(deleteVendorLineQuery);
