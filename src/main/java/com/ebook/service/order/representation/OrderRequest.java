@@ -15,7 +15,6 @@ import com.ebook.model.order.OrderLine;
 @XmlType(name = "")
 public class OrderRequest {
 	private Integer customerId;
-	@XmlElementWrapper(name = "orderLineRequests")
 	private List<OrderLineRequest> orderLineReqs;
 	
 	public OrderRequest() {}

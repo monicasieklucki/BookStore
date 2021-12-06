@@ -37,6 +37,10 @@ let displayVendorContext = (responseJson) => {
     $('manageOrders').addEventListener('click', () => {
         getRequest(responseJson.links[2].href, displayVendorOrders);
     })
+    $('addProduct').addEventListener('click', () => {
+        clearAllNodes($('workspace'));
+        addProduct(responseJson.vendorId, responseJson.links[3].href);
+    })
     clearAllNodes($('workspace'));
     displayAllProducts(responseJson);
 }
@@ -53,9 +57,8 @@ let displayAllProducts = (responseJson) => {
         let buttonid = "deleteprodid" + vl.productId;
         $(buttonid).addEventListener('click', () => {
             console.log(vl.links[1].href);
-            deleteRequest(vl.links[1].href, function (workItems, item) {
-                    console.log("is this being ran?");
-                    workItems.removeChild(item);
+            deleteRequest(vl.links[1].href, function () {
+                    console.log("delete request ran");
                 })
         })
 
@@ -95,26 +98,45 @@ let displayVendorOrders = (responseJson) => {
         itemDetails.innerHTML=`Order Id:\t${order.orderId}\n` +
             `Order Status: \t${order.orderState}\n` +
             `Customer Id:\t${order.customerId}\n`;
-            let button = item.appendChild(document.createElement('button'));
+            let button = document.createElement('button');
             button.innerHTML = "Ship Order";
             let urlPath;
+            console.log(order.links);
             order.links.forEach(link => {
                 if(link.rel.includes("ship")){
                     urlPath = link.href;
+                    console.log(urlPath);
                 }
             })
-            itemDetails.appendChild(button);
-            button.addEventListener('click', () => {
-                console.log("link for each running")
-                order.links.forEach(link => {
-                    if(link.rel.includes("ship")){
-                        putRequest(link.href);
-                    }
-                });
-                
+            if(urlPath){
+                itemDetails.appendChild(button);
+                button.addEventListener('click', () => {
+                    putRequest(urlPath, () => {
+                        console.log("Order Shipped successfully");
+                    })               
+                 })
+                };
+    })  
+}
+
+let addProduct = (vendorId, link) => {
+    let form = $('workspace').appendChild(document.createElement('form'));
+    form.innerHTML = `<label for="productName">Product Name: </label> 
+    <input type="text" name="productName" id="productName">
+    <label for="productPrice">Product Price: </label>
+    <input type="number" name="productPrice" id="productPrice">
+    <button id=add>Add</>`;
+    console.log(link);
+    $("add").addEventListener('click', () => {
+        if($('productName').value !== "" && $('productPrice').value > 0){
+            let reqBody = {"vendorId" : vendorId,
+                            "productTitle" : $('productName').value,
+                            "productPrice" : $('productPrice').value};
+            postRequest(link, reqBody, () =>{
+                window.alert("no callback defined");
             })
+        }
     })
-    
 }
 
 /*******************************************************************
@@ -137,7 +159,7 @@ let deleteRequest = (urlPath, callback) => {
     xhr.onload = function () {
         if(xhr.status == "200") {
             window.alert("Successfully deleted");
-            callback;
+            callback();
         }else{
             window.alert("Unable to delete");
         }
@@ -157,6 +179,17 @@ let putRequest = (urlPath, callback) => {
         }
     }
     xhr.send(null);
+}
+
+let postRequest = (urlPath, body, callback) => {
+    let xhr = new XMLHttpRequest();
+    //Change to put to see if that will work better. weird behavior with true post
+    xhr.open("PUT", urlPath, true);
+    xhr.onload = function() {
+        callback();
+    }
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.send(Json.stringify(body));
 }
 
 // Clear all child nodes from components on page. Contents can be replaced with a message.

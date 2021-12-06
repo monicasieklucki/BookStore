@@ -39,8 +39,7 @@ public class ProductDAO {
 	    	  product.setPrice(prodRS.getDouble("price"));
 	      }
 	      //close to manage resources
-	      prodRS.close();
-	      	   
+	      prodRS.close();  	   
 	      st.close();
 	      con.close();
 	      
@@ -64,7 +63,8 @@ public class ProductDAO {
 	    try { 		
 	    	List<Product> products = new ArrayList<Product>();
 	    	//Get Product
-	    	Statement st = DBHelper.getConnection().createStatement();
+	    	Connection con = DBHelper.getConnection();
+	    	Statement st = con.createStatement();
 	    	String selectProductQuery = "SELECT id, title, price FROM Product";
 
 	    	ResultSet prodRS = st.executeQuery(selectProductQuery);      
@@ -83,9 +83,9 @@ public class ProductDAO {
 	    	  products.add(product);
 	      }
 	      //close to manage resources
-	      prodRS.close();
-	      	   
+	      prodRS.close();    	   
 	      st.close();
+	      con.close();
 	      
 	      return products;
 	    }	    
