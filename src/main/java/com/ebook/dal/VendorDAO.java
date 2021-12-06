@@ -27,7 +27,8 @@ public class VendorDAO {
 	public Vendor getVendor(Integer vendorid) {
 		try {
 			// Get vendor
-			Statement st = DBHelper.getConnection().createStatement();
+			Connection con = DBHelper.getConnection();
+			Statement st = con.createStatement();
 			String selectVendorQuery = "SELECT vendorid, vendorname FROM vendor WHERE vendorid = " + vendorid + ";";
 
 			ResultSet vendorRS = st.executeQuery(selectVendorQuery);
@@ -41,6 +42,8 @@ public class VendorDAO {
 			}
 			// close to manage resources
 			vendorRS.close();
+			st.close();
+			con.close();
 			
 			getAllVendorProducts(vendor);
 
@@ -72,6 +75,7 @@ public class VendorDAO {
 				vendor.setVendorName(vendorsRs.getString("vendorname"));
 				vendors.add(vendor);			
 			}
+			vendorsRs.close();
 		} catch (SQLException se) {
 			System.err.println("VendorDAO: Threw a SQL Exception retrieving all vendors.");
 			System.err.println(se.getMessage());
@@ -115,7 +119,8 @@ public class VendorDAO {
 	public void removeVendor(Integer vendorid) {
 		String deleteVendorLineQuery = "DELETE FROM vendorline WHERE vendorid = " + vendorid + ";";
 		String deleteVendorQuery = "DELETE FROM vendor WHERE vendorid = " + vendorid + ";";
-		try (Statement st = DBHelper.getConnection().createStatement();) {
+		try (Connection con = DBHelper.getConnection();
+				Statement st = con.createStatement();) {
 			// Delete Vendor Line
 			st.executeUpdate(deleteVendorLineQuery);
 			System.out.println("VendorDAO: *************** Query " + deleteVendorLineQuery);

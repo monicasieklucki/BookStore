@@ -16,7 +16,8 @@ public class CustomerDAO {
 	public Customer getCustomer(Integer customerid) {	 	 
 	    try { 		
 	        //Get Customer
-	    	Statement st = DBHelper.getConnection().createStatement();
+	    	Connection con = DBHelper.getConnection();
+	    	Statement st = con.createStatement();
 	    	String selectCustomerQuery = "SELECT customerid, lastname, firstname, billingaddress, shippingaddress FROM customer WHERE customerid = " + customerid + ";";
 
 	    	ResultSet custRS = st.executeQuery(selectCustomerQuery);      
@@ -38,6 +39,7 @@ public class CustomerDAO {
 	      //close to manage resources
 	      custRS.close();
           st.close();
+          con.close();
           	      
 	      return customer;
 	     
@@ -151,8 +153,8 @@ public class CustomerDAO {
 	
 	public void removeCustomer(Customer customer) {
 		try {
-			
-	    	Statement st = DBHelper.getConnection().createStatement();
+			Connection con = DBHelper.getConnection();
+	    	Statement st = con.createStatement();
 
 	    	//Delete Customer Billing Address
 	    	String deleteBAddressQuery = "DELETE FROM address WHERE addressid = " + customer.getBillingAddressId() + ";";
@@ -171,6 +173,8 @@ public class CustomerDAO {
 	    	
 
 	    	st.close();
+	    	con.close();
+	    	
 
 		}
 		catch (SQLException ex) {
@@ -182,7 +186,8 @@ public class CustomerDAO {
 	public void updateCustomer(Customer customer, Address billingaddress, Address shippingaddress) {
 		try {
 	    	//Update Customer
-	    	Statement st = DBHelper.getConnection().createStatement();
+			Connection con = DBHelper.getConnection();
+	    	Statement st = con.createStatement();
 	    	String updateCustomerQuery = "UPDATE customer SET lastname = '" + customer.getLastName() + "',firstname = '" + customer.getFirstName() + "',billingaddress = " + customer.getBillingAddressId() + ",shippingaddress = " + customer.getShippingAddressId() + " WHERE customerid = '" + customer.getCustomerId() + "'";
 	    	st.executeUpdate(updateCustomerQuery);
 	    	System.out.println("CustomerDAO: *************** Query " + updateCustomerQuery);
@@ -197,6 +202,7 @@ public class CustomerDAO {
 	    	System.out.println("CustomerDAO: *************** Query " + updateCustomerSAddressQuery);
 	    	
 	    	st.close();
+	    	con.close();
 		}
 		catch (SQLException ex) {
       	    System.err.println("CustomerDAO: Threw a SQLException updating the customer object.");
