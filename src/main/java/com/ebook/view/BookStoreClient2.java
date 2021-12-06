@@ -9,6 +9,7 @@ import com.ebook.model.customer.Customer;
 import com.ebook.model.customer.CustomerManager;
 import com.ebook.model.item.Product;
 import com.ebook.model.order.Order;
+import com.ebook.model.order.OrderManager;
 import com.ebook.model.vendor.Vendor;
 import com.ebook.model.vendor.VendorLine;
 import com.ebook.model.vendor.VendorManager;
@@ -16,7 +17,7 @@ import com.ebook.model.vendor.VendorManager;
 public class BookStoreClient2 {
 	public static void main (String args[]) throws Exception {
 	OrderDAO ordDao = new OrderDAO();	
-	List<Order> orders = ordDao.getOrders(0, 0, "");
+	List<Order> orders = ordDao.getOrders(1, 0, "");
 	for(Order o : orders) {
 		System.out.println(o);
 		System.out.println();
@@ -69,16 +70,16 @@ public class BookStoreClient2 {
 //        "\n\t\t\t\t" + billingAdd.getCity() + ", " + 
 //        billingAdd.getState() + " " + billingAdd.getZip() +
 //        "\n");
-    
-    //delete customer and address
-    //custService.removeCustomerById(1);
-    
-    //update customer and address
-    //custService.updateCustomer(customer, address);
-    
-	//Client will use the customer service to have access to anything related to customer functionality.
-//    System.out.println("*************** Creating Vendor service object *************************");
-//    VendorManager vendService = new VendorManager();  
+//    
+//    //delete customer and address
+//    //custService.removeCustomerById(1);
+//    
+//    //update customer and address
+//    //custService.updateCustomer(customer, address);
+//    
+//	//Client will use the customer service to have access to anything related to customer functionality.
+////    System.out.println("*************** Creating Vendor service object *************************");
+////    VendorManager vendService = new VendorManager();  
 //    
 //	System.out.println("BookStoreClient2: *************** instantiating a Vendor, VendorLine, and Product *************************");
 //	// creating products
@@ -98,14 +99,19 @@ public class BookStoreClient2 {
 //	prod3.setTitle("The Boys in the Boat");
 //	prod3.setPrice(9.99);
 //	
+//	Integer orderId = OrderManager.addOrder(1);
+//	System.out.println(orderId + "Order Created");
+//	OrderManager.addProduct(orderId, 1, 2);
+//	OrderManager.addProduct(orderId, 2, 3);
+//	OrderManager.addProduct(orderId, 2, 2);
+//	OrderManager.getOrderById(2).confirmOrder();
 //	
-//    Vendor vendor = new Vendor();
-//    vendor.setVendorId(3);
-//    vendor.setVendorName("Amazon");
-//    
+//	
+//    Vendor vendor;
+    
 //    //save vendor information
 //    //Saving the newly created vendor 
-//    vendService.addVendor(vendor);
+//    vendor = VendorManager.addVendor("Amazon");
 //    System.out.println("BookStoreClient2: *************** Vendor is inserted in BookStore Database *************************");
 //
 //   

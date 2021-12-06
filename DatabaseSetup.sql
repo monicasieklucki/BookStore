@@ -54,7 +54,7 @@ insert into Vendor values (
 /*seet up product*/
 drop table if exists Product cascade;
 create table Product (
-  productid serial primary key,
+  id serial primary key,
   title varchar not null,
   price float
 );
@@ -105,8 +105,8 @@ create table orderLine (
 
 commit;
 
-select v.vendorName, p.productid, p.title, p.price, vl.quantity
+select v.vendorName, p.id, p.title, p.price, vl.quantity
 from vendorLine vl
 join vendor v on vl.vendorId = v.vendorId
-join product p on vl.productId = p.productid;
+join product p on vl.productId = p.id;
 
