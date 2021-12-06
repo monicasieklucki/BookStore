@@ -33,7 +33,7 @@ public class VendorLineRepresentation extends Representation {
 		this.vendorId = vendorId;
 		
 		BookStoreUri getProduct = new BookStoreUri("product", String.format("service/productservice/product/%d", productId),"application/json");
-		BookStoreUri delVendLine = new BookStoreUri("delete", String.format("service/vendorservice/vendor?vendorId=%d&productId=%d",vendorId, productId)); 
+		BookStoreUri delVendLine = new BookStoreUri("delete", String.format("service/vendorservice/vendor/product?vendorId=%d&productId=%d",vendorId, productId)); 
 		// updateVendLine could be used in future. Current requirements don't involve updating quantity. Updates will come from first getting the full product details
 		//BookStoreUri updateVendLine = new BookStoreUri("/vendorline/update", String.format("/vendorservice/vendorline" ),"application/xml");
 		super.addLinks(getProduct,delVendLine);
