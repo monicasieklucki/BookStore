@@ -16,7 +16,7 @@
        		<bean id="OrderBean" class="com.ebook.service.order.resource.OrderResource"/>
        		<bean id="ProductBean" class="com.ebook.service.product.resource.ProductResource"/>
        		<bean id="CustomerBean" class="com.ebook.service.customer.resource.CustomerResource"/>
-        </jaxrs:serviceBeans>     
+       		<bean id="UserBean" class="com.ebook.service.user.resource.UserResource"></bean></jaxrs:serviceBeans>     
         <jaxrs:providers>
             <bean class="org.codehaus.jackson.jaxrs.JacksonJsonProvider"/>
         </jaxrs:providers>
@@ -28,7 +28,7 @@
         	<jaxrs:schemaLocation>com.ebook.service.order.representation</jaxrs:schemaLocation>
         	<jaxrs:schemaLocation>com.ebook.service.product.representation</jaxrs:schemaLocation>
         	<jaxrs:schemaLocation>com.ebook.service.customer.representation</jaxrs:schemaLocation> 
-        	<jaxrs:schemaLocation>com.ebook.service.util</jaxrs:schemaLocation>       	
-        </jaxrs:schemaLocations>
+        	<jaxrs:schemaLocation>com.ebook.service.util</jaxrs:schemaLocation>
+        	<jaxrs:schemaLocation>com.ebook.service.user.representation</jaxrs:schemaLocation></jaxrs:schemaLocations>
     </jaxrs:server> 
 </beans>

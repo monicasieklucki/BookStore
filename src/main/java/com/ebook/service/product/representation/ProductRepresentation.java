@@ -10,6 +10,7 @@ import javax.xml.bind.annotation.XmlType;
 
 import com.ebook.model.item.Product;
 import com.ebook.model.vendor.Vendor;
+import com.ebook.service.util.BookStoreUri;
 import com.ebook.service.util.Representation;
 
 /**
@@ -31,7 +32,8 @@ public class ProductRepresentation extends Representation {
 		this.id = product.getId();
 		this.title = product.getTitle();
 		this.price = product.getPrice();
-		super.addLink("self", String.format("productservice/pproduct/%d", id), "application/json");
+		super.addLink("self", String.format("productservice/product"), "application/json");
+		super.addLink("self", String.format("productservice/product/%d", id), "application/json");
 		//TODO order link
 		//super.addLink("order/update", "orderservice/", "application/json")l
 	}

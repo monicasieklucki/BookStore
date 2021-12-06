@@ -5,6 +5,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.ebook.service.util.BookStoreUri;
+import com.ebook.service.util.Representation;
+
+import javax.ws.rs.ApplicationPath;
+import javax.ws.rs.core.Application;
+import javax.ws.rs.core.UriInfo;
+
 import com.ebook.model.item.Product;
 import com.ebook.model.item.ProductManager;
 import com.ebook.service.customer.representation.CustomerRepresentation;
@@ -20,9 +27,7 @@ public class ProductActivity {
 				
 		ProductRepresentation prodRep = new ProductRepresentation(prod);
 		
-		//Link buy = new Link("availability", "http://localhost:8081/productservice/product/availability?productid=" + prod.getId(), "json");
-		
-		//prodRep.setLinks(buy);
+		//BookStoreUri getAllProducts = new BookStoreUri("products", String.format("service/productservice/product/%d", prod.getId()),"application/json");
 		
 		return prodRep;
 	}
@@ -36,13 +41,10 @@ public class ProductActivity {
 			
 			ProductRepresentation prodRep = new ProductRepresentation(prod);
 						
-			//prodRep.setLinks();
+			//BookStoreUri getAllProducts = new BookStoreUri("products", String.format("service/productservice/product", prod.getId()),"application/json");
 			
 			prodReps.add(prodRep);
-		}
-		
-		
-		
+		}			
 		return prodReps;
 	}
 
