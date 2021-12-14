@@ -24,6 +24,7 @@ public class CustomerActivity {
 		custRep.setBillingAddress(cust.getBillingAddress());
 		custRep.setShippingAddress(cust.getShippingAddress());
 		custRep.setLastName(cust.getLastName());
+		custRep.setCustomerId(cust.getCustomerId());
 		
 		return custRep;
 	}

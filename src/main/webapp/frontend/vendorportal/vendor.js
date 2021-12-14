@@ -21,7 +21,8 @@ let displayVendorContext = (responseJson) => {
     vendorText = document.createElement('p');
     vendorText.appendChild(document.createTextNode(`Vendor Name:\t${responseJson.vendorName}`));
     vendContext.appendChild(vendorText);
-    clearAllNodes($("contextControls"), manageVendorControls); 
+    clearAllNodes($("contextControls"), manageVendorControls);
+    // This is really taking you to the manage products which is also the default activity. 
     $('refreshVendor').addEventListener('click', () => {
         clearAllNodes($('workspace'));
         getRequest(responseJson.links[1].href, displayVendorContext) 
@@ -41,9 +42,35 @@ let displayVendorContext = (responseJson) => {
         clearAllNodes($('workspace'));
         addProduct(responseJson.vendorId, responseJson.links[3].href);
     })
+    // $('modifyVendor').addEventListener('click', () => {
+    //     clearAllNodes($('workspace'));
+    //     let href = "";
+    //     responseJson.links.forEach(link =>{
+    //         if(link.rel.includes("modify")){
+    //             href = link.href;
+    //         }
+    //     })
+    //     if(href.length > 0){
+    //         clearAllNodes($('workspace'));
+    //         modifyVendor(responseJson.vendorName, href);
+    //     } 
+        
+    // })
     clearAllNodes($('workspace'));
     displayAllProducts(responseJson);
 }
+
+// let modifyVendor = (vendorName, link) => {
+//     let vendorModControls = `<label for="vendorName">Vendor Name: </label>
+//     <input type=text name="vendorName" id="vendorName">
+//     <button id="updateVendor">Update Vendor</vendor>`;
+//     $('workspace').innerHTML = vendorModControls;
+//     $('vendorName').value = vendorName;
+//     $('updateVendor').addEventListener('click', () => {
+//         let req = {vendorName : $('vendorName').value};
+//         putRequest(link, req, displayVendorContext);
+//     })   
+// }
 
 let displayAllProducts = (responseJson) => {
     let workItems = $('workspace').appendChild(document.createElement('ul'));
@@ -111,7 +138,7 @@ let displayVendorOrders = (responseJson) => {
             if(urlPath){
                 itemDetails.appendChild(button);
                 button.addEventListener('click', () => {
-                    putRequest(urlPath, () => {
+                    putRequest(urlPath,{}, () => {
                         console.log("Order Shipped successfully");
                     })               
                  })
@@ -120,8 +147,8 @@ let displayVendorOrders = (responseJson) => {
 }
 
 let addProduct = (vendorId, link) => {
-    let form = $('workspace').appendChild(document.createElement('form'));
-    form.innerHTML = `<label for="productName">Product Name: </label> 
+    let inputArea = $('workspace').appendChild(document.createElement('div'));
+    inputArea.innerHTML = `<label for="productName">Product Name: </label> 
     <input type="text" name="productName" id="productName">
     <label for="productPrice">Product Price: </label>
     <input type="number" name="productPrice" id="productPrice">
@@ -129,11 +156,16 @@ let addProduct = (vendorId, link) => {
     console.log(link);
     $("add").addEventListener('click', () => {
         if($('productName').value !== "" && $('productPrice').value > 0){
-            let reqBody = {"vendorId" : vendorId,
-                            "productTitle" : $('productName').value,
-                            "productPrice" : $('productPrice').value};
-            postRequest(link, reqBody, () =>{
-                window.alert("no callback defined");
+            let reqBody = {vendorId : vendorId,
+                            productTitle : $('productName').value,
+                            productPrice : $('productPrice').value};
+            postRequest(link, reqBody, (res) =>{
+                if(res != null){
+                    window.alert("Product added with Id: " + res.productId);
+                } else {
+                    console.log(res);
+                    window.alert("Unable to add product see log");
+                }
             })
         }
     })
@@ -167,29 +199,32 @@ let deleteRequest = (urlPath, callback) => {
     xhr.send(null);
 }
 
-let putRequest = (urlPath, callback) => {
+let putRequest = (urlPath, body, callback) => {
     let xhr = new XMLHttpRequest();
     xhr.open("PUT", urlPath, true);
     xhr.onload = function() {
         if(xhr.status == "202" || xhr.status == "200"){
             window.alert("Successfully Updated");
-            callback;
+            callback();
         } else {
             window.alert("Could not update");
         }
     }
-    xhr.send(null);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.setRequestHeader('Accept', 'application/json');
+    xhr.send(JSON.stringify(body));
 }
 
 let postRequest = (urlPath, body, callback) => {
     let xhr = new XMLHttpRequest();
     //Change to put to see if that will work better. weird behavior with true post
-    xhr.open("PUT", urlPath, true);
+    xhr.open("POST", urlPath, true);
     xhr.onload = function() {
-        callback();
+        callback(JSON.parse(this.responseText));
     }
-    xhr.setRequestHeader("Content-Type", "application/json");
-    xhr.send(Json.stringify(body));
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.setRequestHeader('Accept', 'application/json');
+    xhr.send(JSON.stringify(body));
 }
 
 // Clear all child nodes from components on page. Contents can be replaced with a message.
@@ -211,7 +246,8 @@ let clearAllNodes = (parent, messageText) => {
 let findVendorControls = `<label for="searchId">Enter Vendor ID</label>
 <input type="number" name="searchId" id="searchId">
 <button id="setVendorBySearchId">Set Vendor</button>
-<button id="searchVendorList">Search Vendors</button>`;
+<button id="searchVendorList">Search Vendors</button>
+<button id="addVendor">Add Vendor</button>`;
 
 let setupFindControls = () => {
     $('setVendorBySearchId').addEventListener('click', () =>{
@@ -221,14 +257,26 @@ let setupFindControls = () => {
     $('searchVendorList').addEventListener('click', () => {
         getRequest(`${baseUri}service/vendorservice/vendor`, displayAllVendors);
     })
+    $('addVendor').addEventListener('click', () => {
+        let input = $('workspace').appendChild(document.createElement('div'));
+        input.setAttribute("id", "vendorInput");
+        $('vendorInput').innerHTML = 
+        `<label for="vendorName">Vendor Name: </label>
+        <input type="text" name="vendorName" id="vendorName">
+        <button id="createNewVendor">Create New Vendor</button>`
+        $('createNewVendor').addEventListener('click', () => {
+            let req = {vendorName : $('vendorName').value};
+            postRequest(`${baseUri}service/vendorservice/vendor`, req, displayVendorContext);
+        })
+    } )
 } 
 
 let manageVendorControls = `<button id="deleteVendor">Delete Vendor</button>
-<button id="modifyVendor">Modify Vendor</button>
-<button id="refreshVendor">RefreshVendor</button>
-<button id="manageProducts">Manage Products</button>
+<button id="refreshVendor">Manage Products</button>
 <button id="manageOrders">Manage Orders</button>
 <button id="addProduct">Add Product</button>`;
+// Service to modify a vendor not yet available.
+// <button id="modifyVendor">Modify Vendor</button>
 
 
 /********************************************************************

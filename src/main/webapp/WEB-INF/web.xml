@@ -25,6 +25,6 @@
   </servlet-mapping>
   <servlet-mapping>
   	<servlet-name>default</servlet-name>
-  	<url-pattern>/vendorportal/*</url-pattern>
+  	<url-pattern>/frontend/*</url-pattern>
   </servlet-mapping>
 </web-app>
