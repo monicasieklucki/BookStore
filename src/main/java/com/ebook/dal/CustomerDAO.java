@@ -151,7 +151,7 @@ public class CustomerDAO {
         } 
     }
 	
-	public void addCustomerByUsername(Customer cust) {
+	public int addCustomerByUsername(Customer cust) {
 		System.out.println(cust.getUsername());
         System.out.println("Adding customer by username");
         try { 
@@ -167,10 +167,12 @@ public class CustomerDAO {
     	        if (affectedRows == 0) {
     				throw new SQLException("Creating customer failed, no rows affected.");
     			}
+    	        
+    	        System.out.println("generating keys");
     			try (ResultSet generatedId = custPst.getGeneratedKeys()) {
     				System.out.println(generatedId);
     				if (generatedId.next()) {
-    	    	        custPst.setInt(4, generatedId.getInt(1)); 
+    	    	        return generatedId.getInt(1); 
     				} else {
     					throw new SQLException("Creating customer failed, no ID obtained.");
     				}
@@ -181,6 +183,7 @@ public class CustomerDAO {
             System.err.println("CustomerDAO: Threw a SQLException saving the customer object by username.");
   	        System.err.println(ex.getMessage());
         } 
+        return 0;
     }
 	
 	public void removeCustomer(Customer customer) {
