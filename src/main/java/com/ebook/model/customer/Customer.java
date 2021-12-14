@@ -15,6 +15,7 @@ public class Customer {
 	private String firstName;
 	private Address billingaddress;
 	private Address shippingaddress;
+	private String username;
 	
 	private List<Order> orders = new ArrayList<Order>();
 
@@ -98,5 +99,13 @@ public class Customer {
 	
 	public void addReview(String customerId, Review review, String productId) {
 		reviews.add(review);
+	}
+	
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	
+	public String getUsername() {
+		return username;
 	}
 }

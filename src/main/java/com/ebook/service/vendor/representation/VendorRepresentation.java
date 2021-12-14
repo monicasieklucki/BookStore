@@ -14,7 +14,7 @@ import com.ebook.model.vendor.Vendor;
 import com.ebook.model.vendor.VendorLine;
 import com.ebook.service.util.BookStoreUri;
 import com.ebook.service.util.Representation;
-
+import com.ebook.service.link.representation.*;
 
 @XmlRootElement(name = "Vendor")
 @XmlAccessorType(XmlAccessType.FIELD)

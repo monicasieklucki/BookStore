@@ -24,15 +24,13 @@ import com.ebook.model.user.User;
 @Path("/userservice/")
 public class UserResource {
 	
-	
 	@GET
 	@Produces({"application/xml" , "application/json"})
 	@Path("/user/{username}")
 	public UserRepresentation getUser(@PathParam("username") String username) {
 		System.out.println("GET METHOD Request from Client with userRequest String ............." + username);
 		UserActivity userActivity = new UserActivity();
-		return userActivity.getUser(username);
-		
+		return userActivity.getUser(username);	
 	}
 	
 	@POST

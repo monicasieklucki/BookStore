@@ -19,6 +19,7 @@ public class CustomerRequest {
 	private String firstName;
 	private Address billingaddress;
 	private Address shippingaddress;
+	private String username;
 	
 	public Integer getBillingAddressId() {
 		return billingid;
@@ -74,5 +75,13 @@ public class CustomerRequest {
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
+	
+	public String getUsername() {
+		return username;
+	}
 
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	
 }

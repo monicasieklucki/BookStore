@@ -23,7 +23,6 @@ import com.ebook.model.customer.Address;
 @Path("/customerservice/")
 public class CustomerResource {
 	
-	
 	@GET
 	@Produces({"application/xml" , "application/json"})
 	@Path("/customer/{customerid}")
@@ -48,6 +47,19 @@ public class CustomerResource {
 		
 		CustomerActivity custActivity = new CustomerActivity();
 		return custActivity.createCustomer(customer);
+	}
+	
+	@POST
+	@Produces({"application/xml" , "application/json"})
+	@Path("/customer/user")
+	public CustomerRepresentation createCustomerByUsername(CustomerRequest customerRequest) { 
+		System.out.println("POST METHOD Request from Client with ............." + customerRequest.getUsername());
+		
+		Customer customer = new Customer();
+		customer.setUsername(customerRequest.getUsername());
+		
+		CustomerActivity custActivity = new CustomerActivity();
+		return custActivity.createCustomerByUsername(customer);
 	}
 	
 	@DELETE

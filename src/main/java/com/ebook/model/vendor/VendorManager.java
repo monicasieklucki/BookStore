@@ -28,6 +28,18 @@ public class VendorManager {
 		return vendor;
 	}
 	
+	public static VendorLine getVendorlineByProductId(Integer id) {
+		VendorLine vendorline = new VendorLine();	
+		try {
+			vendDAO.getVendorLineByProductId(id);
+	    } catch (Exception se) {
+	      System.err.println("VendorService: Threw a Exception getting viable vendorline for product (contains product and quantity greater than 0).");
+	      System.err.println(se.getMessage());
+	    }
+		return vendorline;
+		
+	}
+	
 	/**
 	 * Remove a vendor with the given ID
 	 * @param vendorId

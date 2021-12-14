@@ -21,6 +21,8 @@ public class VendorLineRepresentation extends Representation {
 	private Integer quantity;
 	
 	public VendorLineRepresentation() {}
+	
+
 	/**
 	 * Creates a representation of the vendorLine. vendorId required for HATEOAS links. 
 	 * @param vl vendorLine for representation

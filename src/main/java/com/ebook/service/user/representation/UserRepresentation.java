@@ -14,11 +14,13 @@ import com.ebook.model.vendor.VendorLine;
 import com.ebook.service.util.BookStoreUri;
 import com.ebook.service.util.Representation;
 import com.ebook.service.vendor.representation.VendorLineRepresentation;
+import com.ebook.service.link.representation.*;
+
 
 @XmlRootElement(name = "User")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "")
-public class UserRepresentation extends Representation {
+public class UserRepresentation extends LinkRepresentation {
 	
 	private Integer id;
 	private String username;
@@ -33,13 +35,6 @@ public class UserRepresentation extends Representation {
 		this.email = user.getEmail();
 		this.password = user.getPassword();
 		
-		// Links that should go on all representations of a vendor added here
-		System.out.println("adding URIS");
-		System.out.println(user.getUsername());
-		BookStoreUri getUserLink = new BookStoreUri("get", String.format("service/userservice/user/%s", user.getUsername()), "application/json");
-		BookStoreUri deleteUserLink = new BookStoreUri("delete", String.format("service/userservice/user"), "application/json");
-		BookStoreUri updateUserLink = new BookStoreUri("update", String.format("service/userservice/user"),"application/json");
-		super.addLinks(getUserLink, deleteUserLink, updateUserLink);
 	}
 
 	public Integer getId() {

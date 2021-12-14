@@ -185,6 +185,32 @@ public class VendorDAO {
 		}
 		return null;
 	}
+	
+	public VendorLine getVendorLineByProductId(Integer Id) {
+		String selectVendorLineQuery = "SELECT TOP 1 vendorid, quantity FROM vendorline where productid = " + Id + ";";
+		
+		try (Connection con = DBHelper.getConnection();
+			Statement st = con.createStatement();
+			ResultSet vendorLineRS = st.executeQuery(selectVendorLineQuery);) {
+			System.out.println("vendorDAO: *************** Query " + selectVendorLineQuery);
+			
+			VendorLine vendorline = new VendorLine();
+			Product product = prodDAO.getProduct(vendorLineRS.getInt(Id));
+			vendorline.setProduct(product);
+			vendorline.setVendorId(vendorLineRS.getInt(1));
+			vendorline.setQuantity(vendorLineRS.getInt(2));
+
+			return vendorline;
+			
+		} catch (SQLException se) {
+			System.err.println("vendorDAO: Threw a SQLException retrieving the vendorline object.");
+			System.err.println(se.getMessage());
+			se.printStackTrace();
+		}
+		return null;
+	}
+	
+	
 
 	/**
 	 * Deletes a vendorLine for the given vendorId and productId

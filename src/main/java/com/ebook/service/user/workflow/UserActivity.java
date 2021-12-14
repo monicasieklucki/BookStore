@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import com.ebook.model.link.Link;
 import com.ebook.model.user.User;
 import com.ebook.model.user.UserManager;
 import com.ebook.service.user.representation.UserRepresentation;
@@ -20,6 +21,7 @@ public class UserActivity {
 		
 		User user = userService.GetUser(username);
 		
+		
 		UserRepresentation userRep = new UserRepresentation(user);
 		
 		return userRep;
@@ -30,6 +32,11 @@ public class UserActivity {
 		userService.addUser(user);
 		
 		UserRepresentation userRep = new UserRepresentation(user);
+		
+		Link CreateCustomer = new Link("CreateCustomer", "http://localhost:8080/service/customerservice/customer/user", "json");
+		Link GetUser = new Link("GetUser", "http://localhost:8080/service/userservice/user/" + userRep.getUsername(), "json");
+		//Link GetCustomer = new Link("GetCustomer", "","json")
+		userRep.setLinks(CreateCustomer, GetUser);	
 		
 		return userRep;
 	}

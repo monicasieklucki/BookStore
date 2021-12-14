@@ -10,10 +10,12 @@ import javax.xml.bind.annotation.XmlType;
 
 import com.ebook.model.customer.Address;
 
+import com.ebook.service.link.representation.*;
+
 @XmlRootElement(name = "Customer")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "")
-public class CustomerRepresentation {
+public class CustomerRepresentation extends LinkRepresentation {
 	
 	private Integer customerId;
 	private Integer billingid;
@@ -22,6 +24,7 @@ public class CustomerRepresentation {
 	private String firstName;
 	private Address billingaddress;
 	private Address shippingaddress;
+	private String username;
 	
 	public CustomerRepresentation() {}
 	
@@ -79,6 +82,14 @@ public class CustomerRepresentation {
 
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
+	}
+	
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
 	}
 	
 }

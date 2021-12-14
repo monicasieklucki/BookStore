@@ -13,6 +13,9 @@ import com.ebook.model.vendor.Vendor;
 import com.ebook.service.util.BookStoreUri;
 import com.ebook.service.util.Representation;
 
+import com.ebook.service.link.representation.LinkRepresentation;
+
+
 /**
  * Product Representation will be used when customer is searching for product.
  * Vendors looking to manage products will do so from the vendor line.
@@ -21,7 +24,7 @@ import com.ebook.service.util.Representation;
 @XmlRootElement(name = "Product")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "")
-public class ProductRepresentation extends Representation {
+public class ProductRepresentation extends LinkRepresentation {
 	private Integer id;
 	private String title;
 	private double price;
@@ -32,10 +35,6 @@ public class ProductRepresentation extends Representation {
 		this.id = product.getId();
 		this.title = product.getTitle();
 		this.price = product.getPrice();
-		super.addLink("self", String.format("productservice/product"), "application/json");
-		super.addLink("self", String.format("productservice/product/%d", id), "application/json");
-		//TODO order link
-		//super.addLink("order/update", "orderservice/", "application/json")l
 	}
 	
 	public Integer getId() {

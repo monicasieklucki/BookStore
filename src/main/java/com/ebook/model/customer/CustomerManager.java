@@ -22,11 +22,23 @@ public class CustomerManager {
 	
 	//Insert a new customer in the DB
 	public void addCustomer(Customer customer) {
-		
 		try {
 			custDAO.addCustomer(customer);
 	    } catch (Exception se) {
-	      System.err.println("CustomerService: Threw a Exception retrieving customer.");
+	      System.err.println("CustomerService: Threw a Exception adding customer.");
+	      System.err.println(se.getMessage());
+	    }
+	}
+	
+	//Insert a new customer in the DB
+	public void addCustomerByUsername(Customer customer) {
+		System.out.println("Trying to add Customer");
+		System.out.println(customer);
+		System.out.println(customer.getUsername());
+		try {
+			custDAO.addCustomerByUsername(customer);
+	    } catch (Exception se) {
+	      System.err.println("CustomerService: Threw a Exception adding customer.");
 	      System.err.println(se.getMessage());
 	    }
 	}

@@ -151,6 +151,38 @@ public class CustomerDAO {
         } 
     }
 	
+	public void addCustomerByUsername(Customer cust) {
+		System.out.println(cust.getUsername());
+        System.out.println("Adding customer by username");
+        try { 
+        	
+	        String custStm = "INSERT INTO Customer(username) VALUES(?)";
+    		try (Connection con = DBHelper.getConnection();
+    				PreparedStatement custPst = con.prepareStatement(custStm, Statement.RETURN_GENERATED_KEYS);) {
+    			
+    	       	//Insert the customer object
+    	        custPst.setString(1, cust.getUsername());             
+		
+    	        int affectedRows = custPst.executeUpdate(); 
+    	        if (affectedRows == 0) {
+    				throw new SQLException("Creating customer failed, no rows affected.");
+    			}
+    			try (ResultSet generatedId = custPst.getGeneratedKeys()) {
+    				System.out.println(generatedId);
+    				if (generatedId.next()) {
+    	    	        custPst.setInt(4, generatedId.getInt(1)); 
+    				} else {
+    					throw new SQLException("Creating customer failed, no ID obtained.");
+    				}
+    			}	
+    	        
+    		}       
+        } catch (SQLException ex) {
+            System.err.println("CustomerDAO: Threw a SQLException saving the customer object by username.");
+  	        System.err.println(ex.getMessage());
+        } 
+    }
+	
 	public void removeCustomer(Customer customer) {
 		try {
 			Connection con = DBHelper.getConnection();

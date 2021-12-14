@@ -11,6 +11,8 @@ import com.ebook.service.util.Representation;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.UriInfo;
+import com.ebook.model.link.Link;
+
 
 import com.ebook.model.item.Product;
 import com.ebook.model.item.ProductManager;
@@ -21,6 +23,9 @@ public class ProductActivity {
 
 	private static ProductManager prodService = new ProductManager();
 	
+	String hostname = "http://localhost:8080";
+	//hostname = ""
+	
 	public ProductRepresentation getProduct(Integer id) {
 		
 		Product prod = prodService.getProductById(id);
@@ -28,6 +33,13 @@ public class ProductActivity {
 		ProductRepresentation prodRep = new ProductRepresentation(prod);
 		
 		//BookStoreUri getAllProducts = new BookStoreUri("products", String.format("service/productservice/product/%d", prod.getId()),"application/json");
+		// Add the links
+		//Link buy = new Link("availability", "http://localhost:8081/productservice/product/availability?productid=" + prod.getId(), "json");
+
+		Link GetProduct = new Link("GetProduct", "http://localhost:8080/productservice/product?productid=" + prodRep.getId(), "json");
+		Link GetVendors = new Link("GetVendorWithProduct", "http://localhost:8080/vendorservice/vendor/product?productid=" + prodRep.getId(), "json");
+
+		prodRep.setLinks(GetProduct, GetVendors);		
 		
 		return prodRep;
 	}
@@ -40,7 +52,11 @@ public class ProductActivity {
 		for(Product prod : products) {
 			
 			ProductRepresentation prodRep = new ProductRepresentation(prod);
-						
+			
+			Link GetProduct = new Link("GetProduct", "http://localhost:8080/productservice/product?productid=" + prodRep.getId(), "json");
+			Link GetVendors = new Link("GetVendors", "http://localhost:8080/vendorservice/vendor/product?productid=" + prodRep.getId(), "json");
+
+			prodRep.setLinks(GetProduct, GetVendors);		
 			//BookStoreUri getAllProducts = new BookStoreUri("products", String.format("service/productservice/product", prod.getId()),"application/json");
 			
 			prodReps.add(prodRep);

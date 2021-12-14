@@ -56,6 +56,19 @@ public class VendorResource {
 	}
 	
 	/**
+	 * Returns a detailed vendor representation with all products/quantities
+	 * @param id id of product to retrieve
+	 * @return Complete representation with products and quantities
+	 */
+	@GET
+	@Produces({ "application/json","application/xml"})
+	@Path("/vendor/product/{productId}")
+	public VendorLineRepresentation getVendorlineByProductId(@PathParam("productId") Integer id) {
+		return vendActivity.getVendorlineByProductId(id);
+	}
+	
+	
+	/**
 	 * Creates a vendor with the name provided in the request body. Returns the
 	 * representation which includes the domain generated Id.
 	 * @param req VendorRequest with only a name to be added
@@ -83,6 +96,8 @@ public class VendorResource {
 		VendorLineRepresentation res = vendAct.addVendorLine(vendLineReq);
 		return res;	
 	}
+	
+	
 	
 	/**
 	 * Deletes a vendor with the given ID. This will also delete all of the related vendorLines

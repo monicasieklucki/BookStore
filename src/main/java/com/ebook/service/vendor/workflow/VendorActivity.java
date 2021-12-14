@@ -14,6 +14,7 @@ import com.ebook.model.customer.Customer;
 import com.ebook.model.customer.CustomerManager;
 import com.ebook.model.item.Product;
 import com.ebook.model.vendor.Vendor;
+import com.ebook.model.vendor.VendorLine;
 import com.ebook.model.vendor.VendorManager;
 import com.ebook.service.customer.representation.CustomerRepresentation;
 import com.ebook.service.util.BookStoreUri;
@@ -43,6 +44,18 @@ public class VendorActivity {
 		BookStoreUri addProduct = new BookStoreUri("vendor/product/add", "service/vendorservice/vendor/product", "application/json");
 		vendRep.addLinks(modifyVendorLink, deleteVendorLink, getAllOrders, addProduct);
 		return vendRep;
+	}
+	
+	public VendorLineRepresentation getVendorlineByProductId(Integer id) {
+		
+		VendorLine vendorline = VendorManager.getVendorlineByProductId(id);
+		VendorLineRepresentation vendLineRep = new VendorLineRepresentation();
+		vendLineRep.setProductId(id);
+		vendLineRep.setQuantity(vendorline.getQuantity());
+		vendLineRep.setProductName(vendorline.getProduct().getTitle());
+		vendLineRep.setVendorId(vendorline.getVendorId());
+		
+		return vendLineRep;
 	}
 
 	public VendorRepresentation addVendor(VendorRequest vendReq) {

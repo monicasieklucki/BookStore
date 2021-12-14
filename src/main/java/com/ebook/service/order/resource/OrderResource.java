@@ -13,9 +13,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
 import com.ebook.service.customer.workflow.CustomerActivity;
-import com.ebook.service.order.representation.OrderListRepresentation;
-import com.ebook.service.order.representation.OrderRepresentation;
-import com.ebook.service.order.representation.OrderRequest;
+import com.ebook.service.order.representation.*;
 import com.ebook.service.order.workflow.OrderActivity;
 
 @Path("/orderservice/")
