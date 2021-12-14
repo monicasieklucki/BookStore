@@ -1,0 +1,32 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+    <h1>Book Store Ordering Portal</h1>
+    <div id=customerContext>
+        <p>Enter a customer Id to begin</p>
+    </div>
+   	<div id="selectCustomerControls">
+   		<label for="customerId">Enter Your Customer ID: </label>
+   		<input type="number" name="customerId" id="customerId">
+   		<button id="setCustomerBttn">Set Customer Id</button>
+   	</div> 
+   	<hr>
+    <h2>WorkSpace</h2>
+    <div id=workspace>
+    	<h3>Available Products</h3>
+    	<div id="searchResults">
+       		<ul id="products">
+        	</ul>
+        </div>
+    </div>
+	<!-- <script src="http://localhost:8080/vendorportal/vendor.js"></script> -->
+    <!-- <script src="https://book-store-luc.herokuapp.com/customerportal/vendor.js"></script> -->
+    <script src="customer.js"></script> 
+</body>
+
+</html>
