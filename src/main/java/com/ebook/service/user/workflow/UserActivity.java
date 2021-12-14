@@ -33,8 +33,8 @@ public class UserActivity {
 		
 		UserRepresentation userRep = new UserRepresentation(user);
 		
-		Link CreateCustomer = new Link("CreateCustomer", "http://localhost:8080/service/customerservice/customer/user", "json");
-		Link GetUser = new Link("GetUser", "http://localhost:8080/service/userservice/user/" + userRep.getUsername(), "json");
+		Link CreateCustomer = new Link("CreateCustomer", "http://book-store-luc.herokuapp.com/service/customerservice/customer/user", "json");
+		Link GetUser = new Link("GetUser", "http://book-store-luc.herokuapp.com/service/userservice/user/" + userRep.getUsername(), "json");
 		//Link GetCustomer = new Link("GetCustomer", "","json")
 		userRep.setLinks(CreateCustomer, GetUser);	
 		

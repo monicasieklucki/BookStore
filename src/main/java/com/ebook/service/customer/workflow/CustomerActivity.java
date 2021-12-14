@@ -51,8 +51,8 @@ public class CustomerActivity {
 
 		custRep.setUsername(customer.getUsername());
 		
-		Link UpdateCustomer = new Link("UpdateCustomer", "http://localhost:8080/service/customerservice/customer/"+generatedId, "json");
-		Link DeleteCustomer = new Link("DeleteCustomer", "http://localhost:8080/service/customerservice/customer/"+generatedId,"json");
+		Link UpdateCustomer = new Link("UpdateCustomer", "http://book-store-luc.herokuapp.com/service/customerservice/customer/"+generatedId, "json");
+		Link DeleteCustomer = new Link("DeleteCustomer", "http://book-store-luc.herokuapp.com/service/customerservice/customer/"+generatedId,"json");
 		custRep.setLinks(UpdateCustomer, DeleteCustomer);
 		return custRep;
 	}
