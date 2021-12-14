@@ -1,6 +1,6 @@
 // Main JS file to run customer service workflows from the client side.
-//let baseUri = 'https://book-store-luc.herokuapp.com/';
-let baseUri = 'http://localhost:8080/'
+let baseUri = 'https://book-store-luc.herokuapp.com/';
+//let baseUri = 'http://localhost:8080/'
 
 let $ = (id) => {
     return document.getElementById(id);
