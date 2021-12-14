@@ -120,8 +120,8 @@ let displayVendorOrders = (responseJson) => {
 }
 
 let addProduct = (vendorId, link) => {
-    let form = $('workspace').appendChild(document.createElement('form'));
-    form.innerHTML = `<label for="productName">Product Name: </label> 
+    let inputArea = $('workspace').appendChild(document.createElement('div'));
+    inputArea.innerHTML = `<label for="productName">Product Name: </label> 
     <input type="text" name="productName" id="productName">
     <label for="productPrice">Product Price: </label>
     <input type="number" name="productPrice" id="productPrice">
@@ -129,11 +129,16 @@ let addProduct = (vendorId, link) => {
     console.log(link);
     $("add").addEventListener('click', () => {
         if($('productName').value !== "" && $('productPrice').value > 0){
-            let reqBody = {"vendorId" : vendorId,
-                            "productTitle" : $('productName').value,
-                            "productPrice" : $('productPrice').value};
-            postRequest(link, reqBody, () =>{
-                window.alert("no callback defined");
+            let reqBody = {vendorId : vendorId,
+                            productTitle : $('productName').value,
+                            productPrice : $('productPrice').value};
+            postRequest(link, reqBody, (res) =>{
+                if(res != null){
+                    window.alert("Product added with Id: " + res.productId);
+                } else {
+                    console.log(res);
+                    window.alert("Unable to add product see log");
+                }
             })
         }
     })
@@ -173,7 +178,7 @@ let putRequest = (urlPath, callback) => {
     xhr.onload = function() {
         if(xhr.status == "202" || xhr.status == "200"){
             window.alert("Successfully Updated");
-            callback;
+            callback();
         } else {
             window.alert("Could not update");
         }
@@ -184,12 +189,13 @@ let putRequest = (urlPath, callback) => {
 let postRequest = (urlPath, body, callback) => {
     let xhr = new XMLHttpRequest();
     //Change to put to see if that will work better. weird behavior with true post
-    xhr.open("PUT", urlPath, true);
+    xhr.open("POST", urlPath, true);
     xhr.onload = function() {
-        callback();
+        callback(JSON.parse(this.responseText));
     }
-    xhr.setRequestHeader("Content-Type", "application/json");
-    xhr.send(Json.stringify(body));
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.setRequestHeader('Accept', 'application/json');
+    xhr.send(JSON.stringify(body));
 }
 
 // Clear all child nodes from components on page. Contents can be replaced with a message.
