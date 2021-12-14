@@ -133,7 +133,8 @@ public class OrderActivity {
 				OrderManager.addProduct(orderId, ol.getProductId(), ol.getQuantity());
 			}
 		}
-		OrderRepresentation rep = new OrderRepresentation(OrderManager.getOrderById(orderId));
+		order = OrderManager.getOrderById(orderId);
+		OrderRepresentation rep = new OrderRepresentation(order);
 		addOrderRepLinks(rep);
 		return rep;
 	}

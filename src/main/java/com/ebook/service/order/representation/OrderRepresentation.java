@@ -1,5 +1,6 @@
 package com.ebook.service.order.representation;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -19,7 +20,7 @@ import com.ebook.service.util.Representation;
 public class OrderRepresentation extends Representation {
 	private Integer orderId;
 	private Integer customerId; //will have user make calls for customer details through customerservice
-	private List<OrderLine> orderLines;
+	private List<OrderLine> orderLines = new ArrayList<>();
 	private boolean paymentReceived;
 	private String orderState;
 	
