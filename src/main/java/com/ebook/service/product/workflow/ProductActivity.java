@@ -36,8 +36,8 @@ public class ProductActivity {
 		// Add the links
 		//Link buy = new Link("availability", "http://localhost:8081/productservice/product/availability?productid=" + prod.getId(), "json");
 
-		Link GetProduct = new Link("GetProduct", "http://localhost:8080/productservice/product?productid=" + prodRep.getId(), "json");
-		Link GetVendors = new Link("GetVendorWithProduct", "http://localhost:8080/vendorservice/vendor/product?productid=" + prodRep.getId(), "json");
+		Link GetProduct = new Link("GetProduct", "http://book-store-luc.herokuapp.com/productservice/product?productid=" + prodRep.getId(), "json");
+		Link GetVendors = new Link("GetVendorWithProduct", "http://book-store-luc.herokuapp.com/vendorservice/vendor/product?productid=" + prodRep.getId(), "json");
 
 		prodRep.setLinks(GetProduct, GetVendors);		
 		
@@ -53,8 +53,8 @@ public class ProductActivity {
 			
 			ProductRepresentation prodRep = new ProductRepresentation(prod);
 			
-			Link GetProduct = new Link("GetProduct", "http://localhost:8080/productservice/product?productid=" + prodRep.getId(), "json");
-			Link GetVendors = new Link("GetVendors", "http://localhost:8080/vendorservice/vendor/product?productid=" + prodRep.getId(), "json");
+			Link GetProduct = new Link("GetProduct", "http://book-store-luc.herokuapp.com/productservice/product?productid=" + prodRep.getId(), "json");
+			Link GetVendors = new Link("GetVendors", "http://book-store-luc.herokuapp.com/vendorservice/vendor/product?productid=" + prodRep.getId(), "json");
 
 			prodRep.setLinks(GetProduct, GetVendors);		
 			//BookStoreUri getAllProducts = new BookStoreUri("products", String.format("service/productservice/product", prod.getId()),"application/json");
