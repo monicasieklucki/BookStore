@@ -21,15 +21,25 @@ public class OrderActivity {
 	 * @return OrderRepresentation for the given ID
 	 */
 	public OrderRepresentation getOrder(Integer orderId) {
-		OrderRepresentation orderRep = new OrderRepresentation(OrderManager.getOrderById(orderId));	
-		return orderRep;
+		OrderRepresentation rep = new OrderRepresentation(OrderManager.getOrderById(orderId));
+		addOrderRepLinks(rep);
+		return rep;
 	}
 	
+	/**
+	 * Returns a representation containing a list of the orders based on the query parameters. 
+	 * @param vendorId Id of the vendor to search. 0 will search all. 
+	 * @param customerId Id of the customer to search. 0 will search all.
+	 * @param statuses Comma separated list of order statuses. Empty string will search all. 
+	 * @return
+	 */
 	public OrderListRepresentation getOrders(Integer vendorId, Integer customerId, String statuses) {
 		List<Order> orders = OrderManager.getOrders(vendorId, customerId, statuses);
 		List<OrderRepresentation> orderReps = new ArrayList<>();
 		for(Order o : orders) {
-			orderReps.add(new OrderRepresentation(o));
+			OrderRepresentation rep = new OrderRepresentation(o);
+			addOrderRepLinks(rep);
+			orderReps.add(rep);
 		}
 		return new OrderListRepresentation(orderReps);
 	}
@@ -47,7 +57,8 @@ public class OrderActivity {
 		ordRep.setOrderId(orderId);
 		//Order will never be paid or updated status at creation
 		ordRep.setPaymentReceived(false);
-		ordRep.setOrderState("Open");		
+		ordRep.setOrderState("Open");
+		addOrderRepLinks(ordRep);
 		return ordRep;	
 	}
 		
@@ -71,6 +82,7 @@ public class OrderActivity {
 		OrderManager.updatePaymentStatus(orderId, true);
 		OrderManager.updateOrderStatus(orderId, "Ordered");
 		OrderRepresentation orderRep = new OrderRepresentation(OrderManager.getOrderById(orderId));
+		addOrderRepLinks(orderRep);
 		return orderRep;
 	}
 	
@@ -83,6 +95,7 @@ public class OrderActivity {
 	public OrderRepresentation shipOrder(Integer orderId) {
 		OrderManager.updateOrderStatus(orderId, "Shipped");
 		OrderRepresentation orderRep = new OrderRepresentation(OrderManager.getOrderById(orderId));
+		addOrderRepLinks(orderRep);
 		return orderRep;
 	}
 	
@@ -94,7 +107,9 @@ public class OrderActivity {
 	 */
 	public OrderRepresentation deliverOrder(Integer orderId) {
 		OrderManager.updateOrderStatus(orderId, "Delivered");
-		return new OrderRepresentation(OrderManager.getOrderById(orderId));
+		OrderRepresentation rep = new OrderRepresentation(OrderManager.getOrderById(orderId));
+		addOrderRepLinks(rep); //expect this to just log why links weren't added.
+		return rep;
 	}
 
 	/**
@@ -118,7 +133,40 @@ public class OrderActivity {
 				OrderManager.addProduct(orderId, ol.getProductId(), ol.getQuantity());
 			}
 		}
-		return new OrderRepresentation(OrderManager.getOrderById(orderId));
+		OrderRepresentation rep = new OrderRepresentation(OrderManager.getOrderById(orderId));
+		addOrderRepLinks(rep);
+		return rep;
+	}
+	
+	/**
+	 * Applies the links to an order representation based on the status of that order.
+	 * Should be called within any method that returns an order representation. 
+	 * If order status void or not found, 
+	 * @param rep Order Representation to update with links. 
+	 */
+	private void addOrderRepLinks(OrderRepresentation rep) {
+		switch (rep.getOrderState()) {
+		case "Open":
+			rep.addLink("order/cancel", String.format("service/orderservice/order/%d", rep.getOrderId()), "application/json");
+			rep.addLink("orderlines", String.format("service/orderservice/order/%d",rep.getOrderId()), "appliation/json");
+			if(rep.getOrderLines().size() > 0) {
+				rep.addLink("order/payment", String.format("service/orderservice/order/%d/payment",rep.getOrderId(), "application/json"));
+			}
+			break;
+		case "Ordered":
+			rep.addLink("order/cancel", String.format("service/orderservice/order/%d", rep.getOrderId()), "application/json");
+			rep.addLink("orderlines", String.format("service/orderservice/order/%d",rep.getOrderId()), "appliation/json");
+			rep.addLink("self", "service/orderservice/order/" + rep.getOrderId(), "application/json");
+			rep.addLink("order/ship", String.format("service/orderservice/order/%d/status/shipped", rep.getOrderId()), "application/json");	
+			break;
+		case "Shipped":
+			rep.addLink("order/deliver", String.format("service/orderservice/order/%d/status/delivered", rep.getOrderId()), "application/json");
+			break;
+		default :
+			// Not all order statuses will qualify for these links with current functions. Logging for these scenarios.
+			System.out.println("Could not add links to OrderReprsentation with order ID: " + rep.getOrderId());
+			System.out.println("Current order status: " + rep.getOrderId());
+		}
 	}
 
 }

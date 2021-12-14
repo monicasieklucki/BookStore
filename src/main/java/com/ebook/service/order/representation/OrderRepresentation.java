@@ -31,25 +31,7 @@ public class OrderRepresentation extends Representation {
 		this.paymentReceived = order.isPaymentReceived();
 		this.orderState = order.getOrderState();
 		this.customerId = order.getCustomer().getCustomerId();
-		System.out.println("Order Representation with orderstate: " + this.orderState);
-		switch (this.orderState) {
-		case "Open":
-			super.addLink("order/cancel", String.format("service/orderservice/order/%d", orderId), "application/json");
-			super.addLink("orderlines", String.format("service/orderservice/order/%d",orderId), "appliation/json");
-			if(this.orderLines.size() > 0) {
-				super.addLink("order/payment", String.format("service/orderservice/order/%d/payment",orderId, "application/json"));
-			}
-			break;
-		case "Ordered":
-			super.addLink("order/cancel", String.format("service/orderservice/order/%d", orderId), "application/json");
-			super.addLink("orderlines", String.format("service/orderservice/order/%d",orderId), "appliation/json");
-			super.addLink("self", "service/orderservice/order/" + orderId, "application/json");
-			super.addLink("order/ship", String.format("service/orderservice/order/%d/status/shipped", orderId), "application/json");	
-			break;
-		case "Shipped":
-			super.addLink("order/deliver", String.format("service/orderservice/order/%d/status/delivered", orderId), "application/json");
-			break;
-		}
+		
 	}
 
 	public Integer getOrderId() {

@@ -36,13 +36,7 @@ public class VendorRepresentation extends Representation {
 			for(VendorLine vl : vendor.getVendorLines()) {
 				this.vendorLineReps.add(new VendorLineRepresentation(vl,vendorId));
 			}
-		}
-		// Links that should go on all representations of a vendor added here
-		BookStoreUri modifyVendorLink = new BookStoreUri("vendor/modify", String.format("service/vendorservice/vendor/%d", getVendorId()), "application/json");
-		BookStoreUri deleteVendorLink = new BookStoreUri("vendor/delete", String.format("service/vendorservice/vendor/%d", getVendorId()));
-		BookStoreUri getAllOrders = new BookStoreUri("orders", String.format("service/orderservice/order?vendorid=%d&statuses=ordered,shipped,canceled", getVendorId()),"application/json");
-		BookStoreUri addProduct = new BookStoreUri("vendor/product/add", "service/vendorservice/vendor/product", "application/json");
-		super.addLinks(modifyVendorLink, deleteVendorLink, getAllOrders, addProduct);
+		}	
 	}
 
 	public Integer getVendorId() {

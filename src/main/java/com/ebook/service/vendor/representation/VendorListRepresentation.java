@@ -25,6 +25,5 @@ public class VendorListRepresentation extends Representation {
 	public VendorListRepresentation(List<VendorSummaryRepresentation> vendorReps) {
 		this.vendors = vendorReps;
 		this.resultCount = vendorReps.size();
-		super.addLink("vendor", "vendorservice/vendor", "application/json");
 	}
 }

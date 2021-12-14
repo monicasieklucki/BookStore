@@ -26,29 +26,35 @@ import com.ebook.service.vendor.representation.VendorRequest;
 import com.ebook.service.vendor.representation.VendorSummaryRepresentation;
 
 public class VendorActivity {
-	// Can probably remove this. When getting the full list, we will return jut the summary representation.
-//	public Set<VendorRepresentation> getVendors() {
-//		Set<Vendor> vendors = new HashSet<Vendor>();
-//		Set<VendorRepresentation> vendReps = new HashSet<VendorRepresentation>();
-//		
-//		vendors = VendorManager.getVendors();
-//		System.out.println("VendorActivity: Number of vendors returned " + vendors.size() );
-//		for(Vendor vend : vendors) {
-//			vendReps.add(new VendorRepresentation(vend));
-//		}
-//		
-//		return vendReps;
-//	}
 
 	public VendorRepresentation getVendor(Integer id) {
 		Vendor vendor = VendorManager.getVendorById(id);
 		VendorRepresentation vendRep =  new VendorRepresentation(vendor);
+		// Add the links to each vendor line
+		for(VendorLineRepresentation vl : vendRep.getVendorLines()) {
+			BookStoreUri getProduct = new BookStoreUri("product", String.format("service/productservice/product/%d", vl.getVendorId()),"application/json");
+			BookStoreUri delVendLine = new BookStoreUri("delete", String.format("service/vendorservice/vendor/product?vendorId=%d&productId=%d",vl.getVendorId(), vl.getProductId())); 
+			vl.addLinks(getProduct,delVendLine);
+		}
+		// Add links at vendor level
+		BookStoreUri modifyVendorLink = new BookStoreUri("vendor/modify", String.format("service/vendorservice/vendor/%d", vendRep.getVendorId()), "application/json");
+		BookStoreUri deleteVendorLink = new BookStoreUri("vendor/delete", String.format("service/vendorservice/vendor/%d", vendRep.getVendorId()));
+		BookStoreUri getAllOrders = new BookStoreUri("orders", String.format("service/orderservice/order?vendorid=%d&statuses=ordered,shipped,canceled", vendRep.getVendorId()),"application/json");
+		BookStoreUri addProduct = new BookStoreUri("vendor/product/add", "service/vendorservice/vendor/product", "application/json");
+		vendRep.addLinks(modifyVendorLink, deleteVendorLink, getAllOrders, addProduct);
 		return vendRep;
 	}
 
 	public VendorRepresentation addVendor(VendorRequest vendReq) {
 		Vendor vendor = VendorManager.addVendor(vendReq.getVendorName());
-		return new VendorRepresentation(vendor);
+		VendorRepresentation rep =  new VendorRepresentation(vendor);
+		// Add Links
+		BookStoreUri modifyVendorLink = new BookStoreUri("vendor/modify", String.format("service/vendorservice/vendor/%d", rep.getVendorId()), "application/json");
+		BookStoreUri deleteVendorLink = new BookStoreUri("vendor/delete", String.format("service/vendorservice/vendor/%d", rep.getVendorId()));
+		BookStoreUri getAllOrders = new BookStoreUri("orders", String.format("service/orderservice/order?vendorid=%d&statuses=ordered,shipped,canceled", rep.getVendorId()),"application/json");
+		BookStoreUri addProduct = new BookStoreUri("vendor/product/add", "service/vendorservice/vendor/product", "application/json");
+		rep.addLinks(modifyVendorLink, deleteVendorLink, getAllOrders, addProduct);
+		return rep;
 	}
 
 	public VendorLineRepresentation addVendorLine(VendorLineRequest vendLineReq) {
@@ -57,7 +63,11 @@ public class VendorActivity {
 		VendorLineRepresentation vendLineRep = new VendorLineRepresentation();
 		vendLineRep.setVendorId(vendLineReq.getVendorId());
 		vendLineRep.setProductId(newProduct.getId());
-		vendLineRep.setProductName(vendLineReq.getProductTitle());
+		vendLineRep.setProductName(vendLineReq.getProductTitle());	
+		// Add the links
+		BookStoreUri getProduct = new BookStoreUri("product", String.format("service/productservice/product/%d", vendLineRep.getVendorId()),"application/json");
+		BookStoreUri delVendLine = new BookStoreUri("delete", String.format("service/vendorservice/vendor/product?vendorId=%d&productId=%d",vendLineRep.getVendorId(), vendLineRep.getProductId())); 
+		vendLineRep.addLinks(getProduct,delVendLine);
 		return vendLineRep;
 	}
 	
@@ -79,9 +89,13 @@ public class VendorActivity {
 	public VendorListRepresentation getVendorsList() {
 		List<VendorSummaryRepresentation> vendors = new ArrayList<>();
 		for(Vendor v : VendorManager.getVendors()) {
-			vendors.add(new VendorSummaryRepresentation(v));
+			VendorSummaryRepresentation vendSum = new VendorSummaryRepresentation(v);
+			BookStoreUri getVendorDetail = new BookStoreUri("self", String.format("service/vendorservice/vendor/%d", vendSum.getVendorId()),"application/json");
+			vendSum.addLinks(getVendorDetail);
+			vendors.add(vendSum);
 		}
 		VendorListRepresentation rep = new VendorListRepresentation(vendors);
+		rep.addLink("vendor", "vendorservice/vendor", "application/json");
 		return rep;
 	}
 

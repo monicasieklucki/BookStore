@@ -68,6 +68,13 @@ public class OrderManager {
 		return order;
 	}
 	
+	/**
+	 * Gets a list of orders based on the query parameters.
+	 * @param vendorId VendorId to search. 0 will search all.
+	 * @param customerId CustomerId to search. 0 will search all.
+	 * @param statuses comma separated list of order statuses. empty string will search all.
+	 * @return List of Order objects for the given parameters. 
+	 */
 	public static List<Order> getOrders(Integer vendorId, Integer customerId, String statuses) {
 		List<Order> orders = new ArrayList<>();
 		try {
