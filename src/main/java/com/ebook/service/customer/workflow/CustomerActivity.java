@@ -44,14 +44,14 @@ public class CustomerActivity {
 	public CustomerRepresentation createCustomerByUsername(Customer customer) {
 		System.out.println("adding customer by username");
 		System.out.println(customer);
-		custService.addCustomerByUsername(customer);
-		
+		int generatedId = custService.addCustomerByUsername(customer);
+
 		CustomerRepresentation custRep = new CustomerRepresentation();
-		System.out.println(customer.getUsername());
+
 		custRep.setUsername(customer.getUsername());
 		
-		Link UpdateCustomer = new Link("UpdateCustomer", "http://localhost:8080/service/customerservice/customer/"+customer.getCustomerId(), "json");
-		Link DeleteCustomer = new Link("DeleteCustomer", "http://localhost:8080/service/customerservice/customer/"+customer.getCustomerId(),"json");
+		Link UpdateCustomer = new Link("UpdateCustomer", "http://localhost:8080/service/customerservice/customer/"+generatedId, "json");
+		Link DeleteCustomer = new Link("DeleteCustomer", "http://localhost:8080/service/customerservice/customer/"+generatedId,"json");
 		custRep.setLinks(UpdateCustomer, DeleteCustomer);
 		return custRep;
 	}
